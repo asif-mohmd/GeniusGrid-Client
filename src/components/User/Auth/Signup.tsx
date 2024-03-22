@@ -1,6 +1,8 @@
 import React, { useState, ChangeEvent, FormEvent } from "react";
 import userEndpoints from "../../../constraints/endpoints/userEndpoints";
 import { Link } from "react-router-dom";
+import axios from "../../../services/axios/userAxios";
+
 
 interface FormData {
   email: string;
@@ -28,10 +30,12 @@ const Signup: React.FC = () => {
   };
 
   // Handle form submission
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = async(e: FormEvent) => {
     e.preventDefault();
     // Handle form submission logic here
     console.log(formData); // Example: You can send this data to your backend API
+   const userData =  await axios.post(userEndpoints.signup,{formData})
+    console.log("after axios",userData)
   };
 
   return (

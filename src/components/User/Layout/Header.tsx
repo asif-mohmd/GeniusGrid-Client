@@ -1,8 +1,7 @@
-import React, { useState } from 'react';
 import { AiOutlineClose, AiOutlineMenu } from 'react-icons/ai';
-import { Link, Navigate } from 'react-router-dom';
-import Login from '../Auth/Login';
+import { Link } from 'react-router-dom';
 import userEndpoints from '../../../constraints/endpoints/userEndpoints';
+import { useState } from 'react';
 
 const Header = () => {
   // State to manage the navbar's visibility
