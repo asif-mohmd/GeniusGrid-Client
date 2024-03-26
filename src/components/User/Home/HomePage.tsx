@@ -1,5 +1,5 @@
 import React from "react";
-import BannerGirl from "../../../assets/BannerGirl-transformed.png";
+import BannerGirl from "../../../assets/Group 230.svg";
 import AdsBanner from "../../../assets/AdBanner-transformed.jpeg"
 
 const HomePage: React.FC = () => {
@@ -15,7 +15,7 @@ const HomePage: React.FC = () => {
       </div>
      
       <div className="md:m-10 max-w-40 sm:max-w-none object-scale-down">
-        <img src={BannerGirl} alt="Banner" className="md:w-1/2 sm:w-3/4 w-full h-auto md:ml-16" />
+        <img src={BannerGirl} alt="Banner" className="md:w-2/4 sm:w-4/4 w-full h-auto md:ml-16" />
       </div>
     </div>
     <div>

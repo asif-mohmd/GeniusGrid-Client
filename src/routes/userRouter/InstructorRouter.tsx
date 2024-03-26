@@ -6,6 +6,7 @@ export const InstructorRouter = () => {
   return (
     <Routes>
         <Route Component={Login} path={instructorEndpoint.login}></Route>
+        {/* <Route Component={Dashboard} path={instructorEndpoint.dashboard}></Route> */}
     </Routes>
   )
 }
