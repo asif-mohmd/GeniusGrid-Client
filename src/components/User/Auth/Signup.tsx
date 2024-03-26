@@ -1,20 +1,16 @@
 import React, { useState, ChangeEvent, FormEvent } from "react";
 import userEndpoints from "../../../constraints/endpoints/userEndpoints";
 import { Link } from "react-router-dom";
-import axios from "../../../services/axios/userAxios";
+import { userAxios } from "../../../constraints/axiosInterceptors/userAxiosInterceptors";
+import { FormDataSignup } from "../../../interfaces/authInterface";
+// import axios from "../../../services/axios/userAxios";
 
 
-interface FormData {
-  email: string;
-  password: string;
-  name: string;
-  avatar: string;
-  role: string;
-}
+
 
 const Signup: React.FC = () => {
   // State to hold input field values
-  const [formData, setFormData] = useState<FormData>({
+  const [formData, setFormData] = useState<FormDataSignup>({
     email: "",
     password: "",
     name: "",
@@ -34,7 +30,9 @@ const Signup: React.FC = () => {
     e.preventDefault();
     // Handle form submission logic here
     console.log(formData); // Example: You can send this data to your backend API
-   const userData =  await axios.post(userEndpoints.signup,{formData})
+    console.log("pppppppppppppppppppppppp")
+   const userData =  await userAxios.post(userEndpoints.register,{formData})
+   console.log("kkkkkkkkkkkkkkkkkkkkkkkkkkkk")
     console.log("after axios",userData)
   };
 

@@ -1,8 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import userEndpoints from "../../../constraints/endpoints/userEndpoints";
+import { FormDataLogin } from "../../../interfaces/authInterface";
 
 const Login: React.FC = () => {
+
+    const [loginData,setLoginData] = useState<FormDataLogin>()
+
+
   return (
     <div className="flex flex-col min-h-screen justify-center items-center bg-gray-100">
       <div className="bg-white p-14 rounded-xl shadow-lg">
@@ -47,7 +52,7 @@ const Login: React.FC = () => {
                 Don't have an account?{" "}
                 <Link
                   className="text-blue-600 font-semibold"
-                to={userEndpoints.signup}>
+                to={userEndpoints.register}>
                     Sign Up.</Link>
               </span>
             </div>

@@ -11,8 +11,7 @@ const UserRouters = () => {
        <Routes>
         <Route Component={Home}  path={userEndpoints.home} />
         <Route Component={Login}  path={userEndpoints.login} />
-        <Route Component={Signup}  path={userEndpoints.signup} />
-
+        <Route Component={Signup}  path={userEndpoints.register} />
 
        </Routes>
     

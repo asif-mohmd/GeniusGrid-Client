@@ -47,7 +47,7 @@ const Login: React.FC = () => {
                 Don't have an account?{" "}
                 <Link
                   className="text-blue-600 font-semibold"
-                to={userEndpoints.signup}>
+                to={userEndpoints.register}>
                     Sign Up.</Link>
               </span>
             </div>
