@@ -13,6 +13,7 @@ const Header = () => {
   };
 
   return (
+    <>
     <div className='bg-white flex justify-between items-center h-24 w-100 mx-auto px-4 text-black shadow-lg pr-10'>
       {/* Logo */}
       <h1 className='w-full text-3xl font-bold text-[#00df9a]'>GeniusGrid</h1>
@@ -72,6 +73,10 @@ const Header = () => {
       </ul>
       <hr className='bg-black'/>
     </div>
+
+   
+
+    </>
    
   );
 };
