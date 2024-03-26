@@ -6,11 +6,15 @@ import { useState } from 'react';
 const Header = () => {
   // State to manage the navbar's visibility
   const [nav, setNav] = useState(false);
+  const [open,setOpen] = useState(false)
 
   // Toggle function to handle the navbar's display
   const handleNav = () => {
     setNav(!nav);
   };
+  const showDropDown=()=>{
+    setOpen(!open)
+  }
 
   return (
     <>
@@ -31,12 +35,19 @@ const Header = () => {
         <li className='p-4 hover:bg-[#00df9a] rounded-xl m-1 cursor-pointer duration-300 hover:text-black'>Courses</li>
         <li className='p-4 hover:bg-[#00df9a] rounded-xl m-1 cursor-pointer duration-300 hover:text-black'>About</li>
         <li className='p-4 hover:bg-[#00df9a] rounded-xl m-1 cursor-pointer duration-300 hover:text-black'>Contact</li>
-       <Link
-       className='w-10'
-       to={userEndpoints.login}
-       >
-       <img className="m-2 h-10 w-10 rounded-full ring-2 ring-white" src="https://images.unsplash.com/photo-1491528323818-fdd1faba62cc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt=""></img>
-       </Link> 
+        <div className='w-10' onClick={showDropDown}>
+        <img className="cursor-pointer m-2 h-10 w-10 rounded-full ring-2 ring-white" src="https://images.unsplash.com/photo-1491528323818-fdd1faba62cc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="" />
+        {open && (
+        <div className='absolute right-4 mt-2 w-44 bg-white border rounded-lg shadow-lg'>
+        <div className="py-2">
+          <Link to={userEndpoints.login}  className='block px-4 py-2 text-gray-800 rounded-md hover:bg-[#00df9a] hover:text-black cursor-pointer'>Profile</Link>
+          <Link to={userEndpoints.login}  className='block px-4 py-2 text-gray-800 rounded-md hover:bg-[#00df9a] hover:text-black cursor-pointer'>Settings</Link>
+          <Link to={userEndpoints.login}  className='block px-4 py-2 text-gray-800 rounded-md hover:bg-[#00df9a] hover:text-black cursor-pointer'>Signout</Link>
+        </div>
+      </div>
+        )}
+      </div>
+   
       </ul>
 
       {/* Mobile Navigation Icon */}

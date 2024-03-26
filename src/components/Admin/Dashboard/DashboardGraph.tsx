@@ -13,7 +13,7 @@ defaults.plugins.title.color = "black";
 export const Dashboard = () => {
   return (
     <>
-      <div className="h-screen w-full flex flex-rowcontent-center  flex-wrap bg-slate-50">
+      <div className="h-screen w-full flex flex-rowcontent-center  bg-slate-50 p-7">
         <div className="bg-white rounded-lg shadow-lg p-4 w-3/5 h-80">
           <Line
             data={{
