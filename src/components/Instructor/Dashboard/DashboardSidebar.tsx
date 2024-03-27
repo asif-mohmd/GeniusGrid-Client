@@ -5,7 +5,7 @@ import logoPNG from "../../../assets/DashboardIcons/logo.png";
 import { Link } from "react-router-dom";
 import adminEndpoints from "../../../constraints/endpoints/adminEndpoints";
 import { faChartBar, faUsers, faChalkboardTeacher, faFileAlt, faClipboardList, faListAlt, faQuestionCircle, faFileInvoice } from '@fortawesome/free-solid-svg-icons'; import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-
+import { FaBeer } from 'react-icons/fa';
 import { AiOutlineDashboard } from "react-icons/ai";
 import { LuUsers } from "react-icons/lu";
 const DashboardSidebar = () => {
@@ -36,7 +36,7 @@ const DashboardSidebar = () => {
               !open && "scale-0"
             }`}
           >
-            Genius Grid Instructor
+            Instructor Control
           </h1>
         </div>
         <ul
