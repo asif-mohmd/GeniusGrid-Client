@@ -1,4 +1,4 @@
 export default {
-    dashboard: "/dashboard",
+    dashboard: "/",
     login: "/login"
 }

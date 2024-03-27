@@ -1,17 +1,17 @@
 import DashboardHeader from "../../components/Admin/Dashboard/DashBoardHeader";
 import DashboardSidebar from "../../components/Admin/Dashboard/DashboardSidebar";
-import  { DashboardGraph } from "../../components/Admin/Dashboard/DashboardGraph";
+import DashboardUsers from "../../components/Admin/Dashboard/DashboardUsers";
 
-function AdminDashboard() {
+function AdminDashboardUsers() {
   return (
     <div className="flex">
       <DashboardSidebar />
       <div className="h-screen flex-1">
         <DashboardHeader />
-        <DashboardGraph />
+        <DashboardUsers />
       </div>
     </div>
   );
 }
 
-export default AdminDashboard;
+export default AdminDashboardUsers;

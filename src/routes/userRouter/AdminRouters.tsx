@@ -1,14 +1,20 @@
 import { Route, Routes } from 'react-router'
 
 import adminEndpoints from '../../constraints/endpoints/adminEndpoints'
-import Dashboard from '../../pages/admin/AdminDashboard'
 import AdminLoginPage from '../../pages/admin/AdminLoginPage'
+import AdminDashboardUsers from '../../pages/admin/AdminDashboardUsers'
+import AdminDashboard from '../../pages/admin/AdminDashboard'
+import AdminDashboardInstructors from '../../pages/admin/AdminInstructors'
 
 const AdminRouters = () => {
   return (
    <Routes>
       <Route Component={AdminLoginPage} path={adminEndpoints.login}/>
-      <Route Component={Dashboard} path={adminEndpoints.dashboard}></Route>
+      <Route Component={AdminDashboard} path={adminEndpoints.dashboard}></Route>
+      <Route Component={AdminDashboardUsers} path={adminEndpoints.users}></Route>
+      <Route Component={AdminDashboardInstructors} path={adminEndpoints.instructors}></Route>
+
+
 
    </Routes>
   )
