@@ -1,18 +1,44 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import userEndpoints from "../../../constraints/endpoints/userEndpoints";
+import React, { ChangeEvent, FormEvent, useState } from "react";
 import { FormDataLogin } from "../../../interfaces/authInterface";
+import { useNavigate } from "react-router";
+import { toast } from "react-toastify";
+import { instructoraxios } from "../../../constraints/axiosInterceptors/instructorAxiosInterceptors";
+import instructorEndpoints from "../../../constraints/endpoints/instructorEndpoints";
+const AdminLogin: React.FC = () => {
 
-const Login: React.FC = () => {
+  const [instructorLoginData,setInstructorLoginData] = useState<FormDataLogin>({
+    email:"",
+    password:""
+  })
 
-    const [loginData,setLoginData] = useState<FormDataLogin>()
+  const navigate = useNavigate()
+
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    console.log(e,"targettttttttttttttttttttttttt")
+    const { id, value } = e.target;
+    setInstructorLoginData({ ...instructorLoginData, [id]: value });
+  };
+
+  
+  const handleSubmit = async(e:FormEvent) =>{
+    e.preventDefault();
+
+    console.log(instructorLoginData,"login data")
+    const userData = await instructoraxios.post(instructorEndpoints.login,{instructorLoginData})
+
+    if(userData.data.loginStatus){
+        navigate(instructorEndpoints.dashboard)
+    }else{
+        toast.error('Invalid email or password');
+    }
+  }
 
 
   return (
     <div className="flex flex-col min-h-screen justify-center items-center bg-gray-100">
       <div className="bg-white p-14 rounded-xl shadow-lg">
-        <h6 className="text-xl font-medium m-7">Instructor Login</h6>
-        <form className="w-full max-w-md">
+        <h6 className="text-xl font-medium text-center m-7">Instructor Login</h6>
+        <form className="w-full max-w-md" onSubmit={handleSubmit}>
           <div className="mb-6">
             <label
               className="block text-gray-600 font-semibold mb-2"
@@ -23,6 +49,8 @@ const Login: React.FC = () => {
             <input
               className="bg-white appearance-none border-2 border-gray-100 rounded-lg w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-300"
               id="email"
+              value={instructorLoginData.email}
+              onChange={handleChange}
               type="text"
               defaultValue=""
               placeholder=""
@@ -39,6 +67,8 @@ const Login: React.FC = () => {
             <input
               className="bg-white appearance-none border-2 border-gray-100 rounded-lg w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-300"
               id="password"
+              value={instructorLoginData.password}
+              onChange={handleChange}
               type="password"
               placeholder=""
             />
@@ -48,13 +78,7 @@ const Login: React.FC = () => {
               Login now
             </button>
             <div className="m-3">
-              <span className="text-gray-600 text-sm">
-                Don't have an account?{" "}
-                <Link
-                  className="text-blue-600 font-semibold"
-                to={userEndpoints.register}>
-                    Sign Up.</Link>
-              </span>
+        
             </div>
           </div>
         </form>
@@ -63,4 +87,4 @@ const Login: React.FC = () => {
   );
 };
 
-export default Login;
+export default AdminLogin;

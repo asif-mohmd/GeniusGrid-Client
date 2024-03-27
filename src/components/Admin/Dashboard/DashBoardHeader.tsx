@@ -1,4 +1,3 @@
-import { AiOutlineClose, AiOutlineMenu } from 'react-icons/ai';
 import { Link } from 'react-router-dom';
 import userEndpoints from '../../../constraints/endpoints/userEndpoints';
 import { useState } from 'react';

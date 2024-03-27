@@ -1,6 +1,6 @@
 import { Route, Routes } from 'react-router'
 import Login from '../../components/Instructor/Auth/Login'
-import instructorEndpoint from '../../constraints/endpoints/instructorEndpoint'
+import instructorEndpoint from '../../constraints/endpoints/instructorEndpoints'
 
 export const InstructorRouter = () => {
   return (

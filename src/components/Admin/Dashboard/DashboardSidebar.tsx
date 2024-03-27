@@ -118,7 +118,7 @@ const DashboardSidebar = () => {
         </ul>
       </div>
       <div className="h-screen flex-1 ">
-        <div></div>
+    
         <DashboardHeader />
         <Dashboard />
       </div>
