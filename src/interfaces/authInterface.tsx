@@ -1,9 +1,8 @@
 export interface FormDataSignup {
+    name: string;
     email: string;
     password: string;
-    name: string;
-    avatar: string;
-    role: string;
+
   }
 
   export interface FormDataLogin {

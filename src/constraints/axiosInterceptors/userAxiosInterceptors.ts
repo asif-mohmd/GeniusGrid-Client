@@ -8,6 +8,7 @@ export const userAxios = axios.create({
         "Content-Type": "application/json",
         
     },
+    withCredentials:true
 });
 userAxios.interceptors.request.use((config) => {
     const token = localStorage.getItem('usertoken');

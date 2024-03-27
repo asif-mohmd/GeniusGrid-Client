@@ -1,8 +1,10 @@
 import React, { useState, ChangeEvent, FormEvent } from "react";
 import userEndpoints from "../../../constraints/endpoints/userEndpoints";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { userAxios } from "../../../constraints/axiosInterceptors/userAxiosInterceptors";
 import { FormDataSignup } from "../../../interfaces/authInterface";
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 // import axios from "../../../services/axios/userAxios";
 
 
@@ -11,12 +13,13 @@ import { FormDataSignup } from "../../../interfaces/authInterface";
 const Signup: React.FC = () => {
   // State to hold input field values
   const [formData, setFormData] = useState<FormDataSignup>({
-    email: "",
-    password: "",
     name: "",
-    avatar: "",
-    role: ""
+    email: "",
+    password: ""
+   
   });
+
+  const navigate = useNavigate()
 
   // Handle input change
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -34,6 +37,12 @@ const Signup: React.FC = () => {
    const userData =  await userAxios.post(userEndpoints.register,{formData})
    console.log("kkkkkkkkkkkkkkkkkkkkkkkkkkkk")
     console.log("after axios",userData)
+    if(userData.data.status){
+      navigate("/otp")
+    }else{
+      console.log("signup crror")
+      toast.error('Invalid email or password');
+    }
   };
 
   return (
@@ -41,6 +50,23 @@ const Signup: React.FC = () => {
       <div className="bg-white px-14 rounded-xl shadow-lg py-8">
         <h6 className="text-xl font-medium mb-2 text-center ">Create an account</h6>
         <form className="w-full max-w-md " onSubmit={handleSubmit}>
+        <div className="mb-6">
+            <label
+              className="block text-gray-600 font-semibold mb-2"
+              htmlFor="name"
+            >
+              Name
+            </label>
+            <input
+              className="bg-white appearance-none border-2 border-gray-100 rounded-lg w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-300"
+              id="name"
+              type="text"
+              value={formData.name}
+              onChange={handleChange}
+              placeholder=""
+              required
+            />
+          </div>
           <div className="mb-6 ">
             <label
               className="block text-gray-600 font-semibold mb-2"
@@ -75,24 +101,8 @@ const Signup: React.FC = () => {
               required
             />
           </div>
-          <div className="mb-6">
-            <label
-              className="block text-gray-600 font-semibold mb-2"
-              htmlFor="name"
-            >
-              Name
-            </label>
-            <input
-              className="bg-white appearance-none border-2 border-gray-100 rounded-lg w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-300"
-              id="name"
-              type="text"
-              value={formData.name}
-              onChange={handleChange}
-              placeholder=""
-              required
-            />
-          </div>
-          <div className="mb-6">
+     
+          {/* <div className="mb-6">
             <label
               className="block text-gray-600 font-semibold mb-2"
               htmlFor="avatar"
@@ -108,24 +118,8 @@ const Signup: React.FC = () => {
               placeholder=""
               required
             />
-          </div>
-          <div className="mb-6">
-            <label
-              className="block text-gray-600 font-semibold mb-2"
-              htmlFor="role"
-            >
-              Role
-            </label>
-            <input
-              className="bg-white appearance-none border-2 border-gray-100 rounded-lg w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-300"
-              id="role"
-              type="text"
-              value={formData.role}
-              onChange={handleChange}
-              placeholder=""
-              required
-            />
-          </div>
+          </div> */}
+         
           <div className="flex flex-col items-center justify-center mb-4">
             <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-14 rounded-md mb-2">
               Create account
