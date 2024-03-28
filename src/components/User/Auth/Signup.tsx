@@ -3,8 +3,9 @@ import userEndpoints from "../../../constraints/endpoints/userEndpoints";
 import { Link, useNavigate } from "react-router-dom";
 import { userAxios } from "../../../constraints/axiosInterceptors/userAxiosInterceptors";
 import { FormDataSignup } from "../../../interfaces/authInterface";
-import { toast, ToastContainer } from 'react-toastify';
+
 import 'react-toastify/dist/ReactToastify.css';
+import { toast } from "react-toastify";
 // import axios from "../../../services/axios/userAxios";
 
 
@@ -40,8 +41,8 @@ const Signup: React.FC = () => {
     if(userData.data.status){
       navigate("/otp")
     }else{
-      console.log("signup crror")
-      toast.error('Invalid email or password');
+      console.log("-------elseeeeeeeeeeeeeee")
+      toast.error('Email already exists');
     }
   };
 
