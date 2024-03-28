@@ -4,7 +4,7 @@ import { userAxios } from '../../../constraints/axiosInterceptors/userAxiosInter
 import userEndpoints from '../../../constraints/endpoints/userEndpoints';
 import { useNavigate } from 'react-router';
 
-const OTPPage: React.FC = () => {
+const ForgotOTP: React.FC = () => {
   const [otp, setOTP] = useState('');
 
   const navigate = useNavigate()
@@ -13,13 +13,11 @@ const OTPPage: React.FC = () => {
     e.preventDefault();
     // Handle OTP submission logic here
     console.log('OTP submitted:', otp);
-    const userData =  await userAxios.post(userEndpoints.otp,{otp})
+    const userData =  await userAxios.post(userEndpoints.forgotOTP,{otp})
    console.log("kkkkkkkkkkkkkkkkkkkkkkkkkkkk")
     console.log("after axios",userData)
-    if(userData.status == 200){
+    if(userData.status){
       navigate("/login")
-    }else{
-      navigate("/signup")
     }
 
   };
@@ -48,4 +46,4 @@ const OTPPage: React.FC = () => {
   );
 };
 
-export default OTPPage;
+export default ForgotOTP;

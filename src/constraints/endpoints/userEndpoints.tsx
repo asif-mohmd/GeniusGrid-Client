@@ -2,5 +2,8 @@ export default{
     home:'/',
     login: '/login',
     register: '/register',
-    otp: '/otp'
+    otp: '/otp',
+    forgotPassword: '/forgotpassword',
+    forgotOTP: '/forgototp',
+    
 }
