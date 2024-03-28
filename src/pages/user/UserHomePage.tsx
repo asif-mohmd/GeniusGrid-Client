@@ -17,9 +17,10 @@ const UserHomePage = () => {
     if (!user.isLogin) {
       navigate("/login");
     }else{
+      console.log("jjjjjjjjjjjjjjjjjjjjjjjj")
       navigate("/")
     }
-  }, []);
+  }, [user]);
 
 
   return (

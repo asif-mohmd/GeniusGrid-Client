@@ -1,13 +1,19 @@
 import { AiOutlineClose, AiOutlineMenu } from 'react-icons/ai';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import userEndpoints from '../../../constraints/endpoints/userEndpoints';
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { userLogout } from '../../../redux/Slices/authSlice';
+import { clearUserData } from '../../../redux/Slices/userDataSlice';
 
 const Header = () => {
   // State to manage the navbar's visibility
   const [nav, setNav] = useState(false);
   const [open,setOpen] = useState(false)
 
+  
+const dispatch = useDispatch()
+const navigate = useNavigate()
   // Toggle function to handle the navbar's display
   const handleNav = () => {
     setNav(!nav);
@@ -15,6 +21,16 @@ const Header = () => {
   const showDropDown=()=>{
     setOpen(!open)
   }
+
+  const handleClick = () => {
+    // Handle signout logic here
+    // For example, you can clear authentication tokens, redirect user, etc.
+    
+    // Redirect the user to the login page after signout
+    dispatch(clearUserData())
+    dispatch(userLogout())
+    navigate('/')
+  };
 
   return (
     <>
@@ -42,8 +58,12 @@ const Header = () => {
         <div className="py-2">
           <Link to={userEndpoints.login}  className='block px-4 py-2 text-gray-800 rounded-md hover:bg-[#00df9a] hover:text-black cursor-pointer'>Profile</Link>
           <Link to={userEndpoints.login}  className='block px-4 py-2 text-gray-800 rounded-md hover:bg-[#00df9a] hover:text-black cursor-pointer'>Settings</Link>
-          <Link to={userEndpoints.login}  className='block px-4 py-2 text-gray-800 rounded-md hover:bg-[#00df9a] hover:text-black cursor-pointer'>Signout</Link>
-        </div>
+          <div 
+      className='block px-4 py-2 text-gray-800 rounded-md hover:bg-[#00df9a] hover:text-black cursor-pointer'
+      onClick={handleClick}
+    >
+      Signout
+    </div>        </div>
       </div>
         )}
       </div>

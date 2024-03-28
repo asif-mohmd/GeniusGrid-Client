@@ -6,6 +6,9 @@ import userEndpoints from "../../../constraints/endpoints/userEndpoints";
 import { FormDataLogin } from "../../../interfaces/authInterface";
 import { userAxios } from "../../../constraints/axiosInterceptors/userAxiosInterceptors";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { setUserData } from "../../../redux/Slices/userDataSlice";
+import { userLogin } from "../../../redux/Slices/authSlice";
 
 
 
@@ -17,7 +20,7 @@ const Login: React.FC = () => {
     email: "",
     password: "",
   })
-  
+  const dispatch = useDispatch()
   const navigate = useNavigate()
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     console.log(e,"targettttttttttttttttttttttttt")
@@ -30,8 +33,10 @@ const Login: React.FC = () => {
 
     console.log(loginData,"login data")
     const userData = await userAxios.post(userEndpoints.login,{loginData})
-
+   console.log(userData,"after login")
     if(userData.data.loginStatus){
+      dispatch(setUserData(userData.data))
+      dispatch(userLogin())
         navigate(userEndpoints.home)
     }else{
         toast.error('Invalid email or password');
