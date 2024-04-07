@@ -1,13 +1,13 @@
 import DashboardHeader from "../../components/Instructor/layout/DashBoardHeader";
 import DashboardSidebar from "../../components/Instructor/layout/DashboardSidebar";
-import  { DashboardGraph } from "../../components/Instructor/Dashboard/DashboardGraph";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/Store";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import instructorEndpoints from "../../constraints/endpoints/instructorEndpoints";
+import DashboardUsers from "../../components/Instructor/Dashboard/DashboardUsers";
 
-function InstructorDashboard() {
+function InstructorUserPage() {
 
   const navigate = useNavigate()
   const instructor = useSelector((store:RootState)=> store.instructorAuth)
@@ -15,7 +15,7 @@ function InstructorDashboard() {
 
   useEffect(()=>{
     if(instructor.isLogin){
-      navigate(instructorEndpoints.dashboard)
+      navigate(instructorEndpoints.users)
     }else{
       navigate(instructorEndpoints.login)
     }
@@ -27,10 +27,10 @@ function InstructorDashboard() {
       <DashboardSidebar />
       <div className="h-screen flex-1">
         <DashboardHeader />
-        <DashboardGraph />
+        <DashboardUsers />
       </div>
     </div>
   );
 }
 
-export default InstructorDashboard;
+export default InstructorUserPage;

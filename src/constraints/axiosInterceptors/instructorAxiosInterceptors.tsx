@@ -8,6 +8,7 @@ export const instructoraxios = axios.create({
         "Content-Type": "application/json",
         
     },
+    withCredentials:true
 });
 instructoraxios.interceptors.request.use((config) => {
     const token = localStorage.getItem('instructoraxios');

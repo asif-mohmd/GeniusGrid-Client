@@ -4,8 +4,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { userAxios } from "../../../constraints/axiosInterceptors/userAxiosInterceptors";
 import { FormDataSignup } from "../../../interfaces/authInterface";
 
+import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { toast } from "react-toastify";
 // import axios from "../../../services/axios/userAxios";
 
 
@@ -17,7 +17,6 @@ const Signup: React.FC = () => {
     name: "",
     email: "",
     password: ""
-   
   });
 
   const navigate = useNavigate()
@@ -41,13 +40,14 @@ const Signup: React.FC = () => {
     if(userData.data.status){
       navigate("/otp")
     }else{
-      console.log("-------elseeeeeeeeeeeeeee")
+
       toast.error('Email already exists');
     }
   };
 
   return (
     <div className="flex flex-col min-h-screen justify-center items-center bg-gray-100">
+     <ToastContainer />
       <div className="bg-white px-14 rounded-xl shadow-lg py-8">
         <h6 className="text-xl font-medium mb-2 text-center ">Create an account</h6>
         <form className="w-full max-w-md " onSubmit={handleSubmit}>
@@ -129,7 +129,7 @@ const Signup: React.FC = () => {
               <span className="text-gray-600 text-sm">
                 Already have an account?{" "}
                 <Link className="text-blue-600 font-semibold" to={userEndpoints.login}>
-                  Login In.
+                  Log In.
                 </Link>
               </span>
             </div>

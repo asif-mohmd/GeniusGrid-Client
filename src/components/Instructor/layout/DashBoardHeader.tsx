@@ -1,12 +1,27 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import userEndpoints from '../../../constraints/endpoints/userEndpoints';
 import { useState } from 'react';
+import instructorEndpoints from '../../../constraints/endpoints/instructorEndpoints';
+import { useDispatch } from 'react-redux';
+import { instructorLogout } from '../../../redux/instructorSlices/authSlice';
+import { clearInstructorData } from '../../../redux/instructorSlices/instructorDataSlice';
 
 const DashboardHeader = () => {
   const [open,setOpen] = useState(false)
 
+
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+
   const showDropDown=()=>{
     setOpen(!open)
+  }
+
+  const handleClick=()=>{
+   
+    dispatch(clearInstructorData())
+    dispatch(instructorLogout())
+    navigate(instructorEndpoints.dashboard)
   }
 
   return (
@@ -21,7 +36,7 @@ const DashboardHeader = () => {
         <div className="py-2">
           <Link to={userEndpoints.login}  className='block px-4 py-2 text-gray-800 rounded-md hover:bg-[#00df9a] hover:text-black cursor-pointer'>Profile</Link>
           <Link to={userEndpoints.login}  className='block px-4 py-2 text-gray-800 rounded-md hover:bg-[#00df9a] hover:text-black cursor-pointer'>Settings</Link>
-          <Link to={userEndpoints.login}  className='block px-4 py-2 text-gray-800 rounded-md hover:bg-[#00df9a] hover:text-black cursor-pointer'>Signout</Link>
+          <Link to={instructorEndpoints.login}  onClick={handleClick} className='block px-4 py-2 text-gray-800 rounded-md hover:bg-[#00df9a] hover:text-black cursor-pointer'>Signout</Link>
         </div>
       </div>
         )}

@@ -7,9 +7,8 @@ import { FormDataLogin } from "../../../interfaces/authInterface";
 import { userAxios } from "../../../constraints/axiosInterceptors/userAxiosInterceptors";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { setUserData } from "../../../redux/Slices/userDataSlice";
-import { userLogin } from "../../../redux/Slices/authSlice";
-
+import { setUserData } from "../../../redux/userSlices/userDataSlice";
+import { userLogin } from "../../../redux/userSlices/authSlice";
 
 
 
@@ -39,6 +38,7 @@ const Login: React.FC = () => {
       dispatch(userLogin())
         navigate(userEndpoints.home)
     }else{
+      console.log("else login")
         toast.error('Invalid email or password');
     }
 
@@ -46,6 +46,7 @@ const Login: React.FC = () => {
 
    return (
     <div className="flex flex-col min-h-screen justify-center items-center bg-gray-100">
+      <ToastContainer />
       <div className="bg-white p-14 rounded-xl shadow-lg">
         <h6 className="text-xl font-medium m-7">Login to your account</h6>
         <form className="w-full max-w-md" onSubmit={handleSubmit}>

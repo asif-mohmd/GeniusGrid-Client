@@ -9,15 +9,13 @@ import { RootState } from '../../redux/Store';
 const UserHomePage = () => {
 
 
-  const user = useSelector((store: RootState) => store.auth);
-  console.log(user,"homeeeeeeeeeeeeeeeeeee")
+  const user = useSelector((store: RootState) => store.userAuth);
   const navigate = useNavigate()
 
   useEffect(() => {
     if (!user.isLogin) {
       navigate("/login");
     }else{
-      console.log("jjjjjjjjjjjjjjjjjjjjjjjj")
       navigate("/")
     }
   }, [user]);

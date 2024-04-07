@@ -1,7 +1,7 @@
 export interface FormDataSignup {
     name: string;
     email: string;
-    password: string;
+    password: any;
 
   }
 

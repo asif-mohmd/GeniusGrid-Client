@@ -2,12 +2,13 @@
 import { BrowserRouter as Router , Routes, Route } from "react-router-dom";
 import UserRouters from "./routes/userRouter/UserRouters";
 import AdminRouters from "./routes/userRouter/AdminRouters";
-import { InstructorRouter } from "./routes/userRouter/InstructorRouter";
+import { InstructorRouter } from "./routes/instructorRouter/InstructorRouter";
 
 
 function App() {
  
   return (
+    
     <>
     <div className="App">
         <Router>
@@ -18,7 +19,6 @@ function App() {
           </Routes>
         </Router>
     </div>
- 
     </>
   )
 }

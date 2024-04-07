@@ -1,12 +1,12 @@
 // OTPPage.tsx
 import React, { useState } from 'react';
-import { userAxios } from '../../../constraints/axiosInterceptors/userAxiosInterceptors';
-import userEndpoints from '../../../constraints/endpoints/userEndpoints';
 import { useNavigate } from 'react-router';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import instructorEndpoints from '../../../constraints/endpoints/instructorEndpoints';
+import { instructoraxios } from '../../../constraints/axiosInterceptors/instructorAxiosInterceptors';
 
-const OTPPage: React.FC = () => {
+const InstructorOTPPage: React.FC = () => {
   const [otp, setOTP] = useState('');
 
   const navigate = useNavigate()
@@ -15,14 +15,14 @@ const OTPPage: React.FC = () => {
     e.preventDefault();
     // Handle OTP submission logic here
     console.log('OTP submitted:', otp);
-    const userData =  await userAxios.post(userEndpoints.otp,{otp})
+    const instructorData =  await instructoraxios.post(instructorEndpoints.otp,{otp})
    console.log("kkkkkkkkkkkkkkkkkkkkkkkkkkkk")
-    console.log("after axios",userData)
-    if(userData.status == 200){
-      navigate("/login")
+    console.log("after axios",instructorData)
+    if(instructorData.status == 200){
+      navigate(instructorEndpoints.login)
     }else{
       toast.error('Invalid email or password');
-      navigate("/otp")
+      navigate(instructorEndpoints.otp)
     }
 
   };
@@ -31,7 +31,7 @@ const OTPPage: React.FC = () => {
     <div className="flex justify-center items-center h-screen bg-gray-100">
       <ToastContainer />
       <div className="bg-white p-8 rounded shadow-md w-full max-w-sm">
-        <h2 className="text-2xl font-bold mb-4">Enter OTP</h2>
+        <h2 className="text-2xl font-bold mb-4">Enter Instructor OTP</h2>
         <form onSubmit={handleSubmit}>
           <input
             type="text"
@@ -52,4 +52,4 @@ const OTPPage: React.FC = () => {
   );
 };
 
-export default OTPPage;
+export default InstructorOTPPage;
