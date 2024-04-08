@@ -33,10 +33,7 @@ const InstructorOTPPage: React.FC = () => {
   }, [isTimerRunning, timer]);
 
   const handleResendOTP = async () => {
-    // Implement logic to resend OTP
     try {
-      // Code to resend OTP
-      // document.cookie = 'userData=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
       const response = await instructoraxios.post(instructorEndpoints.register, {
         formData,
       });
@@ -46,7 +43,10 @@ const InstructorOTPPage: React.FC = () => {
         setIsTimerRunning(true);
         setResendClicked(true);
       } else {
-        toast.error('Failed to resend OTP');
+        toast.success("OTP resent failed");
+        setTimer(60); // Reset timer
+        setIsTimerRunning(true);
+        setResendClicked(true);
       }
     } catch (error) {
       toast.error('Failed to resend OTP. Please try again.');
@@ -68,7 +68,7 @@ const InstructorOTPPage: React.FC = () => {
       }
     } catch (error) {
       console.error('Error submitting OTP:', error);
-      toast.error('Failed to submit OTP. Please try again.');
+      toast.error('Incorrect OTP');
     }
   };
 

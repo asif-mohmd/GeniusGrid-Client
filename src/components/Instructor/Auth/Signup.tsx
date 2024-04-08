@@ -4,6 +4,7 @@ import instructorEndpoints from "../../../constraints/endpoints/instructorEndpoi
 import { instructoraxios } from "../../../constraints/axiosInterceptors/instructorAxiosInterceptors";
 import { useDispatch } from "react-redux";
 import { setRegisterData } from "../../../redux/registerData/registerData";
+import { ToastContainer, toast } from "react-toastify";
 
 interface FormData {
   name: string;
@@ -39,11 +40,14 @@ const Signup: React.FC = () => {
     if (instructorData.data.status) {
       dispatch(setRegisterData(formData));
       navigate(instructorEndpoints.otp);
+     } else {
+      toast.error("Email already exists");
     }
   };
 
   return (
     <div className="flex flex-col min-h-screen justify-center items-center bg-gray-100">
+          <ToastContainer />
       <div className="bg-white px-14 rounded-xl shadow-lg py-8">
         <h6 className="text-xl font-medium mb-2 text-center ">
           Instructor Signup

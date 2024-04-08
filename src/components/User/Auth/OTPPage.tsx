@@ -39,7 +39,7 @@ const OTPPage: React.FC = () => {
       const response = await userAxios.post(userEndpoints.register, {
         formData,
       });
-      if (response) {
+      if (response.status === 200) {
         toast.success("OTP resent successfully");
         setTimer(60); // Reset timer
         setIsTimerRunning(true);
@@ -70,7 +70,7 @@ const OTPPage: React.FC = () => {
       }
     } catch (error) {
       console.error("Error submitting OTP:", error);
-      toast.error("Failed to submit OTP. Please try again.");
+      toast.error("Incorrect OTP");
     }
   };
 
