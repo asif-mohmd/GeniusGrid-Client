@@ -77,29 +77,30 @@ const OTPPage: React.FC = () => {
   return (
     <div className="flex justify-center items-center h-screen bg-gray-100">
       <ToastContainer />
-      <div className="bg-white p-8 rounded shadow-xl w-full max-w-sm">
-        <h2 className="text-2xl font-bold mb-6 text-center">Enter OTP</h2>
+      <div className="bg-white p-8 rounded shadow-xl w-full max-w-sm m-2">
+        <h5 className="text-2xl font-medium mb-7 text-center">Enter your OTP</h5>
         <form onSubmit={handleSubmit}>
+          
           <input
             type="text"
-            className="w-full border border-gray-300 rounded px-3 py-2 mb-4 focus:outline-none focus:border-blue-400"
+            className="bg-white appearance-none border-2 border-gray-100 rounded-lg w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-300"
             placeholder="Enter OTP"
             value={otp}
             onChange={(e) => setOTP(e.target.value)}
           />
           <button
             type="submit"
-            className="w-full bg-blue-500 text-white rounded-xl px-4 py-2 font-semibold hover:bg-blue-600 transition-colors duration-300"
+            className="w-full mt-5 bg-blue-500 text-white rounded-xl px-4 py-2 font-semibold hover:bg-blue-600 transition-colors duration-300"
           >
             Submit
           </button>
         </form>
-        <div className="flex justify-between items-center mt-4">
+        <div className="flex justify-between items-center mt-4 text-gray-600 text-sm">
           {!resendClicked && (
             <p>
               Didn't receive OTP?{" "}
               <span
-                className="text-blue-500 cursor-pointer hover:underline"
+                className="text-blue-600 font-semibold cursor-pointer hover:underline"
                 onClick={handleResendOTP}
               >
                 Resend OTP
