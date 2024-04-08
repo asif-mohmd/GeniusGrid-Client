@@ -1,7 +1,7 @@
 import React, { ChangeEvent, FormEvent, useState } from "react";
 import { FormDataLogin } from "../../../interfaces/authInterface";
 import { useNavigate } from "react-router";
-import { toast } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 import { instructoraxios } from "../../../constraints/axiosInterceptors/instructorAxiosInterceptors";
 import instructorEndpoints from "../../../constraints/endpoints/instructorEndpoints";
 import { Link } from "react-router-dom";
@@ -9,45 +9,48 @@ import { useDispatch } from "react-redux";
 import { setInstructorData } from "../../../redux/instructorSlices/instructorDataSlice";
 import { instructorLogin } from "../../../redux/instructorSlices/authSlice";
 
-
-
 const Login: React.FC = () => {
+  const [instructorLoginData, setInstructorLoginData] = useState<FormDataLogin>(
+    {
+      email: "",
+      password: "",
+    }
+  );
 
-  const [instructorLoginData,setInstructorLoginData] = useState<FormDataLogin>({
-    email:"",
-    password:""
-  })
 
-  const navigate = useNavigate()
-  const dispatch = useDispatch()
+
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    console.log(e,"targettttttttttttttttttttttttt")
     const { id, value } = e.target;
     setInstructorLoginData({ ...instructorLoginData, [id]: value });
   };
 
-  
-  const handleSubmit = async(e:FormEvent) =>{
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
 
-    console.log(instructorLoginData,"login data")
-    const instructorData = await instructoraxios.post(instructorEndpoints.login,{instructorLoginData})
+    const instructorData = await instructoraxios.post(
+      instructorEndpoints.login,
+      { instructorLoginData }
+    );
 
-    if(instructorData.data.loginStatus){
-      dispatch(setInstructorData(instructorData.data))
-      dispatch(instructorLogin())
-        navigate(instructorEndpoints.dashboard)
-    }else{
-        toast.error('Invalid email or password');
+    if (instructorData.data.loginStatus) {
+      dispatch(setInstructorData(instructorData.data));
+      dispatch(instructorLogin());
+      navigate(instructorEndpoints.dashboard);
+    } else {
+      toast.error("Invalid email or password");
     }
-  }
-
+  };
 
   return (
     <div className="flex flex-col min-h-screen justify-center items-center bg-gray-100">
+          <ToastContainer />
       <div className="bg-white p-14 rounded-xl shadow-lg">
-        <h6 className="text-xl font-medium text-center m-7">Instructor Login</h6>
+        <h6 className="text-xl font-medium text-center m-7">
+          Instructor Login
+        </h6>
         <form className="w-full max-w-md" onSubmit={handleSubmit}>
           <div className="mb-6">
             <label
@@ -64,7 +67,6 @@ const Login: React.FC = () => {
               type="text"
               defaultValue=""
               placeholder=""
-
             />
           </div>
           <div className="mb-6">
@@ -83,23 +85,29 @@ const Login: React.FC = () => {
               placeholder=""
             />
           </div>
-     
+
           <div className="flex flex-col items-center justify-center mb-4">
             <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md mb-2">
               Login now
             </button>
             <div className="m-3">
               <span className="text-gray-600 text-sm">
-                Don't have an account?{' '}
-                <Link className="text-blue-600 font-semibold" to={instructorEndpoints.register}>
+                Don't have an account?{" "}
+                <Link
+                  className="text-blue-600 font-semibold"
+                  to={instructorEndpoints.register}
+                >
                   Sign Up
                 </Link>
               </span>
             </div>
             <div className="m-3">
               <span className="text-gray-600 text-sm">
-                Forgot your password?{' '}
-                <Link className="text-blue-600 font-semibold" to={instructorEndpoints.forgotPassword}>
+                Forgot your password?{" "}
+                <Link
+                  className="text-blue-600 font-semibold"
+                  to={instructorEndpoints.forgotPassword}
+                >
                   Reset it here
                 </Link>
               </span>

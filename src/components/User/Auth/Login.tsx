@@ -34,6 +34,7 @@ const Login: React.FC = () => {
     const userData = await userAxios.post(userEndpoints.login,{loginData})
    console.log(userData,"after login")
     if(userData.data.loginStatus){
+      console.log(userData.data,"--------------------------")
       dispatch(setUserData(userData.data))
       dispatch(userLogin())
         navigate(userEndpoints.home)

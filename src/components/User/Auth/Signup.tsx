@@ -4,54 +4,52 @@ import { Link, useNavigate } from "react-router-dom";
 import { userAxios } from "../../../constraints/axiosInterceptors/userAxiosInterceptors";
 import { FormDataSignup } from "../../../interfaces/authInterface";
 
-import { toast, ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { useDispatch } from "react-redux";
+import { setRegisterData } from "../../../redux/registerData/registerData";
 // import axios from "../../../services/axios/userAxios";
-
-
-
 
 const Signup: React.FC = () => {
   // State to hold input field values
   const [formData, setFormData] = useState<FormDataSignup>({
     name: "",
     email: "",
-    password: ""
+    password: "",
   });
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   // Handle input change
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    console.log(e,"targettttttttttttttttttttttttt")
     const { id, value } = e.target;
     setFormData({ ...formData, [id]: value });
   };
 
   // Handle form submission
-  const handleSubmit = async(e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    // Handle form submission logic here
-    console.log(formData); // Example: You can send this data to your backend API
-    console.log("pppppppppppppppppppppppp")
-   const userData =  await userAxios.post(userEndpoints.register,{formData})
-   console.log("kkkkkkkkkkkkkkkkkkkkkkkkkkkk")
-    console.log("after axios",userData)
-    if(userData.data.status){
-      navigate("/otp")
-    }else{
 
-      toast.error('Email already exists');
+    const userData = await userAxios.post(userEndpoints.register, { formData });
+
+    if (userData.data.status) {
+      dispatch(setRegisterData(formData));
+      navigate("/otp");
+    } else {
+      toast.error("Email already exists");
     }
   };
 
   return (
     <div className="flex flex-col min-h-screen justify-center items-center bg-gray-100">
-     <ToastContainer />
+      <ToastContainer />
       <div className="bg-white px-14 rounded-xl shadow-lg py-8">
-        <h6 className="text-xl font-medium mb-2 text-center ">Create an account</h6>
+        <h6 className="text-xl font-medium mb-2 text-center ">
+          Create an account
+        </h6>
         <form className="w-full max-w-md " onSubmit={handleSubmit}>
-        <div className="mb-6">
+          <div className="mb-6">
             <label
               className="block text-gray-600 font-semibold mb-2"
               htmlFor="name"
@@ -102,7 +100,7 @@ const Signup: React.FC = () => {
               required
             />
           </div>
-     
+
           {/* <div className="mb-6">
             <label
               className="block text-gray-600 font-semibold mb-2"
@@ -120,7 +118,7 @@ const Signup: React.FC = () => {
               required
             />
           </div> */}
-         
+
           <div className="flex flex-col items-center justify-center mb-4">
             <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-14 rounded-md mb-2">
               Create account
@@ -128,7 +126,10 @@ const Signup: React.FC = () => {
             <div className="m-3">
               <span className="text-gray-600 text-sm">
                 Already have an account?{" "}
-                <Link className="text-blue-600 font-semibold" to={userEndpoints.login}>
+                <Link
+                  className="text-blue-600 font-semibold"
+                  to={userEndpoints.login}
+                >
                   Log In.
                 </Link>
               </span>

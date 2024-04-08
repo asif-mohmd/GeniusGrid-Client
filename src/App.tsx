@@ -1,7 +1,7 @@
 
 import { BrowserRouter as Router , Routes, Route } from "react-router-dom";
 import UserRouters from "./routes/userRouter/UserRouters";
-import AdminRouters from "./routes/userRouter/AdminRouters";
+import AdminRouters from "./routes/adminRouter/AdminRouters";
 import { InstructorRouter } from "./routes/instructorRouter/InstructorRouter";
 
 

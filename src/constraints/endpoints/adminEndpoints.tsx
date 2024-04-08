@@ -1,6 +1,6 @@
 export default {
-    dashboard: "/",
-    login: "/login",
+    dashboard: "/admin/",
+    login: "/admin/login",
     users:"/users",
     instructors:"/instructors",
     courseAnalysis:"/course/analysis",

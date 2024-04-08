@@ -27,10 +27,11 @@ const AdminLogin: React.FC = () => {
     e.preventDefault();
 
     console.log(adminLoginData,"login data")
-    const userData = await adminAxios.post(adminEndpoints.login,{adminLoginData})
+    const adminData = await adminAxios.post(adminEndpoints.login,{adminLoginData})
 
-    if(userData.data.loginStatus){
-        navigate(adminEndpoints.dashboard)
+    if(adminData){
+      navigate(adminEndpoints.dashboard)
+      
     }else{
         toast.error('Invalid email or password');
     }

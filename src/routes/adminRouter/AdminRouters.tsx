@@ -9,8 +9,8 @@ import AdminDashboardInstructors from '../../pages/admin/AdminInstructors'
 const AdminRouters = () => {
   return (
    <Routes>
-      <Route Component={AdminLoginPage} path={adminEndpoints.login}/>
-      <Route Component={AdminDashboard} path={adminEndpoints.dashboard}></Route>
+      <Route Component={AdminLoginPage} path="/login" />
+      <Route Component={AdminDashboard} path="/"></Route>
       <Route Component={AdminDashboardUsers} path={adminEndpoints.users}></Route>
       <Route Component={AdminDashboardInstructors} path={adminEndpoints.instructors}></Route>
 
