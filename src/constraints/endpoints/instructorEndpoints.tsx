@@ -4,5 +4,6 @@ export default {
     register: "/instructor/register",
     forgotPassword: "/instructor/forgot/password",
     otp: "/instructor/otp",
-    users: "/instructor/users"
+    users: "/instructor/users",
+    createCourse: "/instructor/create/course"
 }

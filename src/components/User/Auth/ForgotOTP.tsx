@@ -12,10 +12,7 @@ const ForgotOTP: React.FC = () => {
   const handleSubmit = async(e: React.FormEvent) => {
     e.preventDefault();
     // Handle OTP submission logic here
-    console.log('OTP submitted:', otp);
     const userData =  await userAxios.post(userEndpoints.forgotOTP,{otp})
-   console.log("kkkkkkkkkkkkkkkkkkkkkkkkkkkk")
-    console.log("after axios",userData)
     if(userData.status){
       navigate("/login")
     }

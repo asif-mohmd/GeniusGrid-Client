@@ -2,7 +2,7 @@
 function DashboardUsers() {
   return (
     <>
-    <div className="text-gray-900 bg-slate-50">
+    <div className="text-gray-900 bg-slate-50 h-screen w-full">
     <div className="p-4 flex">
         <h1 className="text-3xl">
             Users

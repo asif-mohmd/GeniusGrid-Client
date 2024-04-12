@@ -6,6 +6,7 @@ import InstructorLoginPage from '../../pages/instructor/InstructorLoginPage'
 import InstructorSignupPage from '../../pages/instructor/InstructorSignupPage'
 import InstructorOTPPage from '../../components/Instructor/Auth/OTPPage'
 import InstructorUserPage from '../../pages/instructor/InstructorUserPage'
+import InstructorCreateCourse from '../../pages/instructor/InstructorCreateCourse'
 
 
 export const InstructorRouter = () => {
@@ -16,6 +17,7 @@ export const InstructorRouter = () => {
         <Route Component={InstructorDashboard} path="/"></Route>
         <Route Component={InstructorOTPPage} path="/otp"></Route>
         <Route Component={InstructorUserPage} path="/users"></Route>
+        <Route Component={InstructorCreateCourse} path="/create/course"></Route>
 
 
     </Routes>

@@ -11,6 +11,8 @@ import ForgotOTP from "../../components/User/Auth/ForgotOTP"
 
 const UserRouters = () => {
   return (
+    // i using the userEndpoints as the path here because it same as user anywhere
+    // But in instructor and admin 
        <Routes>
         <Route Component={Home}  path={userEndpoints.home} />
         <Route Component={Login}  path={userEndpoints.login} />

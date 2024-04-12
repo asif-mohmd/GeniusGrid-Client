@@ -4,8 +4,8 @@ import controlPNG from "../../../assets/DashboardIcons/control.png";
 import logoPNG from "../../../assets/DashboardIcons/logo.png";
 import { Link } from "react-router-dom";
 import adminEndpoints from "../../../constraints/endpoints/adminEndpoints";
-import { faChartBar, faUsers, faChalkboardTeacher, faFileAlt, faClipboardList, faListAlt, faQuestionCircle, faFileInvoice } from '@fortawesome/free-solid-svg-icons'; import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { FaBeer } from 'react-icons/fa';
+import {  faListAlt, faQuestionCircle, faFileInvoice } from '@fortawesome/free-solid-svg-icons'; import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { CiCirclePlus } from "react-icons/ci";
 import { AiOutlineDashboard } from "react-icons/ai";
 import { LuUsers } from "react-icons/lu";
 import instructorEndpoints from "../../../constraints/endpoints/instructorEndpoints";
@@ -63,22 +63,14 @@ const DashboardSidebar = () => {
       Users
     </Link>
   </li>
+
   <li>
     <Link
-      to="/admin/instructors"
+      to={instructorEndpoints.createCourse}
       className="flex items-center px-4 py-2 text-gray-800 rounded-md hover:bg-[#00df9a] hover:text-black cursor-pointer"
     >
-      <FontAwesomeIcon icon={faChalkboardTeacher} className="mr-2" />
-      Instructors
-    </Link>
-  </li>
-  <li>
-    <Link
-      to={adminEndpoints.courseAnalysis}
-      className="flex items-center px-4 py-2 text-gray-800 rounded-md hover:bg-[#00df9a] hover:text-black cursor-pointer"
-    >
-      <FontAwesomeIcon icon={faListAlt} className="mr-2" />
-      Course Analysis
+      <CiCirclePlus className="mr-2" />
+      Create course
     </Link>
   </li>
   <li>
