@@ -13,8 +13,8 @@ const __dirname = path.dirname(__filename);
 const compat = new FlatCompat({baseDirectory: __dirname, recommendedConfig: pluginJs.configs.recommended});
 
 export default [
-  {languageOptions: { globals: globals.browser }},
-  ...compat.extends("standard-with-typescript"),
+  {languageOptions: { globals: {...globals.browser, ...globals.node} }},
+  ...compat.extends("xo-typescript"),
   ...tseslint.configs.recommended,
   pluginReactConfig,
 ];

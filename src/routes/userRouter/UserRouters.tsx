@@ -6,6 +6,8 @@ import Signup from "../../components/User/Auth/Signup"
 import OTPPage from "../../components/User/Auth/OTPPage"
 import ForgotPassword from "../../components/User/Auth/ForgotPassword"
 import ForgotOTP from "../../components/User/Auth/ForgotOTP"
+import  UserProtectorRoute  from "./UserProtectorRoute"
+import UserPublicRoute from "./UserPublicRoute"
 
 
 
@@ -14,12 +16,12 @@ const UserRouters = () => {
     // i using the userEndpoints as the path here because it same as user anywhere
     // But in instructor and admin 
        <Routes>
-        <Route Component={Home}  path={userEndpoints.home} />
-        <Route Component={Login}  path={userEndpoints.login} />
-        <Route Component={Signup}  path={userEndpoints.register} />
-        <Route Component={ForgotPassword}  path={userEndpoints.forgotPassword} />
-        <Route Component={OTPPage}  path={userEndpoints.otp} />
-        <Route Component={ForgotOTP}  path={userEndpoints.forgotOTP} />
+        <Route path={userEndpoints.home} element={<UserProtectorRoute component={Home} />} />
+        <Route path={userEndpoints.login} element={<UserPublicRoute component={Login} />} />
+        <Route path={userEndpoints.register} element={<UserPublicRoute component={Signup} />} />
+        <Route path={userEndpoints.forgotPassword} element={<UserPublicRoute component={ForgotPassword} />}  />
+        <Route path={userEndpoints.otp} element={<UserPublicRoute component={OTPPage} />} />
+        <Route path={userEndpoints.forgotOTP} element={<UserPublicRoute component={ForgotOTP} />} />
 
 
 
