@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface UserState {
-    formData: any | null;
+    formData: object | null;
  
 }
 
@@ -14,7 +14,7 @@ const registerDataSlice = createSlice({
   name: "formData",
   initialState,
   reducers: {
-    setRegisterData: (state, action: PayloadAction<any>) => {
+    setRegisterData: (state, action: PayloadAction<object>) => {
       state.formData = action.payload;
     },
     clearRegisterData: (state) => {

@@ -1,11 +1,8 @@
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/Store";
 import { Navigate } from "react-router-dom";
+import { ProtectedRouteProps } from "../../interfaces/ICommonInterface";
 
-
-interface ProtectedRouteProps {
-  component: React.FC;
-}
 
 const UserProtectorRoute: React.FC<ProtectedRouteProps> = ({ component: Component }) => {
   const user = useSelector((store: RootState) => store.userAuth);

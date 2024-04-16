@@ -1,5 +1,5 @@
 import React, { ChangeEvent, FormEvent, useState } from "react";
-import { FormDataLogin } from "../../../interfaces/authInterface";
+import { FormDataLogin } from "../../../interfaces/IAuthInterface";
 import { useNavigate } from "react-router";
 import { ToastContainer, toast } from "react-toastify";
 import { instructoraxios } from "../../../constraints/axiosInterceptors/instructorAxiosInterceptors";
@@ -36,6 +36,8 @@ const Login: React.FC = () => {
     );
 
     if (instructorData.data.loginStatus) {
+      console.log(instructorData.data,"[[[[[[[[[[[[[[[[[[[[[[[")
+      
       dispatch(setInstructorData(instructorData.data));
       dispatch(instructorLogin());
       navigate(instructorEndpoints.dashboard);

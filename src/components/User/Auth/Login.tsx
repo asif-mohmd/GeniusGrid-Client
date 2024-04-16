@@ -1,9 +1,9 @@
 import React, { ChangeEvent, FormEvent, useState } from "react";
-import { Link, Navigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import userEndpoints from "../../../constraints/endpoints/userEndpoints";
-import { FormDataLogin } from "../../../interfaces/authInterface";
+import { FormDataLogin } from "../../../interfaces/IAuthInterface";
 import { userAxios } from "../../../constraints/axiosInterceptors/userAxiosInterceptors";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";

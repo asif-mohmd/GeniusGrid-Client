@@ -1,28 +1,29 @@
 // In redux/Store.ts
 
-import userAuthReducer from './userSlices/authSlice';
+import { combineReducers } from "@reduxjs/toolkit";
 import { configureStore } from '@reduxjs/toolkit';
-import instructorAuthReducer from "./instructorSlices/authSlice"
+import storage from "redux-persist/lib/storage";
+import { persistReducer as persistReducerFromPersist } from "redux-persist";
+
+import userAuthReducer from './userSlices/authSlice';
+import instructorAuthReducer from "./instructorSlices/authSlice";
 import registerData from './registerData/registerData';
-import storage from "redux-persist/lib/storage"
-import {persistReducer as persistReducerFromPersist} from "redux-persist"
-import {combineReducers} from "@reduxjs/toolkit"
+import instructorDataReducer from './instructorSlices/instructorDataSlice'; // Import the correct reducer for instructor data
 
 const persistConfig = {
-  key : "root",
+  key: "root",
   version: 1,
   storage
 }
-
 
 const rootReducer = combineReducers({
   userAuth: userAuthReducer,
   registerData: registerData,
   instructorAuth: instructorAuthReducer,
-  instructorData : instructorAuthReducer
+  instructorData: instructorDataReducer, // Use the correct reducer for instructor data
 });
 
-const persistReducer = persistReducerFromPersist(persistConfig,rootReducer)
+const persistReducer = persistReducerFromPersist(persistConfig, rootReducer);
 
 export type RootState = ReturnType<typeof rootReducer>;
 

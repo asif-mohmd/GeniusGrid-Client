@@ -2,7 +2,7 @@ import React, { useState, ChangeEvent, FormEvent } from "react";
 import userEndpoints from "../../../constraints/endpoints/userEndpoints";
 import { Link, useNavigate } from "react-router-dom";
 import { userAxios } from "../../../constraints/axiosInterceptors/userAxiosInterceptors";
-import { FormDataSignup } from "../../../interfaces/authInterface";
+import { FormDataSignup } from "../../../interfaces/IAuthInterface";
 
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";

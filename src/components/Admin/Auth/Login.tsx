@@ -1,5 +1,5 @@
 import React, { ChangeEvent, FormEvent, useState } from "react";
-import { FormDataLogin } from "../../../interfaces/authInterface";
+import { FormDataLogin } from "../../../interfaces/IAuthInterface";
 import adminEndpoints from "../../../constraints/endpoints/adminEndpoints";
 import { useNavigate } from "react-router";
 import { toast } from "react-toastify";

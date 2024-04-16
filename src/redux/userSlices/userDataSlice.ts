@@ -1,8 +1,9 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface UserState {
-  userData: any | null;
+  userData: object | null;
   loading: boolean | null;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   error: any | null;
   userImg: string;
 }
@@ -18,7 +19,8 @@ const userDataSlice = createSlice({
   name: "userData",
   initialState,
   reducers: {
-    setUserData: (state, action: PayloadAction<any>) => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    setUserData: (state, action: PayloadAction<object>) => {
       state.userData = action.payload;
     },
     clearUserData: (state) => {
