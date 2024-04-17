@@ -1,10 +1,10 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { InstructorData } from "../../interfaces/IInstructorInterface";
+import { IInstructorData } from "../../interfaces/IInstructorInterface";
 // import { InstructorDataPayload } from "../../interfaces/ICommonInterface";
 
 
 
-const initialState: InstructorData = {
+const initialState: IInstructorData = {
   instructorData: null,
   
 
@@ -14,7 +14,7 @@ const instructorDataSlice = createSlice({
   name: "instructorData",
   initialState,
   reducers: {
-    setInstructorData: (state, action: PayloadAction<InstructorData>) => {
+    setInstructorData: (state, action: PayloadAction<IInstructorData>) => {
     console.log("-------------")
       console.log(action.payload,"------------")
       state.instructorData = action.payload;

@@ -9,18 +9,22 @@ import userAuthReducer from './userSlices/authSlice';
 import instructorAuthReducer from "./instructorSlices/authSlice";
 import registerData from './registerData/registerData';
 import instructorDataReducer from './instructorSlices/instructorDataSlice'; // Import the correct reducer for instructor data
+import courseData from "./instructorSlices/courseData";
 
 const persistConfig = {
   key: "root",
   version: 1,
-  storage
+  storage,
+  expire: 60 * 1000, // 1 minute
+  // expire: 24 * 60 * 60 * 1000,
 }
 
 const rootReducer = combineReducers({
   userAuth: userAuthReducer,
   registerData: registerData,
   instructorAuth: instructorAuthReducer,
-  instructorData: instructorDataReducer, // Use the correct reducer for instructor data
+  instructorData: instructorDataReducer, 
+  courseData : courseData
 });
 
 const persistReducer = persistReducerFromPersist(persistConfig, rootReducer);

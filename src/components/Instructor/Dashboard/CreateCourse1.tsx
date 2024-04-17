@@ -1,21 +1,27 @@
 import { Formik, Form, Field ,FormikHelpers } from 'formik';
 import * as Yup from 'yup';
-import { createCourse } from '../../../interfaces/IInstructorInterface';
+import { ICreateCourse1 } from '../../../interfaces/IInstructorInterface';
+import { useDispatch, useSelector } from 'react-redux';
+import { setCourseData1 } from '../../../redux/instructorSlices/courseData';
+import { RootState } from '../../../redux/Store';
+
 
 interface CreateCourse1Props {
     onNext: () => void;
   }
   
   const CreateCourse1: React.FC<CreateCourse1Props> = ({ onNext }) => {
+   const {courseData1} = useSelector((store:RootState)=>store.courseData)
+
   const initialValues = {
-    courseName: '',
-    courseDescription: '',
-    coursePrice: '',
-    estimatedPrice: '',
-    courseTags: '',
-    courseCategory: '',
-    courseLevel: '',
-    introURL: ''
+    courseName: courseData1?.courseName || '',
+    courseDescription: courseData1?.courseDescription || '',
+    coursePrice: courseData1?.coursePrice || '',
+    estimatedPrice: courseData1?.estimatedPrice || '',
+    courseTags: courseData1?.courseTags || '',
+    courseCategory: courseData1?.courseCategory || '',
+    courseLevel: courseData1?.courseLevel || '',
+    introURL: courseData1?.introURL || ''
   };
 
   const validationSchema = Yup.object().shape({
@@ -29,27 +35,25 @@ interface CreateCourse1Props {
     introURL: Yup.string().required('Introduction URL is required')
   });
   
-  const handleSubmit = async (values:createCourse, { setSubmitting }: FormikHelpers<createCourse>) => {
+
+  const dispatch = useDispatch()
+
+
+  const handleSubmit = async (values:ICreateCourse1, { setSubmitting }: FormikHelpers<ICreateCourse1>) => {
     try {
       // Make API call to store data in the database
       console.log(values)
-      const response = await fetch('YOUR_API_ENDPOINT', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(values)
-      });
+      // const response = await fetch('YOUR_API_ENDPOINT', {
+      //   method: 'POST',
+      //   headers: {
+      //     'Content-Type': 'application/json'
+      //   },
+      //   body: JSON.stringify(values)
+      // });
 
-      // Handle response
-      if (response.ok) {
-        // Data successfully saved
-        console.log('Data saved successfully');
-        // Optionally, you can redirect the user or perform other actions
-      } else {
-        // Error handling
-        console.error('Error saving data');
-      }
+console.log("ivde aaane")
+dispatch(setCourseData1(values))
+     
     } catch (error) {
       console.error('Error:', error);
     } finally {

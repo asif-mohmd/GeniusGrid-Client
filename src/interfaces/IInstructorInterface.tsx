@@ -1,4 +1,4 @@
-export interface createCourse{
+export interface ICreateCourse1{
     courseName : string,
     courseDescription : string,
     coursePrice : string,
@@ -10,12 +10,12 @@ export interface createCourse{
 
 }
 
-export interface InstructorData {
+export interface IInstructorData {
     instructorData: object | null;
   
   }
 
-  export interface createCourse3{
+  export interface ICreateCourse3{
     videoTitle : string,
     videoURL : string,
     subtitleURL : string,

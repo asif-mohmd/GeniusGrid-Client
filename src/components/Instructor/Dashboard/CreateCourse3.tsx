@@ -1,8 +1,9 @@
 import { Formik, Form, Field, FormikHelpers } from 'formik';
 import * as Yup from 'yup';
-import { createCourse3 } from '../../../interfaces/IInstructorInterface';
+import {  ICreateCourse3 } from '../../../interfaces/IInstructorInterface';
 
 interface CreateCourse3Props {
+
   onNext: () => void
   onPrev: () => void;
 }
@@ -23,7 +24,7 @@ const CreateCourse3 : React.FC<CreateCourse3Props> = ({ onNext , onPrev}) => {
     link: Yup.string().required('Course link are required'),
   });
 
-  const handleSubmit = async (values: createCourse3, { setSubmitting }: FormikHelpers<createCourse3>) => {
+  const handleSubmit = async (values: ICreateCourse3, { setSubmitting }: FormikHelpers<ICreateCourse3>) => {
     try {
       // Make API call to store data in the database
       console.log(values);

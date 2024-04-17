@@ -3,11 +3,12 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 interface CreateCourse2Props {
+    
     onNext: () => void
     onPrev: () => void;
   }
   
-  const CreateCourse2: React.FC<CreateCourse2Props> = ({ onNext , onPrev }) => {
+  const CreateCourse2: React.FC<CreateCourse2Props> = ({  onNext , onPrev }) => {
   const [benefits, setBenefits] = useState<string[]>([""]);
   const [prerequisites, setPrerequisites] = useState<string[]>([""]);
 

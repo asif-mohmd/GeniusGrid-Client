@@ -14,6 +14,7 @@ const authSlice = createSlice({
     initialState,
     reducers: {
         instructorLogin:(state) =>{
+            console.log("logineeeee")
             state.isLogin = true;
         },
         instructorLogout: (state) =>{
