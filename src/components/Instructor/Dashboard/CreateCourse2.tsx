@@ -11,9 +11,10 @@ import { RootState } from "../../../redux/Store";
 interface CreateCourse2Props {
   onNext: () => void;
   onPrev: () => void;
+  data:string
 }
 
-const CreateCourse2: React.FC<CreateCourse2Props> = ({ onNext, onPrev }) => {
+const CreateCourse2: React.FC<CreateCourse2Props> = ({ onNext, onPrev , data}) => {
   const [benefits, setBenefits] = useState<string[]>([""]);
   const [prerequisites, setPrerequisites] = useState<string[]>([""]);
 
@@ -106,9 +107,7 @@ const CreateCourse2: React.FC<CreateCourse2Props> = ({ onNext, onPrev }) => {
 
   return (
     <div className="text-gray-900 bg-slate-50 h-screen w-full">
-      <div className="p-4 flex">
-        <h1 className="text-3xl font-bold">Pre-requisites of course</h1>
-      </div>
+     
       <ToastContainer />
       <div className="px-3 py-4 flex justify-center">
         <Formik
@@ -118,6 +117,9 @@ const CreateCourse2: React.FC<CreateCourse2Props> = ({ onNext, onPrev }) => {
         >
          
             <Form  className="sm:w-3/4 bg-white p-4 rounded-xl">
+            <div className="pb-7 pt-2 flex">
+                <h1 className="text-2xl font-semibold">{data}</h1>
+              </div>
               <div>
                 <p className="text-lg font-semibold mb-2">
                   What are the benefits for the students in the course
@@ -153,9 +155,9 @@ const CreateCourse2: React.FC<CreateCourse2Props> = ({ onNext, onPrev }) => {
                 <button
                   type="button"
                   onClick={addBenefitInput}
-                  className="m-2 bg-blue-500 text-white py-1 px-2 rounded"
+                  className="m-2 bg-green-500 text-white py-1 px-2 rounded"
                 >
-                  +
+                  Add new
                 </button>
               </div>
 
@@ -196,9 +198,9 @@ const CreateCourse2: React.FC<CreateCourse2Props> = ({ onNext, onPrev }) => {
                 <button
                   type="button"
                   onClick={addPrerequisiteInput}
-                  className="m-2 bg-blue-500 text-white py-1 px-2 rounded"
+                  className="m-2 bg-green-500 text-white py-1 px-2 rounded"
                 >
-                  +
+                  Add new
                 </button>
               </div>
 
