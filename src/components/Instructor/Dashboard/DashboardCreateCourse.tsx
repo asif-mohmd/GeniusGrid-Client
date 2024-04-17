@@ -2,6 +2,7 @@ import  { useState } from 'react';
 import CreateCourse1 from './CreateCourse1';
 import CreateCourse2 from './CreateCourse2';
 import CreateCourse3 from './CreateCourse3';
+import CreateCourse4 from './CreateCourse4';
 
 function DashboardCreateCourse() {
 
@@ -27,6 +28,9 @@ function DashboardCreateCourse() {
       )}
         {currentStep === 3 && (
         <CreateCourse3  onNext={handleNext} onPrev={handlePrev} />
+      )}
+      {currentStep === 4 && (
+        <CreateCourse4  onPrev={handlePrev} />
       )}
     </div>
   );

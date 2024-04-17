@@ -1,98 +1,147 @@
-// import React from 'react';
-// import { Formik, Form, Field, FormikHelpers } from 'formik';
-// import * as Yup from 'yup';
-// import { createCourse3 } from '../../../interfaces/IInstructorInterface';
+// import { useState } from "react";
+// import { toast, ToastContainer } from "react-toastify";
+// import "react-toastify/dist/ReactToastify.css";
 
-// interface CreateCourse1Props {
-//     data: createCourse3;
-//     onNext: () => void;
+// interface CreateCourse2Props {
+    
+//     onNext: () => void
+//     onPrev: () => void;
+//   }
+  
+//   const CreateCourse2: React.FC<CreateCourse2Props> = ({  onNext , onPrev }) => {
+//   const [benefits, setBenefits] = useState<string[]>([""]);
+//   const [prerequisites, setPrerequisites] = useState<string[]>([""]);
+
+//   const handleAddInput = (type: "benefits" | "prerequisites") => {
+//     if (type === "benefits") {
+//       if (benefits.some(benefit => benefit.trim() === "")) {
+//         toast.error("Please fill all the blank inputs");
+//         return;
+//       }
+//       setBenefits([...benefits, ""]);
+//     } else if (type === "prerequisites") {
+//       if (prerequisites.some(prerequisite => prerequisite.trim() === "")) {
+//         toast.error("Please fill all the blank inputs");
+//         return;
+//       }
+//       setPrerequisites([...prerequisites, ""]);
+//     }
+//   };
+
+//   const handleInputChange = (
+//     index: number,
+//     type: "benefits" | "prerequisites",
+//     value: string
+//   ) => {
+//     if (type === "benefits") {
+//       const updatedBenefits = [...benefits];
+//       updatedBenefits[index] = value;
+//       setBenefits(updatedBenefits);
+//     } else if (type === "prerequisites") {
+//       const updatedPrerequisites = [...prerequisites];
+//       updatedPrerequisites[index] = value;
+//       setPrerequisites(updatedPrerequisites);
+//     }
+//   };
+
+//   const handleDeleteInput = (
+//     index: number,
+//     type: "benefits" | "prerequisites"
+//   ) => {
+//     if (type === "benefits") {
+//       const updatedBenefits = [...benefits];
+//       updatedBenefits.splice(index, 1);
+//       setBenefits(updatedBenefits);
+//     } else if (type === "prerequisites") {
+//       const updatedPrerequisites = [...prerequisites];
+//       updatedPrerequisites.splice(index, 1);
+//       setPrerequisites(updatedPrerequisites);
+//     }
+//   };
+
+//   const handleSubmit = () => {
+//     // Handle form submission here, you can access benefits and prerequisites arrays
+//     console.log("Form submitted with benefits:", benefits);
+//     console.log("Form submitted with prerequisites:", prerequisites);
+//   };
+
+//   return (
+//     <div className="text-gray-900 bg-slate-50 h-screen w-full pl-10">
+//       <div className="p-4 flex">
+//         <h1 className="text-3xl font-bold">Pre-requisites of course</h1>
+//       </div>
+//       <div className="px-3 py-4 flex flex-col bg-white w-5/6 rounded-md">
+//         <p className="text-lg font-semibold mb-2">
+//           What are the benefits for the students in the course
+//         </p>
+//         {benefits.map((benefit, index) => (
+//           <div key={`benefit-${index}`} className="mb-4">
+//             <input
+//               type="text"
+//               className="appearance-none block bg-gray-50 text-gray-700 border border-gray-300 rounded-md p-1  w-2/4"
+//               value={benefit}
+//               onChange={(e) =>
+//                 handleInputChange(index, "benefits", e.target.value)
+//               }
+//             />
+//             {index !== benefits.length - 1 && (
+//               <button
+//                 onClick={() => handleDeleteInput(index, "benefits")}
+//                 className="m-2 bg-red-500 text-white py-1 px-2 rounded"
+//               >
+//                 Delete
+//               </button>
+//             )}
+//             {index === benefits.length - 1 && (
+//               <button
+//                 onClick={() => handleAddInput("benefits")}
+//                 className="m-2 bg-blue-500 text-white py-1 px-2 rounded"
+//               >
+//                 +
+//               </button>
+//             )}
+//           </div>
+//         ))}
+//         <p className="text-lg font-semibold mb-2">
+//           What are the prerequisites for students in this course
+//         </p>
+//         {prerequisites.map((prerequisite, index) => (
+//           <div key={`prerequisite-${index}`} className="mb-4">
+//             <input
+//               type="text"
+//               className="appearance-none block bg-gray-50 text-gray-700 border border-gray-300 rounded-md p-1 w-2/4"
+//               value={prerequisite}
+//               onChange={(e) =>
+//                 handleInputChange(index, "prerequisites", e.target.value)
+//               }
+//             />
+//             {index !== prerequisites.length - 1 && (
+//               <button
+//                 onClick={() => handleDeleteInput(index, "prerequisites")}
+//                 className="m-2 bg-red-500 text-white py-1 px-2 rounded"
+//               >
+//                 Delete
+//               </button>
+//             )}
+//             {index === prerequisites.length - 1 && (
+//               <button
+//                 onClick={() => handleAddInput("prerequisites")}
+//                 className="m-2 bg-blue-500 text-white py-1 px-2 rounded"
+//               >
+//                 +
+//               </button>
+//             )}
+//           </div>
+//         ))}
+//         <button onClick={handleSubmit} className="bg-blue-500 text-white py-2 px-4 rounded mt-4">
+//           Next
+//         </button>
+//         <button onClick={onNext}>Next</button>
+//         <button onClick={onPrev}>Prev</button>
+//       </div>
+//       <ToastContainer />
+//     </div>
+//   );
 // }
 
-// const CreateCourse1: React.FC<CreateCourse1Props> = ({ data, onNext }) => {
-//     const initialValues: createCourse3 = data || {
-//         courseName: '',
-//         courseDescription: '',
-//         coursePrice: '',
-//         estimatedPrice: '',
-//         courseTags: '',
-//         courseCategory: '',
-//         courseLevel: '',
-//         introURL: ''
-//     };
-
-//     const validationSchema = Yup.object().shape({
-//         courseName: Yup.string().required('Course name is required'),
-//         courseDescription: Yup.string().required('Course description is required'),
-//         coursePrice: Yup.number().required('Course price is required'),
-//         estimatedPrice: Yup.number().required('Estimated price is required'),
-//         courseTags: Yup.string().required('Course tags are required'),
-//         courseLevel: Yup.string().required('Course level is required'),
-//         courseCategory: Yup.string().required('Course category is required'),
-//         introURL: Yup.string().required('Introduction URL is required')
-//     });
-
-//     const handleSubmit = async (values: createCourse3, { setSubmitting }: FormikHelpers<createCourse3>) => {
-//         try {
-//             // Make API call to store data in the database
-//             console.log(values);
-//             const response = await fetch('YOUR_API_ENDPOINT', {
-//                 method: 'POST',
-//                 headers: {
-//                     'Content-Type': 'application/json'
-//                 },
-//                 body: JSON.stringify(values)
-//             });
-
-//             // Handle response
-//             if (response.ok) {
-//                 // Data successfully saved
-//                 console.log('Data saved successfully');
-//                 // Optionally, you can redirect the user or perform other actions
-//             } else {
-//                 // Error handling
-//                 console.error('Error saving data');
-//             }
-//         } catch (error) {
-//             console.error('Error:', error);
-//         } finally {
-//             setSubmitting(false);
-//         }
-//     };
-
-//     return (
-//         <div className="text-gray-900 bg-slate-50 h-screen w-full ">
-//             <div className="p-4 flex">
-//                 <h1 className="text-3xl">Create Course</h1>
-//             </div>
-//             <div className="px-3 py-4 flex justify-center">
-//                 <Formik
-//                     initialValues={initialValues}
-//                     validationSchema={validationSchema}
-//                     onSubmit={handleSubmit}
-//                 >
-//                     {({ errors, touched, isSubmitting }) => (
-//                         <Form className="sm:w-3/4 bg-white p-4 rounded-xl">
-//                             <div className="flex flex-wrap -mx-3 mb-6">
-//                                 <div className="w-full px-3 mb-6 md:mb-0">
-//                                     <label htmlFor="courseName" className="block  tracking-wide text-gray-700 text-xs font-bold mb-2">Course Name</label>
-//                                     <Field
-//                                         type="text"
-//                                         id="courseName"
-//                                         name="courseName"
-//                                         className={`appearance-none block w-full bg-slate-50 text-gray-700 border ${errors.courseName && touched.courseName && !isSubmitting ? 'border-red-500' : 'border-gray-200'} rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white`}
-//                                         placeholder="Enter course name"
-//                                     />
-//                                     {errors.courseName && touched.courseName && !isSubmitting && <div className="text-red-500 border-red-500 text-xs italic">{errors.courseName}</div>}
-//                                 </div>
-//                                 {/* Add similar Field components for other inputs */}
-//                             </div>
-//                             <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Next</button>
-//                         </Form>
-//                     )}
-//                 </Formik>
-//             </div>
-//         </div>
-//     );
-// };
-
-// export default CreateCourse1;
+// export default CreateCourse2;

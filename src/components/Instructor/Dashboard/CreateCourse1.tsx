@@ -19,9 +19,9 @@ interface CreateCourse1Props {
     coursePrice: courseData1?.coursePrice || '',
     estimatedPrice: courseData1?.estimatedPrice || '',
     courseTags: courseData1?.courseTags || '',
-    courseCategory: courseData1?.courseCategory || '',
+    totalVideos: courseData1?.totalVideos || '',
     courseLevel: courseData1?.courseLevel || '',
-    introURL: courseData1?.introURL || ''
+    demoURL: courseData1?.demoURL || ''
   };
 
   const validationSchema = Yup.object().shape({
@@ -31,8 +31,8 @@ interface CreateCourse1Props {
     estimatedPrice: Yup.number().required('Estimated price is required'),
     courseTags: Yup.string().required('Course tags are required'),
     courseLevel: Yup.string().required('Course level is required'),
-    courseCategory: Yup.string().required('Course category is required'),
-    introURL: Yup.string().required('Introduction URL is required')
+    totalVideos: Yup.string().required('Course category is required'),
+    demoURL: Yup.string().required('Introduction URL is required')
   });
   
 
@@ -53,6 +53,7 @@ interface CreateCourse1Props {
 
 console.log("ivde aaane")
 dispatch(setCourseData1(values))
+onNext()
      
     } catch (error) {
       console.error('Error:', error);
@@ -138,15 +139,15 @@ dispatch(setCourseData1(values))
                 </div>
   
                 <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                  <label htmlFor="courseCategory" className="block  tracking-wide text-gray-700 text-xs font-bold mb-2">Course Category</label>
+                  <label htmlFor="totalVideos" className="block  tracking-wide text-gray-700 text-xs font-bold mb-2">Total Videos</label>
                   <Field
                     type="text"
-                    id="courseCategory"
-                    name="courseCategory"
-                    className={`appearance-none block w-full bg-slate-50 text-gray-700 border ${errors.courseCategory && touched.courseCategory && !isSubmitting ? 'border-red-500' : 'border-gray-200'} rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white`}
-                    placeholder="Enter course category"
+                    id="totalVideos"
+                    name="totalVideos"
+                    className={`appearance-none block w-full bg-slate-50 text-gray-700 border ${errors.totalVideos && touched.totalVideos && !isSubmitting ? 'border-red-500' : 'border-gray-200'} rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white`}
+                    placeholder="Amount of videos"
                   />
-                  {errors.courseCategory && touched.courseCategory && !isSubmitting && <div className="text-red-500 border-red-500 text-xs italic">{errors.courseCategory}</div>}
+                  {errors.totalVideos && touched.totalVideos && !isSubmitting && <div className="text-red-500 border-red-500 text-xs italic">{errors.totalVideos}</div>}
                 </div>
   
                 <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
@@ -162,21 +163,21 @@ dispatch(setCourseData1(values))
                 </div>
   
                 <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                  <label htmlFor="introURL" className="block  tracking-wide text-gray-700 text-xs font-bold mb-2">Intro URL</label>
+                  <label htmlFor="demoURL" className="block  tracking-wide text-gray-700 text-xs font-bold mb-2">Demo URL</label>
                   <Field
                     type="text"
-                    id="introURL"
-                    name="introURL"
-                    className={`appearance-none block w-full bg-slate-50 text-gray-700 border ${errors.introURL && touched.introURL && !isSubmitting ? 'border-red-500' : 'border-gray-200'} rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white`}
-                    placeholder="Enter intro URL"
+                    id="demoURL"
+                    name="demoURL"
+                    className={`appearance-none block w-full bg-slate-50 text-gray-700 border ${errors.demoURL && touched.demoURL && !isSubmitting ? 'border-red-500' : 'border-gray-200'} rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white`}
+                    placeholder="Enter Demo URL"
                   />
-                  {errors.introURL && touched.introURL && !isSubmitting && <div className="text-red-500 border-red-500 text-xs italic">{errors.introURL}</div>}
+                  {errors.demoURL && touched.demoURL && !isSubmitting && <div className="text-red-500 border-red-500 text-xs italic">{errors.demoURL}</div>}
                 </div>
   
                 {/* Add similar Field components for other inputs */}
               </div>
               <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Next</button>
-              <button onClick={onNext}>Next</button>
+              {/* <button onClick={onNext}>Next</button> */}
             </Form>
           )}
         </Formik>

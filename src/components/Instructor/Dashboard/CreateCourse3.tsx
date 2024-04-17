@@ -28,23 +28,8 @@ const CreateCourse3 : React.FC<CreateCourse3Props> = ({ onNext , onPrev}) => {
     try {
       // Make API call to store data in the database
       console.log(values);
-      const response = await fetch('YOUR_API_ENDPOINT', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(values),
-      });
-
-      // Handle response
-      if (response.ok) {
-        // Data successfully saved
-        console.log('Data saved successfully');
-        // Optionally, you can redirect the user or perform other actions
-      } else {
-        // Error handling
-        console.error('Error saving data');
-      }
+      
+      onNext()
     } catch (error) {
       console.error('Error:', error);
     } finally {
@@ -152,11 +137,12 @@ const CreateCourse3 : React.FC<CreateCourse3Props> = ({ onNext , onPrev}) => {
                   )}
                 </div>
               </div>
+              <button onClick={onPrev} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-3" >Prev</button>
               <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                Next
+                Submit
               </button>
-              <button onClick={onNext}>Next</button>
-              <button onClick={onPrev}>Prev</button>
+              
+              
             </Form>
           )}
         </Formik>

@@ -4,9 +4,9 @@ export interface ICreateCourse1{
     coursePrice : string,
     estimatedPrice : string,
     courseTags : string,
-    courseCategory  : string,
+    totalVideos  : string,
     courseLevel : string,
-    introURL : string
+    demoURL : string
 
 }
 
@@ -22,4 +22,9 @@ export interface IInstructorData {
     videoDescription : string,
     link : string,
 
+}
+
+export interface ICreateCourse2{
+  benefits : Array<string>,
+  prerequisites : Array<string>
 }
