@@ -3,7 +3,7 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { ICreateCourse2 } from "../../../interfaces/IInstructorInterface";
+import { ICreateCourse2 } from "../../../interfaces/ICourseInterface";
 import { useDispatch, useSelector } from "react-redux";
 import { setCourseData2 } from "../../../redux/instructorSlices/courseData";
 import { RootState } from "../../../redux/Store";
@@ -29,8 +29,8 @@ const CreateCourse2: React.FC<CreateCourse2Props> = ({ onNext, onPrev , data}) =
       .of(Yup.string())
       .required("Prerequisites are required"),
   });
+
   console.log(courseData2?.benefits, "tyytyytytytyyt");
-  // Initial form values
   const initialValues = {
     benefits: courseData2?.benefits || [""],
     prerequisites: courseData2?.prerequisites || [""],
@@ -43,24 +43,20 @@ const CreateCourse2: React.FC<CreateCourse2Props> = ({ onNext, onPrev , data}) =
     }
   }, [courseData2]);
 
-  // Handle form submission
+ 
   const handleSubmit = (values: ICreateCourse2) => {
-    // Update the values with current benefits and prerequisites states
     values.benefits = benefits.filter((benefit) => benefit.trim() !== "");
     values.prerequisites = prerequisites.filter(
       (prerequisite) => prerequisite.trim() !== ""
     );
 
     dispatch(setCourseData2(values));
-
-    // Handle form submission logic here
     console.log("Form submitted with values:", values);
     onNext()
   };
 
-  // Function to add new input for benefits
-  const addBenefitInput = () => {
-    // Check if any existing input is null
+  
+  const addBenefitInput = () => {   
     if (benefits.some((benefit) => benefit.trim() === "")) {
       toast.error("Please fill all existing benefit inputs");
     } else {
@@ -68,9 +64,8 @@ const CreateCourse2: React.FC<CreateCourse2Props> = ({ onNext, onPrev , data}) =
     }
   };
 
-  // Function to add new input for prerequisites
+ 
   const addPrerequisiteInput = () => {
-    // Check if any existing input is null
     if (prerequisites.some((prerequisite) => prerequisite.trim() === "")) {
       toast.error("Please fill all existing prerequisite inputs");
     } else {
@@ -78,21 +73,20 @@ const CreateCourse2: React.FC<CreateCourse2Props> = ({ onNext, onPrev , data}) =
     }
   };
 
-  // Function to handle input change for benefits
+  
   const handleBenefitInputChange = (index: number, value: string) => {
     const updatedBenefits = [...benefits];
     updatedBenefits[index] = value;
     setBenefits(updatedBenefits);
   };
 
-  // Function to handle input change for prerequisites
+
   const handlePrerequisiteInputChange = (index: number, value: string) => {
     const updatedPrerequisites = [...prerequisites];
     updatedPrerequisites[index] = value;
     setPrerequisites(updatedPrerequisites);
   };
 
-  // Function to handle deletion of input
   const handleDeleteInput = (index: number, type: string) => {
     if (type === "benefits") {
       const updatedBenefits = [...benefits];

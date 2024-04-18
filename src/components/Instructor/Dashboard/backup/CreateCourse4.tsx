@@ -3,7 +3,7 @@ interface CreateCourse4Props {
   data: string;
 }
 
-const CreateCourse4: React.FC<CreateCourse4Props> = ({ onPrev, data }) => {
+const CreateCourse4: React.FC<CreateCourse4Props> = ({ onPrev }) => {
   return (
     <div>
       Course previeww

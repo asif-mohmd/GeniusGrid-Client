@@ -5,7 +5,7 @@ import { RootState } from "../../redux/Store";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import instructorEndpoints from "../../constraints/endpoints/instructorEndpoints";
-import DashboardCreateCourse from "../../components/Instructor/Dashboard/DashboardCreateCourse";
+import CreateCourse1 from "../../components/Instructor/Dashboard/CreateCourse/CreateCourse1";
 
 function InstructorCreateCourse() {
 
@@ -27,7 +27,7 @@ function InstructorCreateCourse() {
       <DashboardSidebar />
       <div className="h-screen flex-1">
         <DashboardHeader />
-        <DashboardCreateCourse/>
+        <CreateCourse1/>
       </div>
     </div>
   );
