@@ -35,7 +35,7 @@ const EditCourse = () => {
 
 
   const dispatch = useDispatch()
-console.log(courseDetails,"88888888888888888888888888888888888888888888888888888888888888")
+ console.log(courseDetails,"88888888888888888888888888888888888888888888888888888888888888")
   console.log(typeof(courseId),"courrsee idddd")
 
   useEffect(()=>{
@@ -43,16 +43,19 @@ console.log(courseDetails,"88888888888888888888888888888888888888888888888888888
       try {
         const response = await instructoraxios.get(`${courseEndspoints.courseDetails}/${courseId}`);
         console.log(response.data.courseDetails.courseDetails)
+        
         dispatch(setCourseData3(response.data.courseDetails.courseDetails))
-        // setCourseDetails(response.data.courseDetails.courseDetails);
+        setBenefits(response.data.courseDetails.courseDetails.benefits);
+        setPrerequisites(response.data.courseDetails.courseDetails.prerequisites);
       } catch (error) {
         console.error("Error fetching course details:", error);
       }
     }
-    
 
     fetchCourseData()
   },[courseId,dispatch])
+
+
   
 
   const navigate = useNavigate();
@@ -139,14 +142,19 @@ const initialValues = {
       console.log(values, "--------------------");
       console.log("ivde aaane");
 
-      // const courseData = await instructoraxios.post(
-      //   courseEndspoints.createCourse,
-      //   { values }
-      // );
+      const courseData = {
+        ...values,
+        courseId : courseId
+      }
 
-      // console.log(courseData.data.status, "yeyeyeyyeyeyeeyyeye");
-      // dispatch(setCourseData1(values));
-      // navigate(instructorEndpoints.dashboard);
+      const courseDataResponse = await instructoraxios.put(
+        courseEndspoints.updateCourse,
+        { courseData }
+      );
+
+      console.log(courseDataResponse.data.status, "yeyeyeyyeyeyeeyyeye");
+ 
+      navigate(instructorEndpoints.myCourses);
     } catch (error) {
       console.error("Error:", error);
     } finally {
