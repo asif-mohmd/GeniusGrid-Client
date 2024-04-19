@@ -4,11 +4,13 @@ import controlPNG from "../../../assets/DashboardIcons/control.png";
 import logoPNG from "../../../assets/DashboardIcons/logo.png";
 import { Link } from "react-router-dom";
 import adminEndpoints from "../../../constraints/endpoints/adminEndpoints";
-import {  faListAlt, faQuestionCircle, faFileInvoice } from '@fortawesome/free-solid-svg-icons'; import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { CiCirclePlus } from "react-icons/ci";
+import { LiaFileInvoiceSolid } from "react-icons/lia";import { CiCirclePlus } from "react-icons/ci";
 import { AiOutlineDashboard } from "react-icons/ai";
 import { LuUsers } from "react-icons/lu";
 import instructorEndpoints from "../../../constraints/endpoints/instructorEndpoints";
+import { MdChecklist, MdOutlineAnalytics } from "react-icons/md";
+import { TbCategory, TbUsersGroup } from "react-icons/tb";
+import { FaQuora } from "react-icons/fa";
 const DashboardSidebar = () => {
   const [open, setOpen] = useState(true);
 
@@ -75,10 +77,19 @@ const DashboardSidebar = () => {
   </li>
   <li>
     <Link
+      to={instructorEndpoints.myCourses}
+      className="flex items-center px-4 py-2 text-gray-800 rounded-md hover:bg-[#00df9a] hover:text-black cursor-pointer"
+    >
+      <MdChecklist className="mr-2" />
+      My Courses
+    </Link>
+  </li>
+  <li>
+    <Link
       to={adminEndpoints.userAnalysis}
       className="flex items-center px-4 py-2 text-gray-800 rounded-md hover:bg-[#00df9a] hover:text-black cursor-pointer"
     >
-      <FontAwesomeIcon icon={faListAlt} className="mr-2" />
+      <TbUsersGroup className="mr-2" />
       User Analysis
     </Link>
   </li>
@@ -87,7 +98,7 @@ const DashboardSidebar = () => {
       to={adminEndpoints.orderAnalysis}
       className="flex items-center px-4 py-2 text-gray-800 rounded-md hover:bg-[#00df9a] hover:text-black cursor-pointer"
     >
-      <FontAwesomeIcon icon={faListAlt} className="mr-2" />
+      <MdOutlineAnalytics   className="mr-2" />
       Order Analysis
     </Link>
   </li>
@@ -96,7 +107,7 @@ const DashboardSidebar = () => {
       to={adminEndpoints.categories}
       className="flex items-center px-4 py-2 text-gray-800 rounded-md hover:bg-[#00df9a] hover:text-black cursor-pointer"
     >
-      <FontAwesomeIcon icon={faQuestionCircle} className="mr-2" />
+      <TbCategory  className="mr-2" />
       Categories
     </Link>
   </li>
@@ -105,7 +116,7 @@ const DashboardSidebar = () => {
       to={adminEndpoints.faq}
       className="flex items-center px-4 py-2 text-gray-800 rounded-md hover:bg-[#00df9a] hover:text-black cursor-pointer"
     >
-      <FontAwesomeIcon icon={faQuestionCircle} className="mr-2" />
+      <FaQuora   className="mr-2" />
       FAQ
     </Link>
   </li>
@@ -114,7 +125,7 @@ const DashboardSidebar = () => {
       to={adminEndpoints.invoices}
       className="flex items-center px-4 py-2 text-gray-800 rounded-md hover:bg-[#00df9a] hover:text-black cursor-pointer"
     >
-      <FontAwesomeIcon icon={faFileInvoice} className="mr-2" />
+      <LiaFileInvoiceSolid className="mr-2" />
       Invoices
     </Link>
   </li>

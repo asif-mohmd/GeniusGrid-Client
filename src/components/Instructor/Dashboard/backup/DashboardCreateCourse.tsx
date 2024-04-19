@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import CreateCourse1 from '../CreateCourse/CreateCourse1';
+import CreateCourse1 from '../courseSection/CreateCourse';
 import CreateCourse2 from '../CreateCourse2';
 import CreateCourse3 from './CreateCourse3';
 import CreateCourse4 from './CreateCourse4';

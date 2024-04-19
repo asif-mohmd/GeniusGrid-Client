@@ -29,3 +29,8 @@ export interface ICreateCourse2 {
   benefits: Array<string>;
   prerequisites: Array<string>;
 }
+
+
+export interface IPrivateIdStore {
+  privateIdStore : number
+}

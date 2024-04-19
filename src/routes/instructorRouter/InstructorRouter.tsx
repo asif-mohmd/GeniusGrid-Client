@@ -9,6 +9,8 @@ import InstructorUserPage from "../../pages/instructor/InstructorUserPage";
 import InstructorCreateCourse from "../../pages/instructor/InstructorCreateCourse";
 import InstructorProtectorRoute from "./InstructorProtectorRoute";
 import InstructorPublicRoute from "./InstructorPublicRoute";
+import InstructorListCourse from "../../pages/instructor/InstructorListCourses";
+import EditCourse from "../../components/Instructor/Dashboard/courseSection/EditCourse";
 
 export const InstructorRouter = () => {
   return (
@@ -20,6 +22,9 @@ export const InstructorRouter = () => {
       <Route path="/otp" element={<InstructorPublicRoute component={InstructorOTPPage} />}></Route>
       <Route path="/users" element={<InstructorProtectorRoute component={InstructorUserPage} />} ></Route>
       <Route path="/create/course" element={<InstructorProtectorRoute component={InstructorCreateCourse} />}></Route>
+      <Route path="/my/courses" element={<InstructorProtectorRoute component={InstructorListCourse} />}></Route>
+      <Route path="/edit/course" element={<InstructorProtectorRoute component={EditCourse} />}></Route>
+
     </Routes>
   );
 };

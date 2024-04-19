@@ -1,10 +1,10 @@
 import DashboardHeader from "../../components/Instructor/layout/DashBoardHeader";
 import DashboardSidebar from "../../components/Instructor/layout/DashboardSidebar";
-import  { DashboardGraph } from "../../components/Instructor/Dashboard/DashboardGraph";
+
+import ListCourses from "../../components/Instructor/Dashboard/courseSection/ListCourses";
 
 
-function InstructorDashboard() {
-
+function InstructorUserPage() {
 
 
   return (
@@ -12,10 +12,10 @@ function InstructorDashboard() {
       <DashboardSidebar />
       <div className="h-screen flex-1">
         <DashboardHeader />
-        <DashboardGraph />
+        <ListCourses />
       </div>
     </div>
   );
 }
 
-export default InstructorDashboard;
+export default InstructorUserPage;

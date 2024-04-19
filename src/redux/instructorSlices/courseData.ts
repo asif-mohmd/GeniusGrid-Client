@@ -7,12 +7,14 @@ interface InitialStateType {
     courseData1: ICreateCourse1 | null;
     courseData2: ICreateCourse2 | null;
     courseData3: ICreateCourse3 | null;
+    privateIdStore : string;
   }
   
   const initialState: InitialStateType = {
       courseData1: null,
       courseData2: null,
-      courseData3: null
+      courseData3: null,
+      privateIdStore: "",
   };
   
 const createCourseData = createSlice({
@@ -31,9 +33,13 @@ const createCourseData = createSlice({
         setCourseData3:(state,action:PayloadAction<ICreateCourse3>) =>{
             state.courseData3 = action.payload;
         },
+        setPrivateId:(state,action)=>{
+            console.log(action.payload,"-----redux",typeof(action.payload))
+            state.privateIdStore = action.payload
+        }
     }
 })
 
-export const {setCourseData1, setCourseData2, setCourseData3} = createCourseData.actions;
+export const {setCourseData1, setCourseData2, setCourseData3 ,setPrivateId} = createCourseData.actions;
 
 export default createCourseData.reducer;
