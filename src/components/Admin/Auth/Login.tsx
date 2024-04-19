@@ -2,7 +2,7 @@ import React, { ChangeEvent, FormEvent, useState } from "react";
 import { FormDataLogin } from "../../../interfaces/IAuthInterface";
 import adminEndpoints from "../../../constraints/endpoints/adminEndpoints";
 import { useNavigate } from "react-router";
-import { toast } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 import { adminAxios } from "../../../constraints/axiosInterceptors/adminAxiosInterceptors";
 
 
@@ -28,8 +28,8 @@ const AdminLogin: React.FC = () => {
 
     console.log(adminLoginData,"login data")
     const adminData = await adminAxios.post(adminEndpoints.login,{adminLoginData})
-
-    if(adminData){
+console.log(adminData.data.loginStatus,"kkkkk")
+    if(adminData.data.loginStatus){
       navigate(adminEndpoints.dashboard)
       
     }else{
@@ -40,6 +40,7 @@ const AdminLogin: React.FC = () => {
 
   return (
     <div className="flex flex-col min-h-screen justify-center items-center bg-gray-100">
+    <ToastContainer/>
       <div className="bg-white p-14 rounded-xl shadow-lg">
         <h6 className="text-xl font-medium text-center m-7">Admin Login</h6>
         <form className="w-full max-w-md" onSubmit={handleSubmit}>

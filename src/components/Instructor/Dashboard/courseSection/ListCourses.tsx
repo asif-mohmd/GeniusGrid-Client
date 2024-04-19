@@ -27,6 +27,7 @@ const ListCourses =  () => {
     useEffect(() => {
       async function listCourses() {
         try {
+          console.log("lsisttttttttttttttttt")
           const listCoursesResponse = await instructoraxios.get(courseEndspoints.listCourse);
           console.log(listCoursesResponse.data.courseData.courses);
           const coursesData = listCoursesResponse.data.courseData.courses;

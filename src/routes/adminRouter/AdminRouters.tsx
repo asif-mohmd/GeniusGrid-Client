@@ -1,6 +1,5 @@
 import { Route, Routes } from 'react-router'
 
-import adminEndpoints from '../../constraints/endpoints/adminEndpoints'
 import AdminLoginPage from '../../pages/admin/AdminLoginPage'
 import AdminDashboardUsers from '../../pages/admin/AdminDashboardUsers'
 import AdminDashboard from '../../pages/admin/AdminDashboard'
@@ -11,8 +10,8 @@ const AdminRouters = () => {
    <Routes>
       <Route Component={AdminLoginPage} path="/login" />
       <Route Component={AdminDashboard} path="/"></Route>
-      <Route Component={AdminDashboardUsers} path={adminEndpoints.users}></Route>
-      <Route Component={AdminDashboardInstructors} path={adminEndpoints.instructors}></Route>
+      <Route Component={AdminDashboardUsers} path="users"></Route>
+      <Route Component={AdminDashboardInstructors} path="/instructors"></Route>
 
 
 
