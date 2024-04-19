@@ -7,5 +7,6 @@ export default {
     users: "/instructor/users",
     createCourse: "/instructor/create/course",
     myCourses: "/instructor/my/courses",
-    editCourse: "/instructor/edit/course"
+    editCourse: "/instructor/edit/course",
+    addLessonPage: "/instructor/add/lesson/page",
 }

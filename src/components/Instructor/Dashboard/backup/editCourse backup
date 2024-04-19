@@ -9,32 +9,40 @@ import courseEndspoints from "../../../../constraints/endpoints/courseEndspoints
 import { instructoraxios } from "../../../../constraints/axiosInterceptors/instructorAxiosInterceptors";
 import { useNavigate } from "react-router-dom";
 import instructorEndpoints from "../../../../constraints/endpoints/instructorEndpoints";
-import {  setCourseData3 } from "../../../../redux/instructorSlices/courseData";
+import { setCourseData1 } from "../../../../redux/instructorSlices/courseData";
 import { IoMdArrowRoundBack } from "react-icons/io";
 import { RootState } from "../../../../redux/Store";
 
 const EditCourse = () => {
   const [benefits, setBenefits] = useState<string[]>([""]);
   const [prerequisites, setPrerequisites] = useState<string[]>([""]);
-  // const [courseDetails, setCourseDetails] = useState<ICreateCourse1>({
-  // courseName: "",
-  // courseDescription: "",
-  // coursePrice: "",
-  // estimatedPrice: "",
-  // courseTags: "",
-  // totalVideos: "",
-  // courseLevel: "",
-  // demoURL: "",
-  // benefits: [],
-  // prerequisites: [],})
+  const [courseDetails, setCourseDetails] = useState<ICreateCourse1>({
+  courseName: "",
+  courseDescription: "",
+  coursePrice: "",
+  estimatedPrice: "",
+  courseTags: "",
+  totalVideos: "",
+  courseLevel: "",
+  demoURL: "",
+  benefits: [],
+  prerequisites: [],})
 
-
+  const initialValues = {
+    courseName: courseDetails.courseName || "",
+    courseDescription: courseDetails.courseDescription || "",
+    coursePrice: courseDetails.coursePrice || "",
+    estimatedPrice: courseDetails.estimatedPrice || "",
+    courseTags: courseDetails.courseTags || "",
+    courseLevel: courseDetails.courseLevel || "",
+    totalVideos: courseDetails.totalVideos || "",
+    demoURL: courseDetails.demoURL || "",
+    benefits: courseDetails.benefits || [" "],
+    prerequisites: courseDetails.prerequisites || [" "],
+  };
  
+console.log(initialValues,"am intiialllllllllllllllllll")
   const courseId = useSelector((state:RootState)=>state.courseData.privateIdStore)
-  const courseDetails = useSelector((state:RootState)=>state.courseData.courseData3)
-
-
-  const dispatch = useDispatch()
 console.log(courseDetails,"88888888888888888888888888888888888888888888888888888888888888")
   console.log(typeof(courseId),"courrsee idddd")
 
@@ -42,9 +50,8 @@ console.log(courseDetails,"88888888888888888888888888888888888888888888888888888
     async function fetchCourseData() {
       try {
         const response = await instructoraxios.get(`${courseEndspoints.courseDetails}/${courseId}`);
-        console.log(response.data.courseDetails.courseDetails)
-        dispatch(setCourseData3(response.data.courseDetails.courseDetails))
-        // setCourseDetails(response.data.courseDetails.courseDetails);
+        
+        setCourseDetails(response.data.courseDetails.courseDetails);
       } catch (error) {
         console.error("Error fetching course details:", error);
       }
@@ -52,25 +59,14 @@ console.log(courseDetails,"88888888888888888888888888888888888888888888888888888
     
 
     fetchCourseData()
-  },[courseId,dispatch])
+  },[courseId])
   
 
   const navigate = useNavigate();
-  
-// console.log(courseDetails.courseName,"haiiiiiiiiiiii")
+  const dispatch = useDispatch();
+console.log(courseDetails.courseName)
 
-const initialValues = {
-  courseName: courseDetails?.courseName || "",
-  courseDescription: courseDetails?.courseDescription || "",
-  coursePrice: courseDetails?.coursePrice || "",
-  estimatedPrice: courseDetails?.estimatedPrice || "",
-  courseTags: courseDetails?.courseTags || "",
-  courseLevel: courseDetails?.courseLevel || "",
-  totalVideos: courseDetails?.totalVideos || "",
-  demoURL: courseDetails?.demoURL || "",
-  benefits: courseDetails?.benefits || [" "],
-  prerequisites: courseDetails?.prerequisites || [" "],
-};
+  
 
   const validationSchema = Yup.object().shape({
     courseName: Yup.string().required("Course name is required"),
@@ -139,14 +135,14 @@ const initialValues = {
       console.log(values, "--------------------");
       console.log("ivde aaane");
 
-      // const courseData = await instructoraxios.post(
-      //   courseEndspoints.createCourse,
-      //   { values }
-      // );
+      const courseData = await instructoraxios.post(
+        courseEndspoints.createCourse,
+        { values }
+      );
 
-      // console.log(courseData.data.status, "yeyeyeyyeyeyeeyyeye");
-      // dispatch(setCourseData1(values));
-      // navigate(instructorEndpoints.dashboard);
+      console.log(courseData.data.status, "yeyeyeyyeyeyeeyyeye");
+      dispatch(setCourseData1(values));
+      navigate(instructorEndpoints.dashboard);
     } catch (error) {
       console.error("Error:", error);
     } finally {

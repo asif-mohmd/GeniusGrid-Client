@@ -26,7 +26,7 @@ const createCourseData = createSlice({
             state.courseData1 = action.payload;
         },
         setCourseData2: (state,action:PayloadAction<ICreateCourse2>) =>{
-            console.log(action.payload,"==========------------")
+            console.log(action.payload,"==========---course22222---------")
             state.courseData2 = action.payload;
         },
         

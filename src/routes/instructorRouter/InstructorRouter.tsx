@@ -11,6 +11,7 @@ import InstructorProtectorRoute from "./InstructorProtectorRoute";
 import InstructorPublicRoute from "./InstructorPublicRoute";
 import InstructorListCourse from "../../pages/instructor/InstructorListCourses";
 import EditCourse from "../../components/Instructor/Dashboard/courseSection/EditCourse";
+import AddLessons from "../../components/Instructor/Dashboard/courseSection/LessonContent";
 
 export const InstructorRouter = () => {
   return (
@@ -24,6 +25,8 @@ export const InstructorRouter = () => {
       <Route path="/create/course" element={<InstructorProtectorRoute component={InstructorCreateCourse} />}></Route>
       <Route path="/my/courses" element={<InstructorProtectorRoute component={InstructorListCourse} />}></Route>
       <Route path="/edit/course" element={<InstructorProtectorRoute component={EditCourse} />}></Route>
+      <Route path="/add/lesson/page" element={<InstructorProtectorRoute component={AddLessons} />}></Route>
+
 
     </Routes>
   );

@@ -45,9 +45,13 @@ const ListCourses =  () => {
 
 
     }
-    const handleAddSection = () =>{
+    const handleAddSection = (id: number) => {
+      console.log(id);
+      dispatach(setPrivateId(id))
+      navigate(instructorEndpoints.addLessonPage)
 
-    }
+
+  }
 
   return (
     <div className="overflow-x-auto">
@@ -116,7 +120,7 @@ const ListCourses =  () => {
 
                     <button
                       type="button"
-                      onClick={handleAddSection}
+                      onClick={() => handleAddSection(course.id)}
                       className="text-sm bg-red-500 hover:bg-red-700 text-white py-1 px-2 rounded focus:outline-none focus:shadow-outline"
                     >
                       Add Lesson
