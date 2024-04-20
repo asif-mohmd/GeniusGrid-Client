@@ -11,7 +11,7 @@ import InstructorProtectorRoute from "./InstructorProtectorRoute";
 import InstructorPublicRoute from "./InstructorPublicRoute";
 import InstructorListCourse from "../../pages/instructor/InstructorListCourses";
 import EditCourse from "../../components/Instructor/Dashboard/courseSection/EditCourse";
-import AddLessons from "../../components/Instructor/Dashboard/courseSection/LessonContent";
+import AddLessons from "../../components/Instructor/Dashboard/courseSection/AddLessons";
 
 export const InstructorRouter = () => {
   return (
