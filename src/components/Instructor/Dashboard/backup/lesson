@@ -1,48 +1,93 @@
 import { useState } from "react";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import AddContent from "./AddContent";
 
 const AddLessons = () => {
-  const [lessons, setLessons] = useState([]);
+  const [lessons, setLessons] = useState([
+    {
+      id: 1,
+      contents: [{ videoTitle: "", videoURL: "" }]
+    }
+  ]);
 
-  const addLesson = () => {
-    setLessons([...lessons, { id: lessons.length + 1 }]);
-    toast.success("Lesson added successfully!");
+  const handleContentSubmit = (lessonId) => {
+    // Add logic to handle content submission if needed
   };
 
-  const deleteLesson = (id) => {
-    setLessons(lessons.filter((lesson) => lesson.id !== id));
-    toast.success("Lesson deleted successfully!");
+  const handleContentChange = (lessonId, contentIndex, updatedContent) => {
+    setLessons((prevLessons) => {
+      const updatedLessons = prevLessons.map((lesson) => {
+        if (lesson.id === lessonId) {
+          const updatedContents = [...lesson.contents];
+          updatedContents[contentIndex] = updatedContent;
+          return { ...lesson, contents: updatedContents };
+        }
+        return lesson;
+      });
+      return updatedLessons;
+    });
   };
+
+  const addNewContent = (lessonId) => {
+    setLessons((prevLessons) => {
+      const updatedLessons = prevLessons.map((lesson) => {
+        if (lesson.id === lessonId) {
+          return { ...lesson, contents: [...lesson.contents, { videoTitle: "", videoURL: "" }] };
+        }
+        return lesson;
+      });
+      return updatedLessons;
+    });
+  };
+
+  const addNewLesson = () => {
+    setLessons((prevLessons) => {
+      const newLesson = { id: prevLessons.length + 1, contents: [{ videoTitle: "", videoURL: "" }] };
+      return [...prevLessons, newLesson];
+    });
+  };
+
+  const handleGlobalSubmit = () =>{
+    console.log(lessons,"----------")
+  }
 
   return (
-    <div className="text-gray-900 bg-slate-50 h-screen w-full pl-10">
-      {lessons.map((lesson, index) => (
-        <div key={index}>
-          <div className="p-4 flex">
-            <h1 className="text-3xl font-bold">Lesson {index + 1}</h1>
-            {index !== lessons.length - 1 && (
-              <button
-                onClick={() => deleteLesson(lesson.id)}
-                className="ml-4 px-3 py-1 bg-red-500 text-white rounded-md"
-              >
-                Delete
-              </button>
-            )}
+    <div className="flex justify-center items-center min-full">
+      <div className="flex-row w-3/4 ">
+        {lessons.map((lesson) => (
+          <div key={lesson.id} className="bg-white rounded-lg shadow-lg p-8 m-3">
+            <h2 className="text-2xl font-bold mb-4">Lesson {lesson.id}</h2>
+            {lesson.contents.map((content, index) => (
+              <AddContent
+                key={index}
+                formData={content}
+                setFormData={(updatedContent) => handleContentChange(lesson.id, index, updatedContent)}
+                handleSubmit={() => handleContentSubmit(lesson.id)}
+              />
+            ))}
+            <button
+              type="button"
+              className="bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+              onClick={() => addNewContent(lesson.id)}
+            >
+              Add new content
+            </button>
           </div>
-          <div className="px-3 py-4 flex flex-col bg-white w-5/6 rounded-md">
-            <AddContent lessonId={index + 1} />
-          </div>
-        </div>
-      ))}
-      <button
-        className="bg-blue-500 text-white px-4 py-2 rounded-md mt-4"
-        onClick={addLesson}
-      >
-        Add Lesson
-      </button>
-      <ToastContainer />
+        ))}
+        <button
+          type="submit"
+          className="bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+          onClick={addNewLesson}
+        >
+          Add new lesson
+        </button>
+        <button
+          type="submit"
+          className="bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+          onClick={handleGlobalSubmit}
+        >
+          Submit the Form
+        </button>
+      </div>
     </div>
   );
 };

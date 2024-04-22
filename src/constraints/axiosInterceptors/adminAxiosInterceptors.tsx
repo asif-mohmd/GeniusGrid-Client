@@ -8,6 +8,7 @@ export const adminAxios = axios.create({
         "Content-Type": "application/json",
         
     },
+    withCredentials:true
 });
 adminAxios.interceptors.request.use((config) => {
     const token = localStorage.getItem('admintoken');

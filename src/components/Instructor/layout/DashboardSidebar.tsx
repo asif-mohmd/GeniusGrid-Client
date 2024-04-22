@@ -86,7 +86,7 @@ const DashboardSidebar = () => {
   </li>
   <li>
     <Link
-      to={adminEndpoints.userAnalysis}
+      to={instructorEndpoints.userAnalysis}
       className="flex items-center px-4 py-2 text-gray-800 rounded-md hover:bg-[#00df9a] hover:text-black cursor-pointer"
     >
       <TbUsersGroup className="mr-2" />
@@ -95,7 +95,7 @@ const DashboardSidebar = () => {
   </li>
   <li>
     <Link
-      to={adminEndpoints.orderAnalysis}
+      to={instructorEndpoints.orderAnalysis}
       className="flex items-center px-4 py-2 text-gray-800 rounded-md hover:bg-[#00df9a] hover:text-black cursor-pointer"
     >
       <MdOutlineAnalytics   className="mr-2" />

@@ -34,7 +34,7 @@ const DashboardHeader = () => {
         {open && (
         <div className='absolute right-4 mt-2 w-44 top-11 bg-white border rounded-lg shadow-lg'>
         <div className="py-2">
-          <Link to={userEndpoints.login}  className='block px-4 py-2 text-gray-800 rounded-md hover:bg-[#00df9a] hover:text-black cursor-pointer'>Profile</Link>
+          <Link to={instructorEndpoints.profile}  className='block px-4 py-2 text-gray-800 rounded-md hover:bg-[#00df9a] hover:text-black cursor-pointer'>Profile</Link>
           <Link to={userEndpoints.login}  className='block px-4 py-2 text-gray-800 rounded-md hover:bg-[#00df9a] hover:text-black cursor-pointer'>Settings</Link>
           <Link to={instructorEndpoints.login}  onClick={handleClick} className='block px-4 py-2 text-gray-800 rounded-md hover:bg-[#00df9a] hover:text-black cursor-pointer'>Signout</Link>
         </div>

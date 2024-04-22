@@ -9,4 +9,7 @@ export default {
     myCourses: "/instructor/my/courses",
     editCourse: "/instructor/edit/course",
     addLessonPage: "/instructor/add/lesson/page",
+    profile: "/instructor/profile/page",
+    userAnalysis: "/instructor/user/analysis",
+    orderAnalysis: "/instructor/order/analysis",
 }

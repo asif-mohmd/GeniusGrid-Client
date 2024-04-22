@@ -1,77 +1,66 @@
-import React, { useState } from "react";
 
+interface FormData {
+  videoTitle: string;
+  videoURL: string;
+ }
+ // Define a type for the setFormData function
+type SetFormData = React.Dispatch<React.SetStateAction<FormData>>;
+
+// Use the defined types to type the props of the AddContent component
 interface AddContentProps {
-  lessonIndex: number; // Define lessonIndex prop
-  onContentSubmit: (lessonIndex: number, lessonContent: Array<object>) => void; // Adjust the function signature
+ formData: FormData;
+ setFormData: SetFormData;
+ handleSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
 }
 
-const AddContent: React.FC<AddContentProps> = ({ lessonIndex, onContentSubmit }) => {
-  const [inputs, setInputs] = useState<string[]>([""]);
+const AddContent: React.FC<AddContentProps> = ({contentIndex,formData,handleSubmit}) => {
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    const lessonContent = inputs
-      .filter((input) => input.trim() !== "")
-      .map((input) => ({ videoTitle: input }));
-    if (lessonContent.length > 0) {
-      onContentSubmit(lessonIndex, lessonContent);
-      setInputs([""]); // Reset input after submission
-    }
-  };
-  
-  
-  
-  // Function to add a new input field
-  const handleAddInput = () => {
-    if (inputs[inputs.length - 1].trim() !== "") {
-      setInputs([...inputs, ""]);
-    }
-  };
 
-  // Function to handle input change
-  const handleInputChange = (index: number, value: string) => {
-    const newInputs = [...inputs];
-    newInputs[index] = value;
-    setInputs(newInputs);
-  };
+
+
+  // Function to add a new item to the array
 
   return (
-    <div>
-      <div className="sm:w-3/4 bg-white p-4 rounded-xl">
-        <div className="p-3 flex">
-          <h1 className="text-xl font-bold">Contents for Lesson</h1>
+    <div className="flex justify-center items-center">
+    <div className="bg-white rounded-lg shadow-lg p-8 w-3/4">
+      <h2 className="text-2xl font-bold mb-4">{contentIndex}</h2>
+      <form onSubmit={handleSubmit}>
+        <div className="mb-4">
+          <label htmlFor="videoTitle" className="block text-sm font-medium text-gray-700">
+            Video Title
+          </label>
+          <input
+            type="text"
+            id="videoTitle"
+            name="videoTitle"
+            value={formData.videoTitle}
+            onChange={handleInputChange}
+            className="mt-1 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm"
+            placeholder="Enter video title"
+            required
+          />
         </div>
-        <form onSubmit={handleSubmit}>
-          {inputs.map((input, index) => (
-            <div className="mb-4" key={index}>
-              <label className="block text-sm font-medium text-gray-700">
-                Video Title
-              </label>
-              <input
-                type="text"
-                value={input}
-                onChange={(e) => handleInputChange(index, e.target.value)}
-                className="appearance-none block w-full bg-slate-50 text-gray-700 border border-gray-200 rounded py-2 px-2 mb-3 leading-tight focus:outline-none focus:bg-white"
-              />
-            </div>
-          ))}
-          <button
-            type="submit"
-            className="px-4 py-2 bg-blue-500 text-white rounded-md mr-4"
-          >
-            Submit Content
-          </button>
-          <button
-            type="button"
-            onClick={handleAddInput}
-            className="px-4 py-2 bg-green-500 text-white rounded-md"
-          >
-            Add New Content
-          </button>
-        </form>
-      </div>
+        <div className="mb-4">
+          <label htmlFor="videoURL" className="block text-sm font-medium text-gray-700">
+            Video URL
+          </label>
+          <input
+            type="text"
+            id="videoURL"
+            name="videoURL"
+            value={formData.videoURL}
+            onChange={handleInputChange}
+            className="mt-1 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm"
+            placeholder="Enter video URL"
+            required
+          />
+        </div>
+        <button type="button" onClick={handleFormDataSubmit}>Add Content</button>
+      </form>
     </div>
+  </div>
   );
-};
+}
+
 
 export default AddContent;
