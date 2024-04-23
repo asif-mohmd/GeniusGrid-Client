@@ -1,9 +1,14 @@
-// LessonComponent.tsx
 import React, { useState } from "react";
+import { CiCirclePlus } from "react-icons/ci";
+import { MdDelete } from "react-icons/md";
+import { ToastContainer, toast } from "react-toastify";
 
 interface LessonContent {
   videoTitle: string;
   videoURL: string;
+  subtitleURL: string;
+  videoDescription: string;
+  links: string[];
 }
 
 interface LessonProps {
@@ -11,7 +16,6 @@ interface LessonProps {
   lessonIndex: number;
   onDeleteContent: (lessonIndex: number, contentIndex: number) => void;
   onAddContent: (lessonIndex: number, formData: LessonContent) => void;
-  
 }
 
 const LessonComponent: React.FC<LessonProps> = ({
@@ -23,23 +27,40 @@ const LessonComponent: React.FC<LessonProps> = ({
   const [formData, setFormData] = useState<LessonContent>({
     videoTitle: "",
     videoURL: "",
+    subtitleURL: "",
+    videoDescription: "",
+    links: [],
   });
   const [editingIndex, setEditingIndex] = useState<number | null>(null);
+  const [numLinks, setNumLinks] = useState<number>(1);
 
   const handleFormDataSubmit = () => {
-    if (formData.videoTitle.trim() === "" || formData.videoURL.trim() === "") {
-      alert("Please fill in all fields.");
+    if (
+      formData.videoTitle.trim() === "" ||
+      formData.videoURL.trim() === "" ||
+      formData.subtitleURL.trim() === "" ||
+      formData.videoDescription.trim() === "" ||
+      formData.links.some((link) => link.trim() === "")
+    ) {
+      toast.error("Please fill in all fields.");
       return;
     }
 
     if (editingIndex !== null) {
-      lesson[editingIndex] = formData; // Update existing content
+      lesson[editingIndex] = formData;
       setEditingIndex(null);
     } else {
-      onAddContent(lessonIndex, formData); // Add new content
+      onAddContent(lessonIndex, formData);
     }
 
-    setFormData({ videoTitle: "", videoURL: "" });
+    setFormData({
+      videoTitle: "",
+      videoURL: "",
+      subtitleURL: "",
+      videoDescription: "",
+      links: [],
+    });
+    setNumLinks(1);
   };
 
   const handleInputChange = (
@@ -58,20 +79,73 @@ const LessonComponent: React.FC<LessonProps> = ({
   };
 
   const handleDeleteContent = (contentIndex: number) => {
-    onDeleteContent(lessonIndex, contentIndex); // Delete content
+    onDeleteContent(lessonIndex, contentIndex);
+  };
+
+  const handleAddLink = () => {
+    setNumLinks((prevNumLinks) => prevNumLinks + 1);
+  };
+
+  const handleLinkInputChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    linkIndex: number
+  ) => {
+    const { value } = e.target;
+    setFormData((prevFormData) => {
+      const updatedLinks = [...prevFormData.links];
+      updatedLinks[linkIndex] = value;
+      return {
+        ...prevFormData,
+        links: updatedLinks,
+      };
+    });
+  };
+
+  const handleDeleteLink = (linkIndex: number) => {
+    setFormData((prevFormData) => {
+      const updatedLinks = [...prevFormData.links];
+      updatedLinks.splice(linkIndex, 1);
+      return {
+        ...prevFormData,
+        links: updatedLinks,
+      };
+    });
+    setNumLinks((prevNumLinks) => prevNumLinks - 1);
   };
 
   return (
-    <div key={lessonIndex} className="mb-8 border border-gray-300 rounded-lg p-4 ">
-      <p className="text-lg font-semibold mb-2">Lesson {lessonIndex + 1}</p>
+    <div key={lessonIndex} className="mb-8 rounded-lg p-4">
+         <ToastContainer/>
+      <p className="text-xl font-bold mb-2">Lesson {lessonIndex + 1}</p>
       {lesson.map((content, contentIndex) => (
-        <div key={contentIndex} className="border border-gray-300 rounded-lg p-4 mt-4">
-          <p className="font-semibold">Content {contentIndex + 1}</p>
+        <div key={contentIndex} className="rounded-lg p-4 mt-4">
+          <p className="font-semibold my-2">Content {contentIndex + 1} : <span className="text-green-500">Submitted</span></p>
           <p className="mb-2">
             <strong>Title:</strong> {content.videoTitle}
           </p>
-          <p>
+          <p className="mb-2">
             <strong>URL:</strong> {content.videoURL}
+          </p>
+          <p className="mb-2">
+            <strong>Subtitle URL:</strong> {content.subtitleURL}
+          </p>
+          <p className="mb-2">
+            <strong>Video Description:</strong> {content.videoDescription}
+          </p>
+          <p className="mb-2">
+            <strong>Links:</strong>{" "}
+            {content.links.map((link, linkIndex) => (
+              <span key={linkIndex}>
+                {link}{" "}
+                <button
+                  type="button"
+                  onClick={() => handleDeleteLink(linkIndex)}
+                  className="text-red-500 ml-2 focus:outline-none"
+                >
+                 ,
+                </button>{" "}
+              </span>
+            ))}
           </p>
           <div className="mt-4">
             <button
@@ -91,32 +165,84 @@ const LessonComponent: React.FC<LessonProps> = ({
           </div>
         </div>
       ))}
-      <div className="border border-gray-300 rounded-lg p-4 mt-4">
-        <p className="font-semibold">Add New Content</p>
-        <input
-          type="text"
-          name="videoTitle"
-          value={formData.videoTitle}
-          onChange={handleInputChange}
-          placeholder="Enter Video Title"
-          className="mb-2 py-2 px-4 border border-gray-300 rounded-lg focus:outline-none"
-        />
-        <input
-          type="text"
-          name="videoURL"
-          value={formData.videoURL}
-          onChange={handleInputChange}
-          placeholder="Enter Video URL"
-          className="mb-2 py-2 px-4 border border-gray-300 rounded-lg focus:outline-none"
-        />
+      <div className="flex-col rounded-lg p-4 mt-4">
+        <p className="font-semibold">Add New Content : <span className="text-red-500">Not Submitted</span></p>
+        <div className="mb-2">
+          <input
+            type="text"
+            name="videoTitle"
+            value={formData.videoTitle}
+            onChange={handleInputChange}
+            placeholder="Enter Video Title"
+            className="py-2 px-4 border border-gray-300 rounded-lg focus:outline-none w-full"
+          />
+        </div>
+        <div className="mb-2">
+          <input
+            type="text"
+            name="videoURL"
+            value={formData.videoURL}
+            onChange={handleInputChange}
+            placeholder="Enter Video URL"
+            className="py-2 px-4 border border-gray-300 rounded-lg focus:outline-none w-full"
+          />
+        </div>
+        <div className="mb-2">
+          <input
+            type="text"
+            name="subtitleURL"
+            value={formData.subtitleURL}
+            onChange={handleInputChange}
+            placeholder="Enter Subtitle URL"
+            className="py-2 px-4 border border-gray-300 rounded-lg focus:outline-none w-full"
+          />
+        </div>
+        <div className="mb-2">
+          <input
+            type="text"
+            name="videoDescription"
+            value={formData.videoDescription}
+            onChange={handleInputChange}
+            placeholder="Enter Video Description"
+            className="py-2 px-4 border border-gray-300 rounded-lg focus:outline-none w-full"
+          />
+        </div>
+        {[...Array(numLinks)].map((_, index) => (
+          <div key={index} className="mb-2 flex items-center">
+            <input
+              type="text"
+              value={formData.links[index] || ""}
+              onChange={(e) => handleLinkInputChange(e, index)}
+              placeholder={`Enter Link ${index + 1}`}
+              className="py-2 px-4 border border-gray-300 rounded-lg focus:outline-none mr-2"
+            />
+
+<div className="flex items-center mb-2">
+          <MdDelete
+                          onClick={() => handleDeleteLink(index)}
+
+            className="text-red-500 cursor-pointer mr-2 mt-2 text-2xl"
+          />
+        </div>
+           
+          </div>
+        ))}
+
         
+        <div className="flex items-center mb-2">
+          <CiCirclePlus
+            onClick={handleAddLink}
+            className="text-blue-500 cursor-pointer mr-2"
+          />
+          <span>Add Link</span>
+        </div>
         
         <button
           type="button"
           onClick={handleFormDataSubmit}
-          className="py-2 px-4 bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:outline-none"
+          className="py-2 px-4 mx-4 bg-green-500 text-white rounded-lg hover:bg-blue-600 focus:outline-none"
         >
-          {editingIndex !== null ? "Update Content" : "Add Content"}
+          {editingIndex !== null ? "Update Content" : "Submit Content"}
         </button>
       </div>
     </div>
