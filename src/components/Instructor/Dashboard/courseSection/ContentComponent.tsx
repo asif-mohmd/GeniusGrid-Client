@@ -37,6 +37,7 @@ const ContentComponent: React.FC<LessonFormProps> = ({
         placeholder="Enter Video URL"
         className="mb-4 py-2 px-4 border border-gray-300 rounded-lg focus:outline-none"
       />
+      
       <button
         type="button"
         onClick={onSubmit}

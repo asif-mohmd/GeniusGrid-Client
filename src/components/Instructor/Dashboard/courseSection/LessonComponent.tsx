@@ -62,7 +62,7 @@ const LessonComponent: React.FC<LessonProps> = ({
   };
 
   return (
-    <div key={lessonIndex} className="mb-8 border border-gray-300 rounded-lg p-4">
+    <div key={lessonIndex} className="mb-8 border border-gray-300 rounded-lg p-4 ">
       <p className="text-lg font-semibold mb-2">Lesson {lessonIndex + 1}</p>
       {lesson.map((content, contentIndex) => (
         <div key={contentIndex} className="border border-gray-300 rounded-lg p-4 mt-4">
@@ -109,6 +109,8 @@ const LessonComponent: React.FC<LessonProps> = ({
           placeholder="Enter Video URL"
           className="mb-2 py-2 px-4 border border-gray-300 rounded-lg focus:outline-none"
         />
+        
+        
         <button
           type="button"
           onClick={handleFormDataSubmit}
