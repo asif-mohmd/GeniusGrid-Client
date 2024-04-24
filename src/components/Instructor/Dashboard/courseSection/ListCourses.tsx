@@ -7,49 +7,53 @@ import { useDispatch } from "react-redux";
 import { setPrivateId } from "../../../../redux/instructorSlices/courseData";
 
 interface Course {
-    id: number;
-    courseName: string;
-    coursePrice: number;
-    courseLevel: string;
-    totalVideos: number;
-    // Add any other properties here
-  }
+  id: number;
+  courseName: string;
+  coursePrice: number;
+  courseLevel: string;
+  totalVideos: number;
+  // Add any other properties here
+}
 
-const ListCourses =  () => {
+const ListCourses = () => {
 
-    const [courses, setCourses] = useState<Course[]>([]);
+  const [courses, setCourses] = useState<Course[]>([]);
 
-    const dispatach = useDispatch()
+  const dispatach = useDispatch()
 
-    const navigate = useNavigate()
-    
+  const navigate = useNavigate()
 
-    useEffect(() => {
-      async function listCourses() {
-        try {
-          console.log("lsisttttttttttttttttt")
-          const listCoursesResponse = await instructoraxios.get(courseEndspoints.listCourse);
-          console.log(listCoursesResponse.data.courseData.courses);
-          const coursesData = listCoursesResponse.data.courseData.courses;
-          setCourses(coursesData);
-        } catch (error) {
-          console.error("Error fetching courses:", error);
+
+  useEffect(() => {
+    async function listCourses() {
+      try {
+        console.log("lsisttttttttttttttttt")
+        const listCoursesResponse = await instructoraxios.get(courseEndspoints.listCourse);
+        const isLessonContent = await instructoraxios.get(courseEndspoints.getLessonsContents)
+        if(isLessonContent){
+          console.log(isLessonContent,"is lessssssssssssssssssssssssss")
         }
+        console.log(listCoursesResponse.data.courseData.courses);
+        const coursesData = listCoursesResponse.data.courseData.courses;
+        setCourses(coursesData);
+      } catch (error) {
+        console.error("Error fetching courses:", error);
       }
-      listCourses();
-    }, []);
-
-    const handleEdit = (id: number) => {
-        console.log(id);
-        dispatach(setPrivateId(id))
-        navigate(instructorEndpoints.editCourse)
-
-
     }
-    const handleAddSection = (id: number) => {
-      console.log(id);
-      dispatach(setPrivateId(id))
-      navigate(instructorEndpoints.addLessonPage)
+    listCourses();
+  }, []);
+
+  const handleEdit = (id: number) => {
+    console.log(id);
+    dispatach(setPrivateId(id))
+    navigate(instructorEndpoints.editCourse)
+
+
+  }
+  const handleAddSection = (id: number) => {
+    console.log(id);
+    dispatach(setPrivateId(id))
+    navigate(instructorEndpoints.addLessonPage)
 
 
   }
@@ -111,13 +115,13 @@ const ListCourses =  () => {
                     {course.totalVideos}
                   </td>
                   <td className="px-3 py-3 sm:px-6 sm:py-4 whitespace-nowrap text-right text-sm font-medium flex justify-end">
-                  <button
-  type="button"
-  onClick={() => handleEdit(course.id)}
-  className="mr-2 text-sm bg-blue-500 hover:bg-blue-700 text-white py-1 px-2 rounded focus:outline-none focus:shadow-outline"
->
-  Edit
-</button>
+                    <button
+                      type="button"
+                      onClick={() => handleEdit(course.id)}
+                      className="mr-2 text-sm bg-blue-500 hover:bg-blue-700 text-white py-1 px-2 rounded focus:outline-none focus:shadow-outline"
+                    >
+                      Edit
+                    </button>
 
                     <button
                       type="button"
@@ -130,8 +134,8 @@ const ListCourses =  () => {
                 </tr>
               ))}
             </tbody>
-                 
- 
+
+
           </table>
         </div>
       </div>

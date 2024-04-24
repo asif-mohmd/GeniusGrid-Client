@@ -1,7 +1,14 @@
-// LessonContentManagement.tsx
 import React, { useState } from "react";
 import LessonComponent from "./LessonComponent";
 import { ToastContainer, toast } from "react-toastify";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../../redux/Store";
+import { instructoraxios } from "../../../../constraints/axiosInterceptors/instructorAxiosInterceptors";
+import courseEndspoints from "../../../../constraints/endpoints/courseEndspoints";
+import { useNavigate } from "react-router-dom";
+import instructorEndpoints from "../../../../constraints/endpoints/instructorEndpoints";
+import { confirmAlert } from "react-confirm-alert"; // Import the library
+import "react-confirm-alert/src/react-confirm-alert.css"; // Import its CSS
 interface LessonContent {
   videoTitle: string;
   videoURL: string;
@@ -13,6 +20,9 @@ interface LessonContent {
 const LessonContentManagement: React.FC = () => {
   const [lessons, setLessons] = useState<LessonContent[][]>([]);
 
+  const navigate = useNavigate()
+
+  const courseId = useSelector((store:RootState)=>store.courseData.privateIdStore)
   const handleAddContent = (
     lessonIndex: number,
     formData: LessonContent
@@ -37,9 +47,32 @@ const LessonContentManagement: React.FC = () => {
     }
   };
 
-  const handleGlobalSubmit = () => {
+  const handleGlobalSubmit = async () => {
     if (lessons.some((lesson) => lesson.length > 0)) {
-      console.log(lessons);
+      confirmAlert({
+        title: "Confirm Submission",
+        message: "Are you sure you want to submit all lessons?",
+        buttons: [
+          {
+            label: "Yes",
+            onClick: async () => {
+              console.log(courseId);
+              console.log(lessons, ";;;;;;;;;;;;;;");
+              const response = await instructoraxios.post(courseEndspoints.addLessonContent,{courseId,lessons});
+              console.log(response,";;;;;;;;;;;;")
+              if(response.status==200){
+                navigate(instructorEndpoints.myCourses);
+              }else{
+                toast.error("Something went wrong");
+              }
+            }
+          },
+          {
+            label: "No",
+            onClick: () => {}
+          }
+        ]
+      });
     } else {
       toast.error("There is no content to submit.");
     }
@@ -52,7 +85,7 @@ const LessonContentManagement: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-slate-50">
-       <ToastContainer/>
+      <ToastContainer/>
       <div className="container mx-auto p-8 ">
         <div className="bg-slate-50">
           {lessons.map((lesson, lessonIndex) => (

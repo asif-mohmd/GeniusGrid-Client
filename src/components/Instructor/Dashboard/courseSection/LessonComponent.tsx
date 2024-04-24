@@ -81,7 +81,7 @@ const LessonComponent: React.FC<LessonProps> = ({
   const handleDeleteContent = (contentIndex: number) => {
     onDeleteContent(lessonIndex, contentIndex);
   };
-
+ 
   const handleAddLink = () => {
     setNumLinks((prevNumLinks) => prevNumLinks + 1);
   };
@@ -115,7 +115,7 @@ const LessonComponent: React.FC<LessonProps> = ({
 
   return (
     <div key={lessonIndex} className="mb-8 rounded-lg p-4">
-         <ToastContainer/>
+      <ToastContainer />
       <p className="text-xl font-bold mb-2">Lesson {lessonIndex + 1}</p>
       {lesson.map((content, contentIndex) => (
         <div key={contentIndex} className="rounded-lg p-4 mt-4">
@@ -142,7 +142,7 @@ const LessonComponent: React.FC<LessonProps> = ({
                   onClick={() => handleDeleteLink(linkIndex)}
                   className="text-red-500 ml-2 focus:outline-none"
                 >
-                 ,
+                  ,
                 </button>{" "}
               </span>
             ))}
@@ -217,18 +217,18 @@ const LessonComponent: React.FC<LessonProps> = ({
               className="py-2 px-4 border border-gray-300 rounded-lg focus:outline-none mr-2"
             />
 
-<div className="flex items-center mb-2">
-          <MdDelete
-                          onClick={() => handleDeleteLink(index)}
+            <div className="flex items-center mb-2">
+              <MdDelete
+                onClick={() => handleDeleteLink(index)}
 
-            className="text-red-500 cursor-pointer mr-2 mt-2 text-2xl"
-          />
-        </div>
-           
+                className="text-red-500 cursor-pointer mr-2 mt-2 text-2xl"
+              />
+            </div>
+
           </div>
         ))}
 
-        
+
         <div className="flex items-center mb-2">
           <CiCirclePlus
             onClick={handleAddLink}
@@ -236,7 +236,7 @@ const LessonComponent: React.FC<LessonProps> = ({
           />
           <span>Add Link</span>
         </div>
-        
+
         <button
           type="button"
           onClick={handleFormDataSubmit}
