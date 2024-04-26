@@ -29,10 +29,10 @@ const ListCourses = () => {
       try {
         console.log("lsisttttttttttttttttt")
         const listCoursesResponse = await instructoraxios.get(courseEndspoints.listCourse);
-        const isLessonContent = await instructoraxios.get(courseEndspoints.getLessonsContents)
-        if(isLessonContent){
-          console.log(isLessonContent,"is lessssssssssssssssssssssssss")
-        }
+        // const isLessonContent = await instructoraxios.get(courseEndspoints.getLessonsContents)
+        // if(isLessonContent){
+        //   console.log(isLessonContent,"is lessssssssssssssssssssssssss")
+        // }
         console.log(listCoursesResponse.data.courseData.courses);
         const coursesData = listCoursesResponse.data.courseData.courses;
         setCourses(coursesData);
