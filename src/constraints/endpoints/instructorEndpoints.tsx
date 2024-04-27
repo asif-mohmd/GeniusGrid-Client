@@ -12,4 +12,5 @@ export default {
     profile: "/instructor/profile/page",
     userAnalysis: "/instructor/user/analysis",
     orderAnalysis: "/instructor/order/analysis",
+    editLessonPage: "/instructor/edit/lesson/page"
 }

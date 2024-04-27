@@ -20,20 +20,18 @@ interface LessonContent {
   links: string[];
 }
 
-const LessonContentManagement: React.FC = () => {
+const EditLessonContentManagement: React.FC = () => {
   const [lessons, setLessons] = useState<LessonContent[][]>([]);
 
-  const courseLessonsDetails = useSelector((store:RootState)=>store.courseData.courseData3)
+  const courseLessons = useSelector((store:RootState)=>store.courseData.courseData3)
   
   const courseDetails = useSelector((store:RootState)=>store.courseData.courseData1)
-
-  const editCourseDetails = useSelector((store:RootState)=>store.courseData.courseData2)
   
-console.log(courseLessonsDetails,"myrrrrrrrrrrrrrrrrrrrr")
+
   useEffect(() => {
     async function fetchCourseData() {
       try {
-        const lessonsData = courseLessonsDetails?.courseLessons || [];
+        const lessonsData = courseLessons?.courseLessons || [];
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const formattedLessons: LessonContent[][] = lessonsData.map((lesson: any) => {
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -52,7 +50,7 @@ console.log(courseLessonsDetails,"myrrrrrrrrrrrrrrrrrrrr")
     }
     
     fetchCourseData();
-  }, [courseLessonsDetails?.courseLessons]);
+  }, [courseLessons?.courseLessons]);
   
   
 
@@ -96,17 +94,7 @@ console.log(courseLessonsDetails,"myrrrrrrrrrrrrrrrrrrrr")
           {
             label: "Yes",
             onClick: async () => {
-let response
-              if(courseLessonsDetails==null){
-                console.log("zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz")
-               response = await instructoraxios.post(courseEndspoints.createCourse,{courseDetails,lessons});
-
-              }else{
-
-console.log(editCourseDetails,"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx")
-const courseDetails = editCourseDetails
-                response = await instructoraxios.post(courseEndspoints.createCourse,{courseDetails,lessons});
-              }
+              const response = await instructoraxios.post(courseEndspoints.createCourse,{courseDetails,lessons});
        
               if(response.status==200){
                 dispatch(setCourseData1Empty())
@@ -187,4 +175,4 @@ const courseDetails = editCourseDetails
   
 };
 
-export default LessonContentManagement;
+export default EditLessonContentManagement;

@@ -5,6 +5,7 @@ export interface CreateCourse3Props {
 }
 
 export interface ICreateCourse1 {
+  
   courseName: string;
   courseDescription: string;
   coursePrice: string;
@@ -18,7 +19,7 @@ export interface ICreateCourse1 {
 }
 
 export interface ICreateCourse3 {
-  id: string;
+  _id: string;
   instructorId:string;
   courseName: string;
   courseDescription: string;
@@ -37,7 +38,6 @@ export interface ICreateCourse3 {
 
 export interface ICreateCourse2 {
   _id: string;
-  instructorId:string;
   courseName: string;
   courseDescription: string;
   coursePrice: string;

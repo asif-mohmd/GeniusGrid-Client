@@ -31,6 +31,7 @@ const CreateCourse1 = () => {
   const dispatch = useDispatch()
 
   const initialValues = {
+    
     courseName: courseDetails?.courseName || "",
     courseDescription: courseDetails?.courseDescription || "",
     coursePrice: courseDetails?.coursePrice || "",

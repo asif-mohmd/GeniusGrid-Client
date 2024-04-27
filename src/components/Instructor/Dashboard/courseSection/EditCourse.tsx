@@ -1,6 +1,6 @@
 import { Formik, Form, Field, FormikHelpers, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import { ICreateCourse1 } from "../../../../interfaces/ICourseInterface";
+import {  ICreateCourse2 } from "../../../../interfaces/ICourseInterface";
 
 import { useEffect, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
@@ -9,7 +9,7 @@ import courseEndspoints from "../../../../constraints/endpoints/courseEndspoints
 import { instructoraxios } from "../../../../constraints/axiosInterceptors/instructorAxiosInterceptors";
 import { useNavigate } from "react-router-dom";
 import instructorEndpoints from "../../../../constraints/endpoints/instructorEndpoints";
-import {  setCourseData2 } from "../../../../redux/instructorSlices/courseData";
+import {   setCourseData2, setCourseData3 } from "../../../../redux/instructorSlices/courseData";
 import { IoMdArrowRoundBack } from "react-icons/io";
 import { RootState } from "../../../../redux/Store";
 
@@ -43,7 +43,7 @@ const EditCourse = () => {
         const response = await instructoraxios.get(`${courseEndspoints.courseDetails}/${courseId}`);
         console.log(response.data.response,"================hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh=")
         
-        dispatch(setCourseData2(response.data.response))
+        dispatch(setCourseData3(response.data.response))
         setBenefits(response.data.response.benefits);
         setPrerequisites(response.data.response.prerequisites);
       } catch (error) {
@@ -62,6 +62,7 @@ const EditCourse = () => {
 // console.log(courseDetails.courseName,"haiiiiiiiiiiii")
 
 const initialValues = {
+  _id: courseId, // Replace with actual ID or a placeholder
   courseName: courseDetails?.courseName || "",
   courseDescription: courseDetails?.courseDescription || "",
   coursePrice: courseDetails?.coursePrice || "",
@@ -130,8 +131,8 @@ const initialValues = {
   };
 
   const handleSubmit = async (
-    values: ICreateCourse1,
-    { setSubmitting }: FormikHelpers<ICreateCourse1>
+    values: ICreateCourse2,
+    { setSubmitting }: FormikHelpers<ICreateCourse2>
   ) => {
     try {
       values.benefits = benefits.filter((benefit) => benefit.trim() !== "");
@@ -140,7 +141,7 @@ const initialValues = {
       );
       console.log(values, "--------------------");
       console.log("ivde aaane");
-
+      dispatch(setCourseData2(values))
       // const courseData = {
       //   ...values,
       //   courseId : courseId
