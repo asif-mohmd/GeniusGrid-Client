@@ -2,14 +2,14 @@ import { Formik, Form, Field, FormikHelpers, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { ICreateCourse1 } from "../../../../interfaces/ICourseInterface";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
-import { useDispatch } from "react-redux";
-import courseEndspoints from "../../../../constraints/endpoints/courseEndspoints";
-import { instructoraxios } from "../../../../constraints/axiosInterceptors/instructorAxiosInterceptors";
+import { useDispatch, useSelector } from "react-redux";
+
 import { useNavigate } from "react-router-dom";
 import instructorEndpoints from "../../../../constraints/endpoints/instructorEndpoints";
-import { setCourseData1 } from "../../../../redux/instructorSlices/courseData";
+import { setCourseData1, setCourseData3Empty } from "../../../../redux/instructorSlices/courseData";
+import { RootState } from "../../../../redux/Store";
 
 
 
@@ -17,20 +17,31 @@ const CreateCourse1 = () => {
   const [benefits, setBenefits] = useState<string[]>([""]);
   const [prerequisites, setPrerequisites] = useState<string[]>([""]);
 
+  const courseDetails = useSelector((store:RootState)=>store.courseData.courseData1)
+
+  useEffect(() => {
+    if (courseDetails) {
+      // dispatch(setCourseData1Empty())
+      setBenefits(courseDetails.benefits || []);
+      setPrerequisites(courseDetails.prerequisites || []);
+    }
+  }, [courseDetails]);
+
   const navigate = useNavigate()
   const dispatch = useDispatch()
 
   const initialValues = {
-    courseName: "",
-    courseDescription: "",
-    coursePrice: "",
-    estimatedPrice:  "",
-    courseTags:  "",
-    totalVideos:  "",
-    courseLevel: "",
-    demoURL: "",
-    benefits: [""],
-    prerequisites:  [""],
+    courseName: courseDetails?.courseName || "",
+    courseDescription: courseDetails?.courseDescription || "",
+    coursePrice: courseDetails?.coursePrice || "",
+    estimatedPrice: courseDetails?.estimatedPrice || "",
+    courseTags: courseDetails?.courseTags || "",
+    courseLevel: courseDetails?.courseLevel || "",
+    totalVideos: courseDetails?.totalVideos || "",
+    demoURL: courseDetails?.demoURL || "",
+    benefits: courseDetails?.benefits || [""],
+    prerequisites: courseDetails?.prerequisites || [""],
+
   };
 
   const validationSchema = Yup.object().shape({
@@ -47,7 +58,6 @@ const CreateCourse1 = () => {
       .of(Yup.string())
       .required("Prerequisites are required"),
   });
-
 
 
   const addBenefitInput = () => {
@@ -103,14 +113,15 @@ const CreateCourse1 = () => {
       console.log("ivde aaane");
 
     
-      const courseData = await instructoraxios.post(
-        courseEndspoints.createCourse,
-        { values }
-      );
+      // const courseData = await instructoraxios.post(
+      //   courseEndspoints.createCourse,
+      //   { values }
+      // );
 
-      console.log(courseData.data.status,"yeyeyeyyeyeyeeyyeye")
+      // console.log(courseData.data.status,"yeyeyeyyeyeyeeyyeye")
       dispatch(setCourseData1(values))
-      navigate(instructorEndpoints.dashboard);
+      dispatch(setCourseData3Empty())
+      navigate(instructorEndpoints.addLessonPage);
     } catch (error) {
       console.error("Error:", error);
     } finally {
@@ -123,6 +134,7 @@ const CreateCourse1 = () => {
       <ToastContainer/>
       <div className="px-3 py-4 flex justify-center">
         <Formik
+         enableReinitialize={true} 
           initialValues={initialValues}
           validationSchema={validationSchema}
           onSubmit={handleSubmit}
@@ -430,7 +442,7 @@ const CreateCourse1 = () => {
                   type="submit"
                   className="bg-blue-500 hover:bg-blue-700 text-white font-mono font-bold py-3 px-6 rounded-md "
                 >
-                  Submit
+                  Next
                 </button>
               </div>
 

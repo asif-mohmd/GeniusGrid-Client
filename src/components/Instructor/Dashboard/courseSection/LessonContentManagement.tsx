@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import LessonComponent from "./LessonComponent";
 import { ToastContainer, toast } from "react-toastify";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../../redux/Store";
 import { instructoraxios } from "../../../../constraints/axiosInterceptors/instructorAxiosInterceptors";
 import courseEndspoints from "../../../../constraints/endpoints/courseEndspoints";
@@ -9,6 +9,9 @@ import { useNavigate } from "react-router-dom";
 import instructorEndpoints from "../../../../constraints/endpoints/instructorEndpoints";
 import { confirmAlert } from "react-confirm-alert"; // Import the library
 import "react-confirm-alert/src/react-confirm-alert.css"; // Import its CSS
+import { IoArrowBackCircleOutline } from "react-icons/io5";
+import {  setCourseData1Empty } from "../../../../redux/instructorSlices/courseData";
+
 interface LessonContent {
   videoTitle: string;
   videoURL: string;
@@ -20,9 +23,41 @@ interface LessonContent {
 const LessonContentManagement: React.FC = () => {
   const [lessons, setLessons] = useState<LessonContent[][]>([]);
 
-  const navigate = useNavigate()
+  const courseLessons = useSelector((store:RootState)=>store.courseData.courseData3)
 
-  const courseId = useSelector((store:RootState)=>store.courseData.privateIdStore)
+  useEffect(() => {
+    async function fetchCourseData() {
+      try {
+        const lessonsData = courseLessons?.courseLessons || [];
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const formattedLessons: LessonContent[][] = lessonsData.map((lesson: any) => {
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          return lesson.map((content: any) => ({
+            videoTitle: content.videoTitle || '',
+            videoURL: content.videoURL || '',
+            subtitleURL: content.subtitleURL || '',
+            videoDescription: content.videoDescription || '',
+            links: content.links || [],
+          }));
+        });
+        setLessons(formattedLessons);
+      } catch (error) {
+        console.error("Error fetching course details:", error);
+      }
+    }
+    
+    fetchCourseData();
+  }, [courseLessons?.courseLessons]);
+  
+  
+
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
+
+  const courseDetails = useSelector((store:RootState)=>store.courseData.courseData1)
+  
+  console.log(courseDetails,"kkkkkkkkkkkkkkk")
+
   const handleAddContent = (
     lessonIndex: number,
     formData: LessonContent
@@ -46,8 +81,11 @@ const LessonContentManagement: React.FC = () => {
       toast.error("Please add content to the current lesson before creating a new one.");
     }
   };
+ 
 
   const handleGlobalSubmit = async () => {
+
+
     if (lessons.some((lesson) => lesson.length > 0)) {
       confirmAlert({
         title: "Confirm Submission",
@@ -56,11 +94,13 @@ const LessonContentManagement: React.FC = () => {
           {
             label: "Yes",
             onClick: async () => {
-              console.log(courseId);
               console.log(lessons, ";;;;;;;;;;;;;;");
-              const response = await instructoraxios.post(courseEndspoints.addLessonContent,{courseId,lessons});
+              
+
+              const response = await instructoraxios.post(courseEndspoints.createCourse,{courseDetails,lessons});
               console.log(response,";;;;;;;;;;;;")
               if(response.status==200){
+                dispatch(setCourseData1Empty())
                 navigate(instructorEndpoints.myCourses);
               }else{
                 toast.error("Something went wrong");
@@ -83,13 +123,25 @@ const LessonContentManagement: React.FC = () => {
     setLessons(updatedLessons);
   };
 
+  const HandleBackPage = () =>{
+    navigate(instructorEndpoints.createCourse);
+  }
+
+
   return (
-    <div className="min-h-screen bg-slate-50">
+    <div className="min-h-screen bg-slate-50 flex flex-col">
       <ToastContainer/>
-      <div className="container mx-auto p-8 ">
+      <div className="flex justify-end">
+      <IoArrowBackCircleOutline
+        onClick={HandleBackPage}
+        className="text-3xl cursor-pointer hover:text-gray-500 transition-colors duration-300 mt-2 mr-4"
+      />
+    </div>
+  
+      <div className="container mx-auto p-8 flex-grow">
         <div className="bg-slate-50">
           {lessons.map((lesson, lessonIndex) => (
-            <div key={lessonIndex} className="lesson-container   bg-white rounded-lg p-4 mb-4">
+            <div key={lessonIndex} className="lesson-container bg-white rounded-lg p-4 mb-4">
               <LessonComponent
                 lesson={lesson}
                 lessonIndex={lessonIndex}
@@ -123,6 +175,7 @@ const LessonContentManagement: React.FC = () => {
       </div>
     </div>
   );
+  
 };
 
 export default LessonContentManagement;

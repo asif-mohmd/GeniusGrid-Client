@@ -9,7 +9,7 @@ import courseEndspoints from "../../../../constraints/endpoints/courseEndspoints
 import { instructoraxios } from "../../../../constraints/axiosInterceptors/instructorAxiosInterceptors";
 import { useNavigate } from "react-router-dom";
 import instructorEndpoints from "../../../../constraints/endpoints/instructorEndpoints";
-import {  setCourseData3 } from "../../../../redux/instructorSlices/courseData";
+import {  setCourseData2 } from "../../../../redux/instructorSlices/courseData";
 import { IoMdArrowRoundBack } from "react-icons/io";
 import { RootState } from "../../../../redux/Store";
 
@@ -36,17 +36,16 @@ const EditCourse = () => {
 
   const dispatch = useDispatch()
  console.log(courseDetails,"88888888888888888888888888888888888888888888888888888888888888")
-  console.log(typeof(courseId),"courrsee idddd")
 
   useEffect(()=>{
     async function fetchCourseData() {
       try {
         const response = await instructoraxios.get(`${courseEndspoints.courseDetails}/${courseId}`);
-        console.log(response.data.courseDetails.courseDetails)
+        console.log(response.data.response,"================hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh=")
         
-        dispatch(setCourseData3(response.data.courseDetails.courseDetails))
-        setBenefits(response.data.courseDetails.courseDetails.benefits);
-        setPrerequisites(response.data.courseDetails.courseDetails.prerequisites);
+        dispatch(setCourseData2(response.data.response))
+        setBenefits(response.data.response.benefits);
+        setPrerequisites(response.data.response.prerequisites);
       } catch (error) {
         console.error("Error fetching course details:", error);
       }
@@ -142,19 +141,19 @@ const initialValues = {
       console.log(values, "--------------------");
       console.log("ivde aaane");
 
-      const courseData = {
-        ...values,
-        courseId : courseId
-      }
+      // const courseData = {
+      //   ...values,
+      //   courseId : courseId
+      // }
 
-      const courseDataResponse = await instructoraxios.put(
-        courseEndspoints.updateCourse,
-        { courseData }
-      );
+      // const courseDataResponse = await instructoraxios.put(
+      //   courseEndspoints.updateCourse,
+      //   { courseData }
+      // );
 
-      console.log(courseDataResponse.data.status, "yeyeyeyyeyeyeeyyeye");
- 
-      navigate(instructorEndpoints.myCourses);
+      // console.log(courseDataResponse.data.status, "yeyeyeyyeyeyeeyyeye");
+     
+      navigate(instructorEndpoints.addLessonPage);
     } catch (error) {
       console.error("Error:", error);
     } finally {
@@ -172,6 +171,7 @@ const initialValues = {
       <ToastContainer />
       <div className="px-3 py-4 flex justify-center">
         <Formik
+          enableReinitialize={true} 
           initialValues={initialValues}
           validationSchema={validationSchema}
           onSubmit={handleSubmit}
@@ -495,7 +495,7 @@ const initialValues = {
                   type="submit"
                   className="bg-blue-500 hover:bg-blue-700 text-white font-mono font-bold py-3 px-6 rounded-md "
                 >
-                  Submit
+                  Next
                 </button>
               </div>
             </Form>

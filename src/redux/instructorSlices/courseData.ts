@@ -15,6 +15,7 @@ interface InitialStateType {
       courseData2: null,
       courseData3: null,
       privateIdStore: "",
+
   };
   
 const createCourseData = createSlice({
@@ -31,15 +32,22 @@ const createCourseData = createSlice({
         },
         
         setCourseData3:(state,action:PayloadAction<ICreateCourse3>) =>{
+            console.log(action.payload,"===========payl;aodddddddddddddd============")
             state.courseData3 = action.payload;
         },
         setPrivateId:(state,action)=>{
             console.log(action.payload,"-----redux",typeof(action.payload))
             state.privateIdStore = action.payload
+        },
+        setCourseData1Empty:(state)=>{
+            state.courseData1 = null;
+        },
+        setCourseData3Empty:(state)=>{
+            state.courseData3 = null;
         }
     }
 })
 
-export const {setCourseData1, setCourseData2, setCourseData3 ,setPrivateId} = createCourseData.actions;
+export const {setCourseData1, setCourseData2, setCourseData3 ,setPrivateId ,setCourseData1Empty,setCourseData3Empty} = createCourseData.actions;
 
 export default createCourseData.reducer;
