@@ -10,7 +10,7 @@ import instructorEndpoints from "../../../../constraints/endpoints/instructorEnd
 import { confirmAlert } from "react-confirm-alert"; // Import the library
 import "react-confirm-alert/src/react-confirm-alert.css"; // Import its CSS
 import { IoArrowBackCircleOutline } from "react-icons/io5";
-import {  setCourseData1Empty } from "../../../../redux/instructorSlices/courseData";
+import { setCourseData1Empty } from "../../../../redux/instructorSlices/courseData";
 
 interface LessonContent {
   videoTitle: string;
@@ -23,13 +23,15 @@ interface LessonContent {
 const LessonContentManagement: React.FC = () => {
   const [lessons, setLessons] = useState<LessonContent[][]>([]);
 
-  const courseLessonsDetails = useSelector((store:RootState)=>store.courseData.courseData3)
-  
-  const courseDetails = useSelector((store:RootState)=>store.courseData.courseData1)
+  const courseLessonsDetails = useSelector((store: RootState) => store.courseData.courseData3)
 
-  const editCourseDetails = useSelector((store:RootState)=>store.courseData.courseData2)
-  
-console.log(courseLessonsDetails,"myrrrrrrrrrrrrrrrrrrrr")
+  const courseDetails = useSelector((store: RootState) => store.courseData.courseData1)
+
+  const editCourseDetails = useSelector((store: RootState) => store.courseData.courseData2)
+
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
+
   useEffect(() => {
     async function fetchCourseData() {
       try {
@@ -50,14 +52,11 @@ console.log(courseLessonsDetails,"myrrrrrrrrrrrrrrrrrrrr")
         console.error("Error fetching course details:", error);
       }
     }
-    
+
     fetchCourseData();
   }, [courseLessonsDetails?.courseLessons]);
-  
-  
 
-  const navigate = useNavigate()
-  const dispatch = useDispatch()
+
 
 
   const handleAddContent = (
@@ -83,10 +82,9 @@ console.log(courseLessonsDetails,"myrrrrrrrrrrrrrrrrrrrr")
       toast.error("Please add content to the current lesson before creating a new one.");
     }
   };
- 
+
 
   const handleGlobalSubmit = async () => {
-
 
     if (lessons.some((lesson) => lesson.length > 0)) {
       confirmAlert({
@@ -96,29 +94,26 @@ console.log(courseLessonsDetails,"myrrrrrrrrrrrrrrrrrrrr")
           {
             label: "Yes",
             onClick: async () => {
-let response
-              if(courseLessonsDetails==null){
-                console.log("zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz")
-               response = await instructoraxios.post(courseEndspoints.createCourse,{courseDetails,lessons});
+              let response
+              if (courseLessonsDetails == null) {
+                response = await instructoraxios.post(courseEndspoints.createOrEditCourse, { courseDetails, lessons });
 
-              }else{
-
-console.log(editCourseDetails,"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx")
-const courseDetails = editCourseDetails
-                response = await instructoraxios.post(courseEndspoints.createCourse,{courseDetails,lessons});
+              } else {
+                const courseDetails = editCourseDetails
+                response = await instructoraxios.post(courseEndspoints.createOrEditCourse, { courseDetails, lessons });
               }
-       
-              if(response.status==200){
+
+              if (response.status == 200) {
                 dispatch(setCourseData1Empty())
                 navigate(instructorEndpoints.myCourses);
-              }else{
+              } else {
                 toast.error("Something went wrong");
               }
             }
           },
           {
             label: "No",
-            onClick: () => {}
+            onClick: () => { }
           }
         ]
       });
@@ -132,21 +127,21 @@ const courseDetails = editCourseDetails
     setLessons(updatedLessons);
   };
 
-  const HandleBackPage = () =>{
+  const HandleBackPage = () => {
     navigate(instructorEndpoints.createCourse);
   }
 
 
   return (
     <div className="min-h-screen bg-slate-50 flex flex-col">
-      <ToastContainer/>
+      <ToastContainer />
       <div className="flex justify-end">
-      <IoArrowBackCircleOutline
-        onClick={HandleBackPage}
-        className="text-3xl cursor-pointer hover:text-gray-500 transition-colors duration-300 mt-2 mr-4"
-      />
-    </div>
-  
+        <IoArrowBackCircleOutline
+          onClick={HandleBackPage}
+          className="text-3xl cursor-pointer hover:text-gray-500 transition-colors duration-300 mt-2 mr-4"
+        />
+      </div>
+
       <div className="container mx-auto p-8 flex-grow">
         <div className="bg-slate-50">
           {lessons.map((lesson, lessonIndex) => (
@@ -184,7 +179,7 @@ const courseDetails = editCourseDetails
       </div>
     </div>
   );
-  
+
 };
 
 export default LessonContentManagement;

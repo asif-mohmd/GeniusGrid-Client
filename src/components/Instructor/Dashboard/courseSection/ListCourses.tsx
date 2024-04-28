@@ -1,10 +1,12 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { instructoraxios } from "../../../../constraints/axiosInterceptors/instructorAxiosInterceptors";
 import courseEndspoints from "../../../../constraints/endpoints/courseEndspoints";
 import { useNavigate } from "react-router-dom";
 import instructorEndpoints from "../../../../constraints/endpoints/instructorEndpoints";
 import { useDispatch } from "react-redux";
 import { setPrivateId } from "../../../../redux/instructorSlices/courseData";
+import { ToastContainer, toast } from "react-toastify";
+
 
 interface Course {
   id: number;
@@ -20,7 +22,6 @@ const ListCourses = () => {
   const [courses, setCourses] = useState<Course[]>([]);
 
   const dispatach = useDispatch()
-
   const navigate = useNavigate()
 
 
@@ -29,10 +30,7 @@ const ListCourses = () => {
       try {
         console.log("lsisttttttttttttttttt")
         const listCoursesResponse = await instructoraxios.get(courseEndspoints.listCourse);
-        // const isLessonContent = await instructoraxios.get(courseEndspoints.getLessonsContents)
-        // if(isLessonContent){
-        //   console.log(isLessonContent,"is lessssssssssssssssssssssssss")
-        // }
+
         console.log(listCoursesResponse.data.courseData.courses);
         const coursesData = listCoursesResponse.data.courseData.courses;
         setCourses(coursesData);
@@ -46,21 +44,34 @@ const ListCourses = () => {
   const handleEdit = (id: number) => {
     console.log(id);
     dispatach(setPrivateId(id))
-    
+
     navigate(instructorEndpoints.editCourse)
 
-
   }
-  // const handleAddSection = (id: number) => {
-  //   console.log(id);
-  //   dispatach(setPrivateId(id))
-  //   navigate(instructorEndpoints.addLessonPage)
+
+  const handleDelete = async (courseId: number) => {
+    try {
+        const response = await instructoraxios.post(courseEndspoints.deleteCourse, { courseId });
+        if (response && response.status === 200) {
+            // Remove the deleted course from the state
+            setCourses(courses.filter(course => course.id !== courseId));
+            toast.success("Course deleted successfully");
+            navigate(instructorEndpoints.myCourses);
+        } else {
+            toast.error("Something went wrong. Try again");
+        }
+    } catch (error) {
+        console.error("Error deleting course:", error);
+        toast.error("Something went wrong. Try again");
+    }
+};
 
 
-  // }
 
   return (
     <div className="overflow-x-auto">
+            <ToastContainer />
+
       <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
         <p className="text-2xl font-medium my-7">My Courses</p>
         <div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
@@ -124,13 +135,13 @@ const ListCourses = () => {
                       Edit
                     </button>
 
-                    {/* <button
+                    <button
                       type="button"
-                      onClick={() => handleAddSection(course.id)}
-                      className="text-sm  bg-blue-500 hover:bg-red-700 text-white py-1 px-2 rounded focus:outline-none focus:shadow-outline"
+                      onClick={() => handleDelete(course.id)}
+                      className="text-sm  bg-red-500 hover:bg-red-700 text-white py-1 px-2 rounded focus:outline-none focus:shadow-outline"
                     >
-                      Edit Lesson
-                    </button> */}
+                      Delete
+                    </button>
                   </td>
                 </tr>
               ))}

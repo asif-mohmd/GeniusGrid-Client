@@ -19,6 +19,9 @@ const CreateCourse1 = () => {
 
   const courseDetails = useSelector((store:RootState)=>store.courseData.courseData1)
 
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
+
   useEffect(() => {
     if (courseDetails) {
       // dispatch(setCourseData1Empty())
@@ -27,8 +30,7 @@ const CreateCourse1 = () => {
     }
   }, [courseDetails]);
 
-  const navigate = useNavigate()
-  const dispatch = useDispatch()
+
 
   const initialValues = {
     
@@ -110,16 +112,8 @@ const CreateCourse1 = () => {
       values.prerequisites = prerequisites.filter(
         (prerequisite) => prerequisite.trim() !== ""
       );
-      console.log(values, "--------------------")
       console.log("ivde aaane");
 
-    
-      // const courseData = await instructoraxios.post(
-      //   courseEndspoints.createCourse,
-      //   { values }
-      // );
-
-      // console.log(courseData.data.status,"yeyeyeyyeyeyeeyyeye")
       dispatch(setCourseData1(values))
       dispatch(setCourseData3Empty())
       navigate(instructorEndpoints.addLessonPage);

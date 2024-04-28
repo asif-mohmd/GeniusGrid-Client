@@ -16,32 +16,17 @@ import { RootState } from "../../../../redux/Store";
 const EditCourse = () => {
   const [benefits, setBenefits] = useState<string[]>([""]);
   const [prerequisites, setPrerequisites] = useState<string[]>([""]);
-  // const [courseDetails, setCourseDetails] = useState<ICreateCourse1>({
-  // courseName: "",
-  // courseDescription: "",
-  // coursePrice: "",
-  // estimatedPrice: "",
-  // courseTags: "",
-  // totalVideos: "",
-  // courseLevel: "",
-  // demoURL: "",
-  // benefits: [],
-  // prerequisites: [],})
 
-
- 
   const courseId = useSelector((state:RootState)=>state.courseData.privateIdStore)
   const courseDetails = useSelector((state:RootState)=>state.courseData.courseData3)
 
-
   const dispatch = useDispatch()
- console.log(courseDetails,"88888888888888888888888888888888888888888888888888888888888888")
+
 
   useEffect(()=>{
     async function fetchCourseData() {
       try {
         const response = await instructoraxios.get(`${courseEndspoints.courseDetails}/${courseId}`);
-        console.log(response.data.response,"================hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh=")
         
         dispatch(setCourseData3(response.data.response))
         setBenefits(response.data.response.benefits);
@@ -142,17 +127,6 @@ const initialValues = {
       console.log(values, "--------------------");
       console.log("ivde aaane");
       dispatch(setCourseData2(values))
-      // const courseData = {
-      //   ...values,
-      //   courseId : courseId
-      // }
-
-      // const courseDataResponse = await instructoraxios.put(
-      //   courseEndspoints.updateCourse,
-      //   { courseData }
-      // );
-
-      // console.log(courseDataResponse.data.status, "yeyeyeyyeyeyeeyyeye");
      
       navigate(instructorEndpoints.addLessonPage);
     } catch (error) {
