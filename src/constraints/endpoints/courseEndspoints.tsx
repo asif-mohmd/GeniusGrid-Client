@@ -6,6 +6,6 @@ export default {
     updateCourse: "/course/edit-course",
     addLessonContent: "/course/add-lesson-content",
     getLessonsContents : "/course/getLessonsContenes",
-    deleteCourse : "/course/delete/course"
+    deleteCourse : "/course/delete/course",
    
 }

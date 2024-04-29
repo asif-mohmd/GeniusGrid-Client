@@ -11,6 +11,7 @@ import instructorEndpoints from "../../../constraints/endpoints/instructorEndpoi
 import { MdChecklist, MdOutlineAnalytics } from "react-icons/md";
 import { TbCategory, TbUsersGroup } from "react-icons/tb";
 import { FaQuora } from "react-icons/fa";
+import { IoVideocamOutline } from "react-icons/io5";
 const DashboardSidebar = () => {
   const [open, setOpen] = useState(true);
 
@@ -82,6 +83,15 @@ const DashboardSidebar = () => {
     >
       <MdChecklist className="mr-2" />
       My Courses
+    </Link>
+  </li>
+  <li>
+    <Link
+      to={instructorEndpoints.transcodeVideo}
+      className="flex items-center px-4 py-2 text-gray-800 rounded-md hover:bg-[#00df9a] hover:text-black cursor-pointer"
+    >
+      <IoVideocamOutline className="mr-2" />
+      Transcode Video
     </Link>
   </li>
   <li>

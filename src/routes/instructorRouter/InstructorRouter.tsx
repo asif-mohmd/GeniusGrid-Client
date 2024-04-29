@@ -15,6 +15,7 @@ import InstructorProfilePage from "../../pages/instructor/InstructorProfilePage"
 import InstructorUserAnalysis from "../../pages/instructor/InstructorUserAnalysis";
 import InstructorOrderAnalysis from "../../pages/instructor/InstructorOrderAnalysis";
 import LessonContentManage from "../../pages/instructor/LessonContentManage"
+import InstructorTranscodeVideo from "../../pages/instructor/InstructorTranscodeVideo";
 
 export const InstructorRouter = () => {
   return (
@@ -33,6 +34,7 @@ export const InstructorRouter = () => {
       <Route path="/profile/page" element={<InstructorProtectorRoute component={InstructorProfilePage} />}></Route>
       <Route path="/user/analysis" element={<InstructorProtectorRoute component={InstructorUserAnalysis} />}></Route>
       <Route path="/order/analysis" element={<InstructorProtectorRoute component={InstructorOrderAnalysis} />}></Route>
+      <Route path="/transcode/video" element={<InstructorProtectorRoute component={InstructorTranscodeVideo}/>}></Route>
 
 
 

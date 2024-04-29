@@ -6,6 +6,7 @@ import instructorEndpoints from "../../../../constraints/endpoints/instructorEnd
 import { useDispatch } from "react-redux";
 import { setPrivateId } from "../../../../redux/instructorSlices/courseData";
 import { ToastContainer, toast } from "react-toastify";
+import { confirmAlert } from "react-confirm-alert";
 
 
 interface Course {
@@ -51,6 +52,13 @@ const ListCourses = () => {
 
   const handleDelete = async (courseId: number) => {
     try {
+      confirmAlert({
+        title: "Confirm Submission",
+        message: "Are you sure you want to delete the course?",
+        buttons: [
+          {
+            label: "Yes",
+            onClick: async () => {
         const response = await instructoraxios.post(courseEndspoints.deleteCourse, { courseId });
         if (response && response.status === 200) {
             // Remove the deleted course from the state
@@ -60,6 +68,15 @@ const ListCourses = () => {
         } else {
             toast.error("Something went wrong. Try again");
         }
+
+      }
+    },
+    {
+      label: "No",
+      onClick: () => { }
+    }
+  ]
+});
     } catch (error) {
         console.error("Error deleting course:", error);
         toast.error("Something went wrong. Try again");
