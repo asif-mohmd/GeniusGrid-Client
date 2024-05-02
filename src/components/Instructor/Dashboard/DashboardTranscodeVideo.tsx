@@ -1,5 +1,5 @@
 import { useState, ChangeEvent, useRef } from "react";
-import axios, { AxiosResponse, ProgressEvent } from "axios";
+import axios, { AxiosResponse } from "axios";
 import { FiUpload } from "react-icons/fi"; // Importing upload icon from react-icons library
 
 interface TranscodeResponse {
@@ -49,15 +49,22 @@ function DashboardTranscodeVideo() {
 
       try {
         const response: AxiosResponse<TranscodeResponse> = await axios.post(
-          "http://localhost:4000/api/v1/transcode",
+          "http://localhost:4000/transcode",
           formData,
           {
-            onUploadProgress: (progressEvent: ProgressEvent) => {
-              const percentCompleted = Math.round(
-                (progressEvent.loaded * 100) / progressEvent.total
-              );
-              setProgress(percentCompleted);
-            },
+            onUploadProgress: (progressEvent) => {
+                if (progressEvent.total) {
+                  const percentCompleted = Math.round(
+                    (progressEvent.loaded * 100) / progressEvent.total
+                  );
+                  setProgress(percentCompleted);
+                } else {
+                  // Handle the case where progressEvent.total is undefined
+                  // For example, you might want to log a warning or set a default progress value
+                  console.warn("Progress event total is undefined.");
+                  setProgress(0); // Set a default progress value or handle as needed
+                }
+              },
             withCredentials: true,
           }
         );
