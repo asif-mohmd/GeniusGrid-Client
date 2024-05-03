@@ -13,6 +13,7 @@ export default {
     userAnalysis: "/instructor/user/analysis",
     orderAnalysis: "/instructor/order/analysis",
     editLessonPage: "/instructor/edit/lesson/page",
-    transcodeVideo : "/instructor/transcode/video"
+    transcodeVideo : "/instructor/transcode/video",
+    videoURL: ""
 
 }

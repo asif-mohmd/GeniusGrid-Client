@@ -11,11 +11,17 @@ interface LessonContent {
   links: string[];
 }
 
+interface videoData {
+  fileName: string;
+  videoUrl: string;
+}
+
 interface LessonProps {
   lesson: LessonContent[];
   lessonIndex: number;
   onDeleteContent: (lessonIndex: number, contentIndex: number) => void;
   onAddContent: (lessonIndex: number, formData: LessonContent) => void;
+  videoDetails: videoData[];
 }
 
 const LessonComponent: React.FC<LessonProps> = ({
@@ -23,10 +29,11 @@ const LessonComponent: React.FC<LessonProps> = ({
   lessonIndex,
   onDeleteContent,
   onAddContent,
+  videoDetails,
 }) => {
   const [formData, setFormData] = useState<LessonContent>({
     videoTitle: "",
-    videoURL: "",
+    videoURL: "", // Initial state set to an empty string
     subtitleURL: "",
     videoDescription: "",
     links: [],
@@ -63,9 +70,7 @@ const LessonComponent: React.FC<LessonProps> = ({
     setNumLinks(1);
   };
 
-  const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prevFormData) => ({
       ...prevFormData,
@@ -81,7 +86,7 @@ const LessonComponent: React.FC<LessonProps> = ({
   const handleDeleteContent = (contentIndex: number) => {
     onDeleteContent(lessonIndex, contentIndex);
   };
- 
+
   const handleAddLink = () => {
     setNumLinks((prevNumLinks) => prevNumLinks + 1);
   };
@@ -113,13 +118,30 @@ const LessonComponent: React.FC<LessonProps> = ({
     setNumLinks((prevNumLinks) => prevNumLinks - 1);
   };
 
+  const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    const selectedVideo = videoDetails.find(video => video.videoUrl === value);
+    if (selectedVideo) {
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        [name]: value,
+      }));
+    }
+  };
+  
+
+  console.log("qqqqqqqqqqqqq", videoDetails);
+
   return (
     <div key={lessonIndex} className="mb-8 rounded-lg p-4">
       <ToastContainer />
       <p className="text-xl font-bold mb-2">Lesson {lessonIndex + 1}</p>
       {lesson.map((content, contentIndex) => (
         <div key={contentIndex} className="rounded-lg p-4 mt-4">
-          <p className="font-semibold my-2">Content {contentIndex + 1} : <span className="text-green-500">Submitted</span></p>
+          <p className="font-semibold my-2">
+            Content {contentIndex + 1} :{" "}
+            <span className="text-green-500">Submitted</span>
+          </p>
           <p className="mb-2">
             <strong>Title:</strong> {content.videoTitle}
           </p>
@@ -166,7 +188,9 @@ const LessonComponent: React.FC<LessonProps> = ({
         </div>
       ))}
       <div className="flex-col rounded-lg p-4 mt-4">
-        <p className="font-semibold">Add New Content : <span className="text-red-500">Not Submitted</span></p>
+        <p className="font-semibold">
+          Add New Content : <span className="text-red-500">Not Submitted</span>
+        </p>
         <div className="mb-2">
           <input
             type="text"
@@ -178,14 +202,22 @@ const LessonComponent: React.FC<LessonProps> = ({
           />
         </div>
         <div className="mb-2">
-          <input
-            type="text"
+          <label htmlFor={`videoUrl-${lessonIndex}`}>Select Video URL:</label>
+          <select
+            id={`videoUrl-${lessonIndex}`}
             name="videoURL"
-            value={formData.videoURL}
-            onChange={handleInputChange}
-            placeholder="Enter Video URL"
+            value={formData.videoURL[0]}
+            onChange={handleSelectChange}
             className="py-2 px-4 border border-gray-300 rounded-lg focus:outline-none w-full"
-          />
+          >
+            <option value="">Select a URL</option>
+            {videoDetails.map((videoData, index) => (
+              <option key={index} value={videoData.videoUrl}>
+              {videoData.fileName}
+            </option>
+            
+            ))}
+          </select>
         </div>
         <div className="mb-2">
           <input
@@ -220,14 +252,11 @@ const LessonComponent: React.FC<LessonProps> = ({
             <div className="flex items-center mb-2">
               <MdDelete
                 onClick={() => handleDeleteLink(index)}
-
                 className="text-red-500 cursor-pointer mr-2 mt-2 text-2xl"
               />
             </div>
-
           </div>
         ))}
-
 
         <div className="flex items-center mb-2">
           <CiCirclePlus

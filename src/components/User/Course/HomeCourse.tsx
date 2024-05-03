@@ -42,10 +42,11 @@ function HomeCourse() {
     return (
       <div className="container mx-auto px-4 py-8 lg:px-64">
 
-        {courses.map(course=>(
+        
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {/* First Card */}
-          <Link to="/course-detail" className="block">
+          {courses.map(course=>(
+          <Link to={`/course-details/${course.id}`} key={course.id} className="block">
             <div className="bg-white rounded-lg overflow-hidden shadow-lg">
               <img
                 className="w-full h-40 object-cover"
@@ -57,8 +58,10 @@ function HomeCourse() {
                  {course.courseName}
                 </h5>
                 <p className="mb-2 text-gray-700">
-                  Here are the biggest enterprise technology acquisitions of
-                  2021 so far, in reverse chronological order.
+                 {course.courseLevel}
+                </p>
+                <p className="mb-2 text-gray-700">
+                ₹ {course.coursePrice}
                 </p>
                 <div className="flex items-center justify-between">
                   <Link to="#" className="text-blue-600 hover:underline">
@@ -85,9 +88,9 @@ function HomeCourse() {
               </div>
             </div>
           </Link>
-
+   ))}
         </div>
-        ))}
+     
       </div>
     );
 }

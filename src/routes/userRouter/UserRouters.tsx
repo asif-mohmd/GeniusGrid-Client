@@ -8,6 +8,7 @@ import ForgotPassword from "../../components/User/Auth/ForgotPassword"
 import ForgotOTP from "../../components/User/Auth/ForgotOTP"
 import  UserProtectorRoute  from "./UserProtectorRoute"
 import UserPublicRoute from "./UserPublicRoute"
+import UserCourseDetails from "../../pages/user/UserCourseDetails"
 
 
 
@@ -22,6 +23,9 @@ const UserRouters = () => {
         <Route path={userEndpoints.forgotPassword} element={<UserPublicRoute component={ForgotPassword} />}  />
         <Route path={userEndpoints.otp} element={<UserPublicRoute component={OTPPage} />} />
         <Route path={userEndpoints.forgotOTP} element={<UserPublicRoute component={ForgotOTP} />} />
+        <Route path={userEndpoints.courseDetails} element={<UserProtectorRoute component={UserCourseDetails} />} />
+
+
 
 
 

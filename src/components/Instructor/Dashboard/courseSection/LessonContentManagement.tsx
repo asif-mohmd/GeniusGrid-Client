@@ -20,6 +20,13 @@ interface LessonContent {
   links: string[];
 }
 
+interface videoData {
+  fileName:string;
+  videoUrl:string;
+}
+ 
+
+
 const LessonContentManagement: React.FC = () => {
   const [lessons, setLessons] = useState<LessonContent[][]>([]);
 
@@ -29,12 +36,16 @@ const LessonContentManagement: React.FC = () => {
 
   const editCourseDetails = useSelector((store: RootState) => store.courseData.courseData2)
 
+  const [videoDetails, setvideoDetails] = useState<videoData[]>([]);
+
   const navigate = useNavigate()
   const dispatch = useDispatch()
 
   useEffect(() => {
     async function fetchCourseData() {
       try {
+      
+
         const lessonsData = courseLessonsDetails?.courseLessons || [];
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const formattedLessons: LessonContent[][] = lessonsData.map((lesson: any) => {
@@ -47,6 +58,15 @@ const LessonContentManagement: React.FC = () => {
             links: content.links || [],
           }));
         });
+        
+        console.log("uuuuuuuuuuuuuuuuuuuuiiiiiiiiiiiii")
+        const response = await instructoraxios.get("http://localhost:4000/transcode/videoURL");
+        if (response && response.data) {
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          const urls = response.data
+          console.log(urls,"vvvvvvvvvvvvvvvvvvvvvvvvvvv")
+          setvideoDetails(urls); // Set video URLs in state
+        }
         setLessons(formattedLessons);
       } catch (error) {
         console.error("Error fetching course details:", error);
@@ -151,6 +171,7 @@ const LessonContentManagement: React.FC = () => {
                 lessonIndex={lessonIndex}
                 onAddContent={handleAddContent}
                 onDeleteContent={() => handleDeleteLesson(lessonIndex)}
+                videoDetails={videoDetails}
               />
               <button
                 type="button"
