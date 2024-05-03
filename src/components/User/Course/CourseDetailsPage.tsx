@@ -1,38 +1,60 @@
 import React from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faStar, faClock, faMoneyBillWave } from '@fortawesome/free-solid-svg-icons';
 
 function CourseDetailsPage() {
   return (
-    <div className="container mx-auto py-12">
-      <div className="max-w-2xl mx-auto bg-white shadow-md rounded-lg overflow-hidden">
+    <div className="container mx-auto py-12 bg-gray-50">
+      <div className="max-w-2xl mx-auto bg-gray-50 rounded-lg overflow-hidden">
         <div className="px-6 py-4">
-          <div className="text-2xl font-bold mb-2">Course Details</div>
           <div className="mb-4">
-            <div className="text-lg font-semibold mb-1">Course Title:</div>
-            <p className="text-gray-700">Introduction to Web Development</p>
+            <div className="text-3xl  font-bold mb-1 text-gray-800 ">Python Full stack</div>
+            <p className="text-lg text-gray-700">Introduction to Web Development</p>
           </div>
           <div className="mb-4">
-            <div className="text-lg font-semibold mb-1">Instructor:</div>
-            <p className="text-gray-700">John Smith</p>
+            <div className="text-lg font-semibold mb-1 text-gray-800">Instructor:</div>
+            <p className="text-lg text-gray-700">John Smith</p>
           </div>
           <div className="mb-4">
-            <div className="text-lg font-semibold mb-1">Description:</div>
-            <p className="text-gray-700">This course provides an overview of web development technologies...</p>
+            <div className="text-lg font-semibold mb-1 text-gray-800">Description:</div>
+            <p className="text-lg text-gray-700">This course provides an overview of web development technologies...</p>
           </div>
           <div className="mb-4">
-            <div className="text-lg font-semibold mb-1">Duration:</div>
-            <p className="text-gray-700">10 weeks</p>
+            <div className="text-lg font-semibold mb-1 text-gray-800">Duration:</div>
+            <div className="flex items-center text-lg text-gray-700">
+              <FontAwesomeIcon icon={faClock} className="mr-2" />
+              <span>10 weeks</span>
+            </div>
           </div>
           <div className="mb-4">
-            <div className="text-lg font-semibold mb-1">Price:</div>
-            <p className="text-gray-700">$99.99</p>
+            <div className="text-lg font-semibold mb-1 text-gray-800">Price:</div>
+            <div className="flex items-center text-lg text-gray-700">
+              <FontAwesomeIcon icon={faMoneyBillWave} className="mr-2" />
+              <span>$99.99</span>
+            </div>
           </div>
           <div className="mb-4">
-            <div className="text-lg font-semibold mb-1">Prerequisites:</div>
-            <ul className="list-disc list-inside text-gray-700">
+            <div className="text-lg font-semibold mb-1 text-gray-800">Prerequisites:</div>
+            <ul className="list-disc list-inside text-lg text-gray-700">
               <li>Basic understanding of HTML</li>
               <li>Basic understanding of CSS</li>
               <li>Basic understanding of JavaScript</li>
             </ul>
+          </div>
+          <div className="mb-4">
+            <div className="text-lg font-semibold mb-1 text-gray-800">Benefits:</div>
+            <ul className="list-disc list-inside text-lg text-gray-700">
+              <li>Learn modern web development techniques</li>
+              <li>Hands-on projects and exercises</li>
+              <li>Access to resources and support</li>
+            </ul>
+          </div>
+          <div className="mb-4">
+            <div className="text-lg font-semibold mb-1 text-gray-800">Rating:</div>
+            <div className="flex items-center text-lg text-yellow-400">
+              <FontAwesomeIcon icon={faStar} className="mr-2" />
+              <span>4.5</span>
+            </div>
           </div>
         </div>
       </div>

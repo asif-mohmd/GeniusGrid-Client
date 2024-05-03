@@ -162,10 +162,10 @@ const LessonContentManagement: React.FC = () => {
         />
       </div>
 
-      <div className="container mx-auto p-8 flex-grow">
+      <div className="container mx-auto p-8 flex-grow ">
         <div className="bg-slate-50">
           {lessons.map((lesson, lessonIndex) => (
-            <div key={lessonIndex} className="lesson-container bg-white rounded-lg p-4 mb-4">
+            <div key={lessonIndex} className="lesson-container bg-white rounded-lg p-4 mb-4 overflow-x-hidden w-10/12">
               <LessonComponent
                 lesson={lesson}
                 lessonIndex={lessonIndex}

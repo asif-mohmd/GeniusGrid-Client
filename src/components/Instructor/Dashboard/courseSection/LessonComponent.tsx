@@ -137,7 +137,7 @@ const LessonComponent: React.FC<LessonProps> = ({
       <ToastContainer />
       <p className="text-xl font-bold mb-2">Lesson {lessonIndex + 1}</p>
       {lesson.map((content, contentIndex) => (
-        <div key={contentIndex} className="rounded-lg p-4 mt-4">
+        <div key={contentIndex} className="rounded-lg p-4 mt-4 ">
           <p className="font-semibold my-2">
             Content {contentIndex + 1} :{" "}
             <span className="text-green-500">Submitted</span>
@@ -145,8 +145,8 @@ const LessonComponent: React.FC<LessonProps> = ({
           <p className="mb-2">
             <strong>Title:</strong> {content.videoTitle}
           </p>
-          <p className="mb-2">
-            <strong>URL:</strong> {content.videoURL}
+          <p className="mb-2 ">
+            <strong className="">URL:</strong> {content.videoURL}
           </p>
           <p className="mb-2">
             <strong>Subtitle URL:</strong> {content.subtitleURL}
@@ -201,7 +201,7 @@ const LessonComponent: React.FC<LessonProps> = ({
             className="py-2 px-4 border border-gray-300 rounded-lg focus:outline-none w-full"
           />
         </div>
-        <div className="mb-2">
+        <div className="mb-2 ">
           <label htmlFor={`videoUrl-${lessonIndex}`}>Select Video URL:</label>
           <select
             id={`videoUrl-${lessonIndex}`}
@@ -240,7 +240,7 @@ const LessonComponent: React.FC<LessonProps> = ({
           />
         </div>
         {[...Array(numLinks)].map((_, index) => (
-          <div key={index} className="mb-2 flex items-center">
+          <div key={index} className="mb-2 flex items-center " >
             <input
               type="text"
               value={formData.links[index] || ""}
@@ -279,3 +279,4 @@ const LessonComponent: React.FC<LessonProps> = ({
 };
 
 export default LessonComponent;
+

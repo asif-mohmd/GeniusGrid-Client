@@ -63,9 +63,10 @@ const Header = () => {
 
         {/* Desktop Navigation */}
         <ul className="hidden md:flex ">
-          <li className="p-4 hover:bg-[#00df9a] rounded-xl m-1 cursor-pointer duration-300 hover:text-black">
+        <Link   to={userEndpoints.home}
+         className="p-4 hover:bg-[#00df9a] rounded-xl m-1 cursor-pointer duration-300 hover:text-black">
             Home
-          </li>
+            </Link>
           <li className="p-4 hover:bg-[#00df9a] rounded-xl m-1 cursor-pointer duration-300 hover:text-black">
             Courses
           </li>
