@@ -53,22 +53,25 @@ function DashboardTranscodeVideo() {
           formData,
           {
             onUploadProgress: (progressEvent) => {
-                if (progressEvent.total) {
-                  const percentCompleted = Math.round(
-                    (progressEvent.loaded * 100) / progressEvent.total
-                  );
-                  setProgress(percentCompleted);
-                } else {
-                  // Handle the case where progressEvent.total is undefined
-                  // For example, you might want to log a warning or set a default progress value
-                  console.warn("Progress event total is undefined.");
-                  setProgress(0); // Set a default progress value or handle as needed
-                }
-              },
+              if (progressEvent.total) {
+                const percentCompleted = Math.round(
+                  (progressEvent.loaded * 100) / progressEvent.total
+                );
+                setProgress(percentCompleted);
+              } else {
+                // Handle the case where progressEvent.total is undefined
+                // For example, you might want to log a warning or set a default progress value
+                console.warn("Progress event total is undefined.");
+                setProgress(0); // Set a default progress value or handle as needed
+              }
+            },
             withCredentials: true,
           }
         );
         console.log("Response:", response.data.message);
+        if (response.data) {
+          clearFile();
+        }
       } catch (error) {
         console.error("Error:", error);
       }
@@ -81,7 +84,10 @@ function DashboardTranscodeVideo() {
     <div className="container mx-auto py-8">
       <h2 className="text-2xl font-semibold mb-4">Upload Video</h2>
       <div className="border border-dashed border-gray-400 rounded-lg p-8">
-        <label htmlFor="videoinput" className="flex items-center justify-center w-full h-32 bg-gray-100 cursor-pointer rounded-lg">
+        <label
+          htmlFor="videoinput"
+          className="flex items-center justify-center w-full h-32 bg-gray-100 cursor-pointer rounded-lg"
+        >
           <FiUpload className="w-8 h-8 mr-2" /> {/* Upload icon */}
           <span className="text-lg">Choose a video</span>
         </label>
@@ -93,19 +99,22 @@ function DashboardTranscodeVideo() {
           accept=".mp4"
           ref={inputRef} // Assign ref to input element
         />
-        {errorMessage && (
-          <p className="mt-4 text-red-500">{errorMessage}</p>
-        )}
+        {errorMessage && <p className="mt-4 text-red-500">{errorMessage}</p>}
         {selectedFile !== null && (
           <div className="mt-4 flex items-center">
             <p className="text-gray-700">Selected File: {selectedFile.name}</p>
-            <button className="text-red-500 underline ml-2" onClick={clearFile}>Clear</button>
+            <button className="text-red-500 underline ml-2" onClick={clearFile}>
+              Clear
+            </button>
           </div>
         )}
-        <button className="mt-4 bg-blue-500 text-white px-4 py-2 rounded" onClick={handleSubmit}>Submit</button>
-        {progress > 0 && (
-          <p className="mt-2">Progress: {progress}%</p>
-        )}
+        <button
+          className="mt-4 bg-blue-500 text-white px-4 py-2 rounded"
+          onClick={handleSubmit}
+        >
+          Submit
+        </button>
+        {progress > 0 && <p className="mt-2">Progress: {progress}%</p>}
       </div>
     </div>
   );
