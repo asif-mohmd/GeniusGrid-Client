@@ -10,6 +10,13 @@ import { useNavigate } from "react-router-dom";
 import instructorEndpoints from "../../../../constraints/endpoints/instructorEndpoints";
 import { setCourseData1, setCourseData3Empty } from "../../../../redux/instructorSlices/courseData";
 import { RootState } from "../../../../redux/Store";
+import { instructoraxios } from "../../../../constraints/axiosInterceptors/instructorAxiosInterceptors";
+
+interface videoData {
+  fileName: string;
+  videoUrl: string;
+}
+
 
 
 
@@ -17,7 +24,9 @@ const CreateCourse1 = () => {
   const [benefits, setBenefits] = useState<string[]>([""]);
   const [prerequisites, setPrerequisites] = useState<string[]>([""]);
 
-  const courseDetails = useSelector((store:RootState)=>store.courseData.courseData1)
+  const [videoDetails, setvideoDetails] = useState<videoData[]>([]);
+
+  const courseDetails = useSelector((store: RootState) => store.courseData.courseData1)
 
   const navigate = useNavigate()
   const dispatch = useDispatch()
@@ -28,12 +37,28 @@ const CreateCourse1 = () => {
       setBenefits(courseDetails.benefits || []);
       setPrerequisites(courseDetails.prerequisites || []);
     }
-  }, [courseDetails]);
+    async function fetchCourseData() {
+      try {
+        const response = await instructoraxios.get("http://localhost:4000/transcode/videoURL");
+        if (response && response.data) {
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          const urls = response.data
+          console.log(urls, "vvvvvvvvvvvvvvvvvvvvvvvvvvv")
+          setvideoDetails(urls); // Set video URLs in state
+        }
+      } catch (error) {
+        console.error("Error fetching course details:", error);
+      }
+      
+
+      }
+    fetchCourseData()
+    }, [courseDetails]);
 
 
 
   const initialValues = {
-    
+
     courseName: courseDetails?.courseName || "",
     courseDescription: courseDetails?.courseDescription || "",
     coursePrice: courseDetails?.coursePrice || "",
@@ -124,12 +149,22 @@ const CreateCourse1 = () => {
     }
   };
 
+  // const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+  //   const { name, value } = e.target;
+  //   const selectedVideo = videoDetails.find(video => video.videoUrl === value);
+  //   if (selectedVideo) {
+  //     setFormData((prevFormData) => ({
+  //       ...prevFormData,
+  //       [name]: value,
+  //     }));
+  //   }
+  // };
   return (
     <div className="text-gray-900 bg-slate-50 h-screen w-full ">
-      <ToastContainer/>
+      <ToastContainer />
       <div className="px-3 py-4 flex justify-center">
         <Formik
-         enableReinitialize={true} 
+          enableReinitialize={true}
           initialValues={initialValues}
           validationSchema={validationSchema}
           onSubmit={handleSubmit}
@@ -323,28 +358,35 @@ const CreateCourse1 = () => {
                 </div>
 
                 <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                  <label
-                    htmlFor="demoURL"
-                    className="block  tracking-wide text-gray-700 text-xs font-bold mb-2"
-                  >
-                    Demo URL
-                  </label>
-                  <Field
-                    type="text"
-                    id="demoURL"
-                    name="demoURL"
-                    className={`appearance-none block w-full bg-slate-50 text-gray-700 border ${errors.demoURL && touched.demoURL && !isSubmitting
-                      ? "border-red-500"
-                      : "border-gray-200"
-                      } rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white`}
-                    placeholder="Enter Demo URL"
-                  />
-                  {errors.demoURL && touched.demoURL && !isSubmitting && (
-                    <div className="text-red-500 border-red-500 text-xs italic">
-                      {errors.demoURL}
-                    </div>
-                  )}
-                </div>
+  <label
+    htmlFor="demoURL"
+    className="block  tracking-wide text-gray-700 text-xs font-bold mb-2"
+  >
+    Demo URL
+  </label>
+  <Field
+    as="select" // Use a select element
+    id="demoURL"
+    name="demoURL"
+    className={`appearance-none block w-full bg-slate-50 text-gray-700 border ${errors.demoURL && touched.demoURL && !isSubmitting
+      ? "border-red-500"
+      : "border-gray-200"
+      } rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white`}
+  >
+    <option value="">Select Demo URL</option>
+    {videoDetails.map((video, index) => (
+      <option key={index} value={video.videoUrl}>
+        {video.fileName}
+      </option>
+    ))}
+  </Field>
+  {errors.demoURL && touched.demoURL && !isSubmitting && (
+    <div className="text-red-500 border-red-500 text-xs italic">
+      {errors.demoURL}
+    </div>
+  )}
+</div>
+
 
                 <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                   <p className="text-lg font-semibold mb-2">

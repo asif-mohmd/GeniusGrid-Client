@@ -5,6 +5,6 @@ export default{
     otp: '/otp',
     forgotPassword: '/forgotpassword',
     forgotOTP: '/forgototp',
-    courseDetails: "/course-details/:id"
+    courseDetails: "/course-details/:courseId"
     
 }
