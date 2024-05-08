@@ -11,7 +11,7 @@ import UserPublicRoute from "./UserPublicRoute"
 import UserCourseDetails from "../../pages/user/UserCourseDetails"
 import UserCourseListPage from "../../pages/user/UserCourseListPage"
 import courseEndspoints from "../../constraints/endpoints/courseEndspoints"
-import PurchesedCoursePage from "../../components/User/Course/PurchesedCoursePage"
+import PurchasedCourse from "../../pages/user/PurchedCourse"
 
 
 
@@ -28,7 +28,7 @@ const UserRouters = () => {
         <Route path={userEndpoints.forgotOTP} element={<UserPublicRoute component={ForgotOTP} />} />
         <Route path={userEndpoints.courseDetails} element={<UserProtectorRoute component={UserCourseDetails} />} />
         <Route path={courseEndspoints.allUserCourses} element={<UserProtectorRoute component={UserCourseListPage}/>} />
-        <Route path={courseEndspoints.coursePurchased} element={<UserProtectorRoute component={PurchesedCoursePage}/>} />
+        <Route path={userEndpoints.purchasedCoures} element={<UserProtectorRoute component={PurchasedCourse}/>} />
 
 
 

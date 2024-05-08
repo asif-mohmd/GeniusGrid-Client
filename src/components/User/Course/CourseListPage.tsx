@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react"
 import { userAxios } from "../../../constraints/axiosInterceptors/userAxiosInterceptors"
 import courseEndspoints from "../../../constraints/endpoints/courseEndspoints"
-import { AllCourse } from "../../../interfaces/ICourseInterface";
 import { Link } from "react-router-dom";
+import { AllCourse } from "../../../interfaces/ICourseDeatails";
 
 function CourseListPage() {
     const [courses, setCourses] = useState<AllCourse[]>([]);

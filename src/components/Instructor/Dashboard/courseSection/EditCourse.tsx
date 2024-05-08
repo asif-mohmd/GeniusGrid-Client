@@ -1,6 +1,6 @@
 import { Formik, Form, Field, FormikHelpers, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import {  ICreateCourse2 } from "../../../../interfaces/ICourseInterface";
+import {  ICreateCourse2 } from "../../../../interfaces/ICourseInterfaceRedux";
 
 import { useEffect, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";

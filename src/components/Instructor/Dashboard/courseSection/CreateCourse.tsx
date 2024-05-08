@@ -1,8 +1,7 @@
 import { Formik, Form, Field, FormikHelpers, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import { ICreateCourse1 } from "../../../../interfaces/ICourseInterface";
 
-import { ChangeEvent, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -11,7 +10,7 @@ import instructorEndpoints from "../../../../constraints/endpoints/instructorEnd
 import { setCourseData1, setCourseData3Empty } from "../../../../redux/instructorSlices/courseData";
 import { RootState } from "../../../../redux/Store";
 import { instructoraxios } from "../../../../constraints/axiosInterceptors/instructorAxiosInterceptors";
-import { FiUpload } from "react-icons/fi";
+import { ICreateCourse1 } from "../../../../interfaces/ICourseInterfaceRedux";
 
 interface videoData {
   fileName: string;
@@ -25,7 +24,6 @@ const CreateCourse1 = () => {
   const [benefits, setBenefits] = useState<string[]>([""]);
   const [prerequisites, setPrerequisites] = useState<string[]>([""]);
   
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
   const [videoDetails, setvideoDetails] = useState<videoData[]>([]);
 
@@ -61,7 +59,7 @@ const CreateCourse1 = () => {
 
 
   const initialValues = {
-    thumbnail: courseDetails?.thumbnail || null,
+
     courseName: courseDetails?.courseName || "",
     courseDescription: courseDetails?.courseDescription || "",
     coursePrice: courseDetails?.coursePrice || "",
@@ -140,11 +138,7 @@ const CreateCourse1 = () => {
       values.prerequisites = prerequisites.filter(
         (prerequisite) => prerequisite.trim() !== ""
       );
-
-      
-      console.log(selectedFile,"ivde aaane");
-
-      values.thumbnail = selectedFile
+      console.log("ivde aaane");
 
       dispatch(setCourseData1(values))
       dispatch(setCourseData3Empty())
@@ -166,15 +160,6 @@ const CreateCourse1 = () => {
   //     }));
   //   }
   // };
-
-  const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files && event.target.files[0];
-   
-        setSelectedFile(file);
-      }
-    
-  
-
   return (
     <div className="text-gray-900 bg-slate-50 h-screen w-full ">
       <ToastContainer />
@@ -192,25 +177,7 @@ const CreateCourse1 = () => {
               </div>
               <div className="flex flex-wrap -mx-3 mb-6">
 
-             
-              <div className="w-full px-3 mb-6 md:mb-0">
-                  <label
-                    htmlFor="thumbnail"
-                    className="block  tracking-wide text-gray-700 text-xs font-bold mb-2"
-                  >
-                 <FiUpload className="w-8 h-8 mr-2" /> {/* Upload icon */}
-          <span className="text-lg">Choose a thumbnail</span>
-                  </label>
-                  <input
-          type="file"
-          onChange={handleFileChange}
-          id="thumbnail"
-          
-        />
-    
-                </div>
-
-
+                
                 <div className="w-full px-3 mb-6 md:mb-0">
                   <label
                     htmlFor="courseName"

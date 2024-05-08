@@ -4,56 +4,14 @@ import {
   faClock,
   faMoneyBillWave,
 } from "@fortawesome/free-solid-svg-icons";
-import { useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
-import { instructoraxios } from "../../../constraints/axiosInterceptors/instructorAxiosInterceptors";
-import courseEndspoints from "../../../constraints/endpoints/courseEndspoints";
+import { CourseData } from "../../../interfaces/ICourseDeatails";
 
-interface Lesson {
-  videoTitle: string;
-  videoURL: string;
-  subtitleURL: string;
-  videoDescription: string;
-  links: string[]; // Assuming links are strings
-  // Add other properties here if needed
-}
 
-interface CourseData {
-  courseName: string;
-  coursePrice: string;
-  courseDescription: string;
-  courseLevel: string;
-  courseTags: string;
-  demoURL: string;
-  estimatedPrice: string;
-  instructorId: string;
-  totalVideos: string;
-  prerequisites: string[];
-  benefits: string[];
-  courseLessons: Lesson[]; // Array of Lesson, not Lesson[][]
-}
 
-function CourseDetailsPage() {
-  const { courseId } = useParams<{ courseId: string }>(); // Define type for courseId
-  const [courseData, setCourseData] = useState<CourseData | null>(null); // Define type for courseData
+function CourseDetailsPage(courseData:CourseData) {
 
-  useEffect(() => {
-    async function fetchCourseData() {
-      try {
-        const response = await instructoraxios.get(
-          `${courseEndspoints.courseDetails}/${courseId}`
-        );
 
-        const courseData: CourseData = response.data.response;
-        setCourseData(courseData);
-        console.log(courseData, "============");
-      } catch (error) {
-        console.error("Error fetching course data:", error);
-      }
-    }
-    fetchCourseData();
-  }, [courseId]);
-
+ 
   return (
     <div className="container mx-auto py-12 bg-gray-50">
       <div className="max-w-2xl mx-auto bg-gray-50 rounded-lg overflow-hidden">

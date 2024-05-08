@@ -2,22 +2,16 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import courseEndspoints from '../../../constraints/endpoints/courseEndspoints';
 import { userAxios } from '../../../constraints/axiosInterceptors/userAxiosInterceptors';
-import { Course } from '../../../interfaces/ICourseInterface';
+import { Course } from '../../../interfaces/ICourseDeatails';
 
 
 function HomeCourse() {
 
   const [courses, setCourses] = useState<Course[]>([]);
 
-  // const navigate = useNavigate()
-
-
-
-
   useEffect(() => {
     async function listCourses() {
       try {
-        console.log("lsisttttttttttttttttt")
         const listCoursesResponse = await userAxios.get(courseEndspoints.listCourse);
 
         console.log(listCoursesResponse.data.courseData.courses,"ithhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh");

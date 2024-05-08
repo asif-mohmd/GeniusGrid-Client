@@ -1,39 +1,15 @@
-import CourseDetailsPage from '../../components/User/Course/CourseDetailsPage';
-import VideoPlayer from '../../components/User/Course/VideoPlayer';
-import Header from '../../components/User/Layout/Header';
-import { useEffect, useState } from 'react';
-import { instructoraxios } from '../../constraints/axiosInterceptors/instructorAxiosInterceptors';
-import courseEndspoints from '../../constraints/endpoints/courseEndspoints';
-
-interface Lesson {
-  videoTitle: string;
-  videoURL: string;
-  subtitleURL: string;
-  videoDescription: string;
-  links: string[]; // Assuming links are strings
-  // Add other properties here if needed
-}
-
-interface CourseData {
-  courseName: string;
-  coursePrice: string;
-  courseDescription: string;
-  courseLevel: string;
-  courseTags: string;
-  demoURL: string;
-  estimatedPrice: string;
-  instructorId: string;
-  totalVideos: string;
-  prerequisites: string[];
-  benefits: string[];
-  courseLessons: Lesson[]; // Array of Lesson, not Lesson[][]
-}
-
+import CourseDetailsPage from "../../components/User/Course/CourseDetailsPage";
+import VideoPlayer from "../../components/User/Course/VideoPlayer";
+import Header from "../../components/User/Layout/Header";
+import { useEffect, useState } from "react";
+import { instructoraxios } from "../../constraints/axiosInterceptors/instructorAxiosInterceptors";
+import courseEndspoints from "../../constraints/endpoints/courseEndspoints";
+import { Link, useParams } from "react-router-dom";
+import { CourseData } from "../../interfaces/ICourseDeatails";
 
 function UserCourseDetails() {
-  const [videoUrl, setVideoUrl] = useState<string | null>(null); // Define type for courseData
-
-  const courseId = "663a247d09414d806be152d9"
+  const { courseId } = useParams<{ courseId: string }>();
+  const [courseData, setCourseData] = useState<CourseData | null>(null);
 
   useEffect(() => {
     async function fetchCourseData() {
@@ -43,27 +19,38 @@ function UserCourseDetails() {
         );
 
         const courseData: CourseData = response.data.response;
-        console.log(courseData.demoURL, "============");
-
-        setVideoUrl(courseData.demoURL);
+        setCourseData(courseData);
+        console.log(courseData, "============");
       } catch (error) {
         console.error("Error fetching course data:", error);
       }
     }
     fetchCourseData();
-  }, []);
-  
+  }, [courseId]);
+
+
+
   return (
     <div>
       <Header />
       <div className="flex bg-gray-50">
         <div className="w-1/2 p-6 bg-gray-50">
-        {videoUrl}
-        <VideoPlayer videoUrl={videoUrl || ''} subtitleUrl='dfsdafasd'/>
-        
+          <VideoPlayer
+            videoUrl={courseData?.demoURL || ""}
+            subtitleUrl="dfsdafasd"
+          />
+
+          <div className="m-5">
+            <Link to={`/purchased/course/${courseData?._id}`}  >
+              <button  className="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-full text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700">
+              Enroll now
+              </button>
+            
+            </Link>
+          </div>
         </div>
         <div className="w-1/2 p-6 ">
-          <CourseDetailsPage/> 
+          {courseData && <CourseDetailsPage {...courseData} />}
         </div>
       </div>
     </div>

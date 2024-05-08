@@ -3,7 +3,7 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { ICreateCourse2 } from "../../../interfaces/ICourseInterface";
+import { ICreateCourse2 } from "../../../interfaces/ICourseInterfaceRedux";
 import { useDispatch, useSelector } from "react-redux";
 import { setCourseData2 } from "../../../redux/instructorSlices/courseData";
 import { RootState } from "../../../redux/Store";
