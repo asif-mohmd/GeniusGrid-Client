@@ -6,6 +6,7 @@ import { useDispatch } from "react-redux";
 import { userLogout } from "../../../redux/userSlices/authSlice";
 import { clearUserData } from "../../../redux/userSlices/userDataSlice";
 import instructorEndpoints from "../../../constraints/endpoints/instructorEndpoints";
+import courseEndspoints from "../../../constraints/endpoints/courseEndspoints";
 
 const Header = () => {
   // State to manage the navbar's visibility
@@ -67,12 +68,14 @@ const Header = () => {
          className="p-4 hover:bg-[#00df9a] rounded-xl m-1 cursor-pointer duration-300 hover:text-black">
             Home
             </Link>
-          <li className="p-4 hover:bg-[#00df9a] rounded-xl m-1 cursor-pointer duration-300 hover:text-black">
+          <Link to={courseEndspoints.allUserCourses}
+           className="p-4 hover:bg-[#00df9a] rounded-xl m-1 cursor-pointer duration-300 hover:text-black">
             Courses
-          </li>
-          <li className="p-4 hover:bg-[#00df9a] rounded-xl m-1 cursor-pointer duration-300 hover:text-black">
+            </Link>
+          <Link to={courseEndspoints.coursePurchased}
+          className="p-4 hover:bg-[#00df9a] rounded-xl m-1 cursor-pointer duration-300 hover:text-black">
             About
-          </li>
+          </Link>
           <Link
             to={instructorEndpoints.login}
             className="p-4 hover:bg-[#00df9a] rounded-xl m-1 cursor-pointer duration-300 hover:text-black"

@@ -4,8 +4,9 @@ export interface CreateCourse3Props {
   data: string;
 }
 
+
 export interface ICreateCourse1 {
-  
+  thumbnail:File | null,
   courseName: string;
   courseDescription: string;
   coursePrice: string;
@@ -53,4 +54,22 @@ export interface ICreateCourse2 {
 
 export interface IPrivateIdStore {
   privateIdStore : number
+}
+
+export interface Course {
+  id: number;
+  courseName: string;
+  coursePrice: number;
+  courseLevel: string;
+  totalVideos: number;
+  // Add any other properties here
+}
+
+
+export interface AllCourse{
+  _id: number;
+  courseName: string;
+  coursePrice: number;
+  courseLevel: string;
+  totalVideos: number;
 }

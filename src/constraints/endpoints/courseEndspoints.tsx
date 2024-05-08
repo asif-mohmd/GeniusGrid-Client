@@ -7,5 +7,7 @@ export default {
     addLessonContent: "/course/add-lesson-content",
     getLessonsContents : "/course/getLessonsContenes",
     deleteCourse : "/course/delete/course",
+    allUserCourses: "/course/get-all-user-courses",
+    coursePurchased: "/course/get-purchased-course"
    
 }

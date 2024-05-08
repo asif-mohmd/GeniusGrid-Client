@@ -60,9 +60,10 @@ function UserCourseDetails() {
         <div className="w-1/2 p-6 bg-gray-50">
         {videoUrl}
         <VideoPlayer videoUrl={videoUrl || ''} subtitleUrl='dfsdafasd'/>
+        
         </div>
         <div className="w-1/2 p-6 ">
-          <CourseDetailsPage/>
+          <CourseDetailsPage/> 
         </div>
       </div>
     </div>

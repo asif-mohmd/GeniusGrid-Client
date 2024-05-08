@@ -1,16 +1,9 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { instructoraxios } from '../../../constraints/axiosInterceptors/instructorAxiosInterceptors';
 import courseEndspoints from '../../../constraints/endpoints/courseEndspoints';
+import { userAxios } from '../../../constraints/axiosInterceptors/userAxiosInterceptors';
+import { Course } from '../../../interfaces/ICourseInterface';
 
-interface Course {
-  id: number;
-  courseName: string;
-  coursePrice: number;
-  courseLevel: string;
-  totalVideos: number;
-  // Add any other properties here
-}
 
 function HomeCourse() {
 
@@ -25,9 +18,9 @@ function HomeCourse() {
     async function listCourses() {
       try {
         console.log("lsisttttttttttttttttt")
-        const listCoursesResponse = await instructoraxios.get(courseEndspoints.listCourse);
+        const listCoursesResponse = await userAxios.get(courseEndspoints.listCourse);
 
-        console.log(listCoursesResponse.data.courseData.courses);
+        console.log(listCoursesResponse.data.courseData.courses,"ithhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh");
         const coursesData = listCoursesResponse.data.courseData.courses;
         console.log(coursesData,"[[[[[[[[[[[[[[[[[[[[[[")
         setCourses(coursesData);
@@ -46,7 +39,6 @@ function HomeCourse() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {/* First Card */}
           {courses.map(course=>(
-          
           <Link to={`/course-details/${course.id}`} key={course.id} className="block">
             <div className="bg-white rounded-lg overflow-hidden shadow-lg">
               <img
@@ -54,7 +46,6 @@ function HomeCourse() {
                 src="https://via.placeholder.com/350x200"
                 alt=""
               />
-          {course.id}
               <div className="p-4">
                 <h5 className="mb-2 text-lg font-semibold text-gray-800">
                  {course.courseName}
