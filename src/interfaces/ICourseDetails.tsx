@@ -1,5 +1,6 @@
 export interface Course {
     id: number;
+    thumbnail:string;
     courseName: string;
     coursePrice: number;
     courseLevel: string;
@@ -10,6 +11,7 @@ export interface Course {
   
   export interface AllCourse{
     _id: number;
+    thumbnail:string;
     courseName: string;
     coursePrice: number;
     courseLevel: string;

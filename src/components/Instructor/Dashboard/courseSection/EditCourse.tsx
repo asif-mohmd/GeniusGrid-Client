@@ -52,7 +52,7 @@ const initialValues = {
   courseDescription: courseDetails?.courseDescription || "",
   coursePrice: courseDetails?.coursePrice || "",
   estimatedPrice: courseDetails?.estimatedPrice || "",
-  courseTags: courseDetails?.courseTags || "",
+  courseCategory: courseDetails?.courseCategory || "",
   courseLevel: courseDetails?.courseLevel || "",
   totalVideos: courseDetails?.totalVideos || "",
   demoURL: courseDetails?.demoURL || "",
@@ -277,25 +277,25 @@ const initialValues = {
 
                 <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                   <label
-                    htmlFor="courseTags"
+                    htmlFor="courseCategory"
                     className="block  tracking-wide text-gray-700 text-xs font-bold mb-2"
                   >
                     Course Tags
                   </label>
                   <Field
                     type="text"
-                    id="courseTags"
-                    name="courseTags"
+                    id="courseCategory"
+                    name="courseCategory"
                     className={`appearance-none block w-full bg-slate-50 text-gray-700 border ${
-                      errors.courseTags && touched.courseTags && !isSubmitting
+                      errors.courseCategory && touched.courseCategory && !isSubmitting
                         ? "border-red-500"
                         : "border-gray-200"
                     } rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white`}
                     placeholder="Enter course tags"
                   />
-                  {errors.courseTags && touched.courseTags && !isSubmitting && (
+                  {errors.courseCategory && touched.courseCategory && !isSubmitting && (
                     <div className="text-red-500 border-red-500 text-xs italic">
-                      {errors.courseTags}
+                      {errors.courseCategory}
                     </div>
                   )}
                 </div>

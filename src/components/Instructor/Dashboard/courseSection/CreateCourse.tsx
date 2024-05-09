@@ -165,25 +165,7 @@ const CreateCourse1 = () => {
     }
   };
 
-  // const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-  //   const { name, value } = e.target;
-  //   const selectedVideo = videoDetails.find(video => video.videoUrl === value);
-  //   if (selectedVideo) {
-  //     setFormData((prevFormData) => ({
-  //       ...prevFormData,
-  //       [name]: value,
-  //     }));
-  //   }
-  // };
 
-  // const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
-  //   const file = event.target.files?.[0];
-  //   if (file) {
-  //     setSelectedFile(file);
-  //     const imageURL = URL.createObjectURL(file);
-  //     setPreviewURL(imageURL);
-  //   }
-  // };
 
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files && event.target.files[0];
@@ -199,6 +181,7 @@ const CreateCourse1 = () => {
           if (reader.result && typeof reader.result === "string") {
             const base64String = reader.result.split(",")[1];
             setBase64Image(base64String);
+            
           } else {
             console.error("Failed to read file or result is not a string.");
           }

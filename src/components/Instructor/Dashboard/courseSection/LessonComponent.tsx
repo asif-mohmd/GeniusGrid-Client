@@ -33,13 +33,14 @@ const LessonComponent: React.FC<LessonProps> = ({
 }) => {
   const [formData, setFormData] = useState<LessonContent>({
     videoTitle: "",
-    videoURL: "", // Initial state set to an empty string
+    videoURL: "",
     subtitleURL: "",
     videoDescription: "",
     links: [],
   });
   const [editingIndex, setEditingIndex] = useState<number | null>(null);
   const [numLinks, setNumLinks] = useState<number>(1);
+  const [selectedVideoName, setSelectedVideoName] = useState<string>("");
 
   const handleFormDataSubmit = () => {
     if (
@@ -120,17 +121,15 @@ const LessonComponent: React.FC<LessonProps> = ({
 
   const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const { name, value } = e.target;
-    const selectedVideo = videoDetails.find(video => video.videoUrl === value);
+    const selectedVideo = videoDetails.find((video) => video.videoUrl === value);
     if (selectedVideo) {
       setFormData((prevFormData) => ({
         ...prevFormData,
         [name]: value,
       }));
+      setSelectedVideoName(selectedVideo.fileName);
     }
   };
-  
-
-  console.log("qqqqqqqqqqqqq", videoDetails);
 
   return (
     <div key={lessonIndex} className="mb-8 rounded-lg p-4">
@@ -213,12 +212,15 @@ const LessonComponent: React.FC<LessonProps> = ({
             <option value="">Select a URL</option>
             {videoDetails.map((videoData, index) => (
               <option key={index} value={videoData.videoUrl}>
-              {videoData.fileName}
-            </option>
-            
+                {videoData.fileName}
+              </option>
             ))}
           </select>
+          {selectedVideoName && (
+            <p className="text-sm mt-2">Selected Video: {selectedVideoName}</p>
+          )}
         </div>
+
         <div className="mb-2">
           <input
             type="text"
