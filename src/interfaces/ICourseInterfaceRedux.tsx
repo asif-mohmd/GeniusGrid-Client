@@ -11,7 +11,7 @@ export interface ICreateCourse1 {
   courseDescription: string;
   coursePrice: string;
   estimatedPrice: string;
-  courseTags: string;
+  courseCategory: string;
   totalVideos: string;
   courseLevel: string;
   demoURL: string;
@@ -26,7 +26,7 @@ export interface ICreateCourse3 {
   courseDescription: string;
   coursePrice: string;
   estimatedPrice: string;
-  courseTags: string;
+  courseCategory: string;
   totalVideos: string;
   courseLevel: string;
   demoURL: string;
@@ -43,7 +43,7 @@ export interface ICreateCourse2 {
   courseDescription: string;
   coursePrice: string;
   estimatedPrice: string;
-  courseTags: string;
+  courseCategory: string;
   totalVideos: string;
   courseLevel: string;
   demoURL: string;

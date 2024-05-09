@@ -1,39 +1,38 @@
-import { useState, ChangeEvent, useRef } from "react";
-import axios, { AxiosResponse } from "axios";
+import  { useState, ChangeEvent, useRef } from "react";
+import axios from "axios";
 import { FiUpload } from "react-icons/fi"; // Importing upload icon from react-icons library
-
-interface TranscodeResponse {
-  message: string;
-  // Add other fields if present in the response
-}
+import { FaSpinner } from "react-icons/fa"; // Importing spinner icon from react-icons library
+import { confirmAlert } from "react-confirm-alert"; // Importing confirmation dialog functionality
+import "react-confirm-alert/src/react-confirm-alert.css"; // Importing default styles for confirmation dialog
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function DashboardTranscodeVideo() {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const [progress, setProgress] = useState<number>(0);
+  const [loading, setLoading] = useState<boolean>(false); // Added loading state
   const inputRef = useRef<HTMLInputElement>(null); // Ref for file input element
 
-  const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = async (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files && event.target.files[0];
     if (file) {
-      setSelectedFile(null); // Clear selected file
-      const fileSizeInMB = file.size / (1024 * 1024);
-      if (fileSizeInMB > 500) {
-        setErrorMessage("File size exceeds 500 MB limit.");
-        if (inputRef.current) {
-          inputRef.current.value = ""; // Clear input
-        }
-      } else if (!file.name.endsWith(".mp4")) {
-        setErrorMessage("Only MP4 files are supported.");
-        if (inputRef.current) {
-          inputRef.current.value = ""; // Clear input
-        }
-      } else {
-        setSelectedFile(file);
-        setErrorMessage(null);
+      
+      if (file.type !== "video/mp4") {
+        setErrorMessage("Only MP4 format is allowed.");
+        return;
       }
+      
+      const maxSize = 300 * 1024 * 1024; 
+      if (file.size > maxSize) {
+        setErrorMessage("Maximum file size allowed is 300MB.");
+        return;
+      }
+  
+      setSelectedFile(file);
+      setErrorMessage(null);
     }
   };
+  
 
   const clearFile = () => {
     setSelectedFile(null);
@@ -44,37 +43,54 @@ function DashboardTranscodeVideo() {
 
   const handleSubmit = async () => {
     if (selectedFile) {
-      const formData = new FormData();
-      formData.append("file", selectedFile);
-
-      try {
-        const response: AxiosResponse<TranscodeResponse> = await axios.post(
-          "http://localhost:4000/transcode",
-          formData,
+      confirmAlert({
+        title: "Confirm",
+        message: "Are you sure to upload the video?",
+        buttons: [
           {
-            onUploadProgress: (progressEvent) => {
-              if (progressEvent.total) {
-                const percentCompleted = Math.round(
-                  (progressEvent.loaded * 100) / progressEvent.total
+            label: "Yes",
+            onClick: async () => {
+              const formData = new FormData();
+              formData.append("file", selectedFile);
+              setErrorMessage(null);
+              setLoading(true); // Set loading state to true before starting upload
+
+              try {
+                const response = await axios.post(
+                  "http://localhost:4000/transcode",
+                  formData,
+                  {
+                    withCredentials: true,
+                  }
                 );
-                setProgress(percentCompleted);
-              } else {
-                // Handle the case where progressEvent.total is undefined
-                // For example, you might want to log a warning or set a default progress value
-                console.warn("Progress event total is undefined.");
-                setProgress(0); // Set a default progress value or handle as needed
+
+                console.log("Response:", response);
+                if (response.status === 200) {
+                  setErrorMessage(null);
+                  clearFile();
+                  toast.success("Upload completed!");
+                } else {
+                  toast.error("Something went wrong. Try again!");
+                }
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              } catch (error:any) {
+                console.error("Error:", error);
+                if (error.response && error.response.status === 503) {
+                  toast.error("Video not supported. Try again");
+                } else {
+                  setErrorMessage("Error uploading video. Please try again.");
+                }
+              }finally {
+                setLoading(false); // Set loading state to false after upload completes
               }
             },
-            withCredentials: true,
-          }
-        );
-        console.log("Response:", response.data.message);
-        if (response.data) {
-          clearFile();
-        }
-      } catch (error) {
-        console.error("Error:", error);
-      }
+          },
+          {
+            label: "No",
+            onClick: () => {},
+          },
+        ],
+      });
     } else {
       console.error("No file selected.");
     }
@@ -82,14 +98,19 @@ function DashboardTranscodeVideo() {
 
   return (
     <div className="container mx-auto py-8">
+       <ToastContainer />
       <h2 className="text-2xl font-semibold mb-4">Upload Video</h2>
       <div className="border border-dashed border-gray-400 rounded-lg p-8">
         <label
           htmlFor="videoinput"
           className="flex items-center justify-center w-full h-32 bg-gray-100 cursor-pointer rounded-lg"
         >
-          <FiUpload className="w-8 h-8 mr-2" /> {/* Upload icon */}
-          <span className="text-lg">Choose a video</span>
+          {loading ? (
+            <FaSpinner className="animate-spin w-8 h-8 mr-2" />
+          ) : (
+            <FiUpload className="w-8 h-8 mr-2" />
+          )}
+          <span className="text-lg">{loading ? "Uploading, please wait..." : "Choose a video"}</span>
         </label>
         <input
           type="file"
@@ -114,7 +135,6 @@ function DashboardTranscodeVideo() {
         >
           Submit
         </button>
-        {progress > 0 && <p className="mt-2">Progress: {progress}%</p>}
       </div>
     </div>
   );

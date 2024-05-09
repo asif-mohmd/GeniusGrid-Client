@@ -1,7 +1,7 @@
 import { Formik, Form, Field, FormikHelpers, ErrorMessage } from "formik";
 import * as Yup from "yup";
 
-import { ChangeEvent, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -15,6 +15,7 @@ import { RootState } from "../../../../redux/Store";
 import { instructoraxios } from "../../../../constraints/axiosInterceptors/instructorAxiosInterceptors";
 import { ICreateCourse1 } from "../../../../interfaces/ICourseInterfaceRedux";
 import { FaTrash, FaUpload } from "react-icons/fa";
+import { compress } from 'image-conversion';
 
 interface videoData {
   fileName: string;
@@ -28,6 +29,12 @@ const CreateCourse1 = () => {
   const [base64Image, setBase64Image] = useState<string>("");
 
   const [videoDetails, setvideoDetails] = useState<videoData[]>([]);
+
+  const courseLevel = {
+    Beginner: "Beginner",
+    Intermediate: "Intermediate",
+    Advanced: "Advanced"
+  };
 
   const courseDetails = useSelector(
     (store: RootState) => store.courseData.courseData1
@@ -67,7 +74,7 @@ const CreateCourse1 = () => {
     courseDescription: courseDetails?.courseDescription || "",
     coursePrice: courseDetails?.coursePrice || "",
     estimatedPrice: courseDetails?.estimatedPrice || "",
-    courseTags: courseDetails?.courseTags || "",
+    courseCategory: courseDetails?.courseCategory || "",
     courseLevel: courseDetails?.courseLevel || "",
     totalVideos: courseDetails?.totalVideos || "",
     demoURL: courseDetails?.demoURL || "",
@@ -80,9 +87,9 @@ const CreateCourse1 = () => {
     courseDescription: Yup.string().required("Course description is required"),
     coursePrice: Yup.number().required("Course price is required"),
     estimatedPrice: Yup.number().required("Estimated price is required"),
-    courseTags: Yup.string().required("Course tags are required"),
+    courseCategory: Yup.string().required("Course category are required"),
     courseLevel: Yup.string().required("Course level is required"),
-    totalVideos: Yup.string().required("Course category is required"),
+    totalVideos: Yup.number().required("Course category is required"),
     demoURL: Yup.string().required("Introduction URL is required"),
     benefits: Yup.array().of(Yup.string()).required("Benefits are required"),
     prerequisites: Yup.array()
@@ -145,7 +152,7 @@ const CreateCourse1 = () => {
         values.prerequisites = prerequisites.filter(
           (prerequisite) => prerequisite.trim() !== ""
         );
-        console.log(values,"ivde aaane");
+        console.log(values, "ivde aaane");
 
         dispatch(setCourseData1(values));
         dispatch(setCourseData3Empty());
@@ -178,24 +185,35 @@ const CreateCourse1 = () => {
   //   }
   // };
 
-  const handleImageChange = (event: ChangeEvent<HTMLInputElement>) => {
+  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files && event.target.files[0];
     if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        if (reader.result && typeof reader.result === "string") {
-          const base64String = reader.result.split(",")[1];
-          setBase64Image(base64String);
-        } else {
-          console.error("Failed to read file or result is not a string.");
-        }
-      };
-      reader.readAsDataURL(file);
+      compress(file, {
+        quality: 0.6, // Set the quality of the compressed image (0 to 1)
+        maxWidth: 800, // Set the maximum width of the compressed image
+        maxHeight: 600, // Set the maximum height of the compressed image
+      }).then((compressedBlob: Blob) => {
+        const compressedFile = new File([compressedBlob], file.name, { type: file.type });
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          if (reader.result && typeof reader.result === "string") {
+            const base64String = reader.result.split(",")[1];
+            setBase64Image(base64String);
+          } else {
+            console.error("Failed to read file or result is not a string.");
+          }
+        };
+        reader.readAsDataURL(compressedFile);
+      }).catch((error: Error) => {
+        console.error("Image compression failed:", error);
+      });
     } else {
       // Clear preview if no file is selected
       setBase64Image("");
     }
   };
+
+
   const fileInputRef = useRef<HTMLInputElement>(null);
   const clearFile = () => {
     setBase64Image("");
@@ -271,11 +289,10 @@ const CreateCourse1 = () => {
                     type="text"
                     id="courseName"
                     name="courseName"
-                    className={`appearance-none block w-full bg-slate-50 text-gray-700 border ${
-                      errors.courseName && touched.courseName && !isSubmitting
+                    className={`appearance-none block w-full bg-slate-50 text-gray-700 border ${errors.courseName && touched.courseName && !isSubmitting
                         ? "border-red-500"
                         : "border-gray-200"
-                    } rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white`}
+                      } rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white`}
                     placeholder="Enter course name"
                   />
                   {errors.courseName && touched.courseName && !isSubmitting && (
@@ -296,13 +313,12 @@ const CreateCourse1 = () => {
                     type="text"
                     id="courseDescription"
                     name="courseDescription"
-                    className={`appearance-none block w-full bg-slate-50 text-gray-700 border ${
-                      errors.courseDescription &&
-                      touched.courseDescription &&
-                      !isSubmitting
+                    className={`appearance-none block w-full bg-slate-50 text-gray-700 border ${errors.courseDescription &&
+                        touched.courseDescription &&
+                        !isSubmitting
                         ? "border-red-500"
                         : "border-gray-200"
-                    } rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white`}
+                      } rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white`}
                     placeholder="Enter course description"
                   />
                   {errors.courseDescription &&
@@ -325,11 +341,10 @@ const CreateCourse1 = () => {
                     type="number"
                     id="coursePrice"
                     name="coursePrice"
-                    className={`appearance-none block w-full bg-slate-50 text-gray-700 border ${
-                      errors.coursePrice && touched.coursePrice && !isSubmitting
+                    className={`appearance-none block w-full bg-slate-50 text-gray-700 border ${errors.coursePrice && touched.coursePrice && !isSubmitting
                         ? "border-red-500"
                         : "border-gray-200"
-                    } rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white`}
+                      } rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white`}
                     placeholder="Enter course price"
                   />
                   {errors.coursePrice &&
@@ -352,13 +367,12 @@ const CreateCourse1 = () => {
                     type="number"
                     id="estimatedPrice"
                     name="estimatedPrice"
-                    className={`appearance-none block w-full bg-slate-50 text-gray-700 border ${
-                      errors.estimatedPrice &&
-                      touched.estimatedPrice &&
-                      !isSubmitting
+                    className={`appearance-none block w-full bg-slate-50 text-gray-700 border ${errors.estimatedPrice &&
+                        touched.estimatedPrice &&
+                        !isSubmitting
                         ? "border-red-500"
                         : "border-gray-200"
-                    } rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white`}
+                      } rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white`}
                     placeholder="Enter estimated price"
                   />
                   {errors.estimatedPrice &&
@@ -372,25 +386,24 @@ const CreateCourse1 = () => {
 
                 <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                   <label
-                    htmlFor="courseTags"
+                    htmlFor="courseCategory"
                     className="block  tracking-wide text-gray-700 text-xs font-bold mb-2"
                   >
-                    Course Tags
+                    Course categories
                   </label>
                   <Field
                     type="text"
-                    id="courseTags"
-                    name="courseTags"
-                    className={`appearance-none block w-full bg-slate-50 text-gray-700 border ${
-                      errors.courseTags && touched.courseTags && !isSubmitting
+                    id="courseCategory"
+                    name="courseCategory"
+                    className={`appearance-none block w-full bg-slate-50 text-gray-700 border ${errors.courseCategory && touched.courseCategory && !isSubmitting
                         ? "border-red-500"
                         : "border-gray-200"
-                    } rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white`}
+                      } rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white`}
                     placeholder="Enter course tags"
                   />
-                  {errors.courseTags && touched.courseTags && !isSubmitting && (
+                  {errors.courseCategory && touched.courseCategory && !isSubmitting && (
                     <div className="text-red-500 border-red-500 text-xs italic">
-                      {errors.courseTags}
+                      {errors.courseCategory}
                     </div>
                   )}
                 </div>
@@ -403,14 +416,13 @@ const CreateCourse1 = () => {
                     Total Videos
                   </label>
                   <Field
-                    type="text"
+                    type="number"
                     id="totalVideos"
                     name="totalVideos"
-                    className={`appearance-none block w-full bg-slate-50 text-gray-700 border ${
-                      errors.totalVideos && touched.totalVideos && !isSubmitting
+                    className={`appearance-none block w-full bg-slate-50 text-gray-700 border ${errors.totalVideos && touched.totalVideos && !isSubmitting
                         ? "border-red-500"
                         : "border-gray-200"
-                    } rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white`}
+                      } rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white`}
                     placeholder="Amount of videos"
                   />
                   {errors.totalVideos &&
@@ -430,16 +442,23 @@ const CreateCourse1 = () => {
                     Course Level
                   </label>
                   <Field
+                    as="select"
                     type="text"
                     id="courseLevel"
                     name="courseLevel"
-                    className={`appearance-none block w-full bg-slate-50 text-gray-700 border ${
-                      errors.courseLevel && touched.courseLevel && !isSubmitting
+                    className={`appearance-none block w-full bg-slate-50 text-gray-700 border ${errors.courseLevel && touched.courseLevel && !isSubmitting
                         ? "border-red-500"
                         : "border-gray-200"
-                    } rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white`}
+                      } rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white`}
                     placeholder="Enter course level"
-                  />
+                  >
+                    <option value="">Select Demo URL</option>
+                    {Object.values(courseLevel).map((level, index) => (
+                      <option key={index} value={level}>
+                        {level}
+                      </option>
+                    ))}
+                  </Field>
                   {errors.courseLevel &&
                     touched.courseLevel &&
                     !isSubmitting && (
@@ -460,11 +479,10 @@ const CreateCourse1 = () => {
                     as="select" // Use a select element
                     id="demoURL"
                     name="demoURL"
-                    className={`appearance-none block w-full bg-slate-50 text-gray-700 border ${
-                      errors.demoURL && touched.demoURL && !isSubmitting
+                    className={`appearance-none block w-full bg-slate-50 text-gray-700 border ${errors.demoURL && touched.demoURL && !isSubmitting
                         ? "border-red-500"
                         : "border-gray-200"
-                    } rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white`}
+                      } rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white`}
                   >
                     <option value="">Select Demo URL</option>
                     {videoDetails.map((video, index) => (
@@ -482,7 +500,7 @@ const CreateCourse1 = () => {
 
                 <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                   <p className="text-lg font-semibold mb-2">
-                    What are the benefits for the students in the course
+                    What are the benefits of this course
                   </p>
                   {benefits.map((benefit, index) => (
                     <div key={index} className="mb-3 flex">
@@ -523,7 +541,7 @@ const CreateCourse1 = () => {
 
                 <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                   <p className="text-lg font-semibold mb-2">
-                    What are the prerequisites for students in this course
+                    What are the prerequisites for this course
                   </p>
                   {prerequisites.map((prerequisite, index) => (
                     <div key={index} className="mb-3 flex">

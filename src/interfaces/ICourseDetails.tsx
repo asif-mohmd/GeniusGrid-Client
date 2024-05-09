@@ -31,7 +31,7 @@ export interface Course {
     coursePrice: string;
     courseDescription: string;
     courseLevel: string;
-    courseTags: string;
+    course: string;
     demoURL: string;
     estimatedPrice: string;
     instructorId: string;

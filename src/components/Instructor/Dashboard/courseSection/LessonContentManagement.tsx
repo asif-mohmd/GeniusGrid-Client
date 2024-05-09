@@ -116,6 +116,7 @@ const LessonContentManagement: React.FC = () => {
             onClick: async () => {
               let response
               if (courseLessonsDetails == null) {
+                console.log(courseDetails,"wwwwwwwwwwwwwwwwwwwwwwwwww")
                 response = await instructoraxios.post(courseEndspoints.createOrEditCourse, { courseDetails, lessons });
 
               } else {
