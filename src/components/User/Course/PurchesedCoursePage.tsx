@@ -1,9 +1,12 @@
-import React, { useState } from 'react';
+import { useState } from "react";
 import { CourseData } from "../../../interfaces/ICourseDetails"; // Assuming "ICourseDetails" is correct
 import { FaPlayCircle } from 'react-icons/fa'; // Importing play circle icon from react-icons library
 
+
+
 function PurchasedCoursePage(courseData: CourseData) {
     const { courseLessons } = courseData;
+    console.log(courseLessons,"-------------------------")
     const [openLessonIndex, setOpenLessonIndex] = useState<number | null>(null);
 
     const toggleLesson = (lessonIndex: number) => {
@@ -16,7 +19,7 @@ function PurchasedCoursePage(courseData: CourseData) {
 
     return (
         <div>
-            {courseLessons.map((lessons, lessonIndex) => (
+            {courseLessons.map((lesson, lessonIndex) => (
                 <div key={lessonIndex} className="mb-4">
                     <button
                         className="flex items-center justify-between w-full p-4 bg-gray-100 rounded-lg focus:outline-none focus:bg-gray-200"
@@ -32,7 +35,7 @@ function PurchasedCoursePage(courseData: CourseData) {
                     </button>
                     {openLessonIndex === lessonIndex && (
                         <div>
-                            {lessons.map((video, videoIndex) => (
+                            {lesson.map((video, videoIndex) => ( // Here, use 'lesson' instead of 'lessons'
                                 <div key={videoIndex} className="flex items-center p-4 bg-gray-200 rounded-lg mt-1">
                                     <FaPlayCircle size={24} className="text-blue-500 mr-4 cursor-pointer" /> {/* Play circle icon */}
                                     <span className="flex-1">{video.videoTitle}</span> {/* Video title */}
@@ -48,3 +51,4 @@ function PurchasedCoursePage(courseData: CourseData) {
 }
 
 export default PurchasedCoursePage;
+

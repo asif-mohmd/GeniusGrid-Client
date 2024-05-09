@@ -15,6 +15,7 @@ export interface Course {
     courseLevel: string;
     totalVideos: number;
   }
+
   export interface Lesson {
     videoTitle: string;
     videoURL: string;
@@ -37,5 +38,5 @@ export interface Course {
     totalVideos: string;
     prerequisites: string[];
     benefits: string[];
-    courseLessons: Lesson[]; // Array of Lesson, not Lesson[][]
+    courseLessons: Lesson[][]; 
   }

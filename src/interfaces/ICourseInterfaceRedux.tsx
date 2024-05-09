@@ -6,7 +6,7 @@ export interface CreateCourse3Props {
 
 
 export interface ICreateCourse1 {
-  
+  thumbnail: string;
   courseName: string;
   courseDescription: string;
   coursePrice: string;

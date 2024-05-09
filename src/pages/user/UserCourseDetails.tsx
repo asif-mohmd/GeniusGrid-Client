@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { instructoraxios } from "../../constraints/axiosInterceptors/instructorAxiosInterceptors";
 import courseEndspoints from "../../constraints/endpoints/courseEndspoints";
 import { Link, useParams } from "react-router-dom";
-import { CourseData } from "../../interfaces/ICourseDeatails";
+import { CourseData } from "../../interfaces/ICourseDetails";
 
 function UserCourseDetails() {
   const { courseId } = useParams<{ courseId: string }>();

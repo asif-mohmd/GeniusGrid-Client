@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom"
 import { instructoraxios } from "../../constraints/axiosInterceptors/instructorAxiosInterceptors";
 import courseEndspoints from "../../constraints/endpoints/courseEndspoints";
-import { CourseData } from "../../interfaces/ICourseDeatails";
+import { CourseData } from "../../interfaces/ICourseDetails";
 import VideoPlayer from "../../components/User/Course/VideoPlayer";
 import PurchesedCoursePage from "../../components/User/Course/PurchesedCoursePage";
 

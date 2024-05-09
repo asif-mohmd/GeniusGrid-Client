@@ -1,65 +1,68 @@
 import { Formik, Form, Field, FormikHelpers, ErrorMessage } from "formik";
 import * as Yup from "yup";
 
-import { useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 
 import { useNavigate } from "react-router-dom";
 import instructorEndpoints from "../../../../constraints/endpoints/instructorEndpoints";
-import { setCourseData1, setCourseData3Empty } from "../../../../redux/instructorSlices/courseData";
+import {
+  setCourseData1,
+  setCourseData3Empty,
+} from "../../../../redux/instructorSlices/courseData";
 import { RootState } from "../../../../redux/Store";
 import { instructoraxios } from "../../../../constraints/axiosInterceptors/instructorAxiosInterceptors";
 import { ICreateCourse1 } from "../../../../interfaces/ICourseInterfaceRedux";
+import { FaTrash, FaUpload } from "react-icons/fa";
 
 interface videoData {
   fileName: string;
   videoUrl: string;
 }
 
-
-
-
 const CreateCourse1 = () => {
   const [benefits, setBenefits] = useState<string[]>([""]);
   const [prerequisites, setPrerequisites] = useState<string[]>([""]);
-  
+
+  const [base64Image, setBase64Image] = useState<string>("");
 
   const [videoDetails, setvideoDetails] = useState<videoData[]>([]);
 
-  const courseDetails = useSelector((store: RootState) => store.courseData.courseData1)
+  const courseDetails = useSelector(
+    (store: RootState) => store.courseData.courseData1
+  );
 
-  const navigate = useNavigate()
-  const dispatch = useDispatch()
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (courseDetails) {
       // dispatch(setCourseData1Empty())
       setBenefits(courseDetails.benefits || []);
       setPrerequisites(courseDetails.prerequisites || []);
+      setBase64Image(courseDetails.thumbnail)
     }
     async function fetchCourseData() {
       try {
-        const response = await instructoraxios.get("http://localhost:4000/transcode/videoURL");
+        const response = await instructoraxios.get(
+          "http://localhost:4000/transcode/videoURL"
+        );
         if (response && response.data) {
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          const urls = response.data
-          console.log(urls, "vvvvvvvvvvvvvvvvvvvvvvvvvvv")
+          const urls = response.data;
+          console.log(urls, "vvvvvvvvvvvvvvvvvvvvvvvvvvv");
           setvideoDetails(urls); // Set video URLs in state
         }
       } catch (error) {
         console.error("Error fetching course details:", error);
       }
-      
-
-      }
-    fetchCourseData()
-    }, [courseDetails]);
-
-
+    }
+    fetchCourseData();
+  }, [courseDetails]);
 
   const initialValues = {
-
+    thumbnail: courseDetails?.thumbnail || "",
     courseName: courseDetails?.courseName || "",
     courseDescription: courseDetails?.courseDescription || "",
     coursePrice: courseDetails?.coursePrice || "",
@@ -70,7 +73,6 @@ const CreateCourse1 = () => {
     demoURL: courseDetails?.demoURL || "",
     benefits: courseDetails?.benefits || [""],
     prerequisites: courseDetails?.prerequisites || [""],
-
   };
 
   const validationSchema = Yup.object().shape({
@@ -88,7 +90,6 @@ const CreateCourse1 = () => {
       .required("Prerequisites are required"),
   });
 
-
   const addBenefitInput = () => {
     if (benefits.some((benefit) => benefit.trim() === "")) {
       toast.error("Please fill all existing benefit inputs");
@@ -96,7 +97,6 @@ const CreateCourse1 = () => {
       setBenefits([...benefits, ""]);
     }
   };
-
 
   const addPrerequisiteInput = () => {
     if (prerequisites.some((prerequisite) => prerequisite.trim() === "")) {
@@ -106,13 +106,11 @@ const CreateCourse1 = () => {
     }
   };
 
-
   const handleBenefitInputChange = (index: number, value: string) => {
     const updatedBenefits = [...benefits];
     updatedBenefits[index] = value;
     setBenefits(updatedBenefits);
   };
-
 
   const handlePrerequisiteInputChange = (index: number, value: string) => {
     const updatedPrerequisites = [...prerequisites];
@@ -132,17 +130,27 @@ const CreateCourse1 = () => {
     }
   };
 
-  const handleSubmit = async (values: ICreateCourse1, { setSubmitting }: FormikHelpers<ICreateCourse1>) => {
+  const handleSubmit = async (
+    values: ICreateCourse1,
+    { setSubmitting }: FormikHelpers<ICreateCourse1>
+  ) => {
     try {
-      values.benefits = benefits.filter((benefit) => benefit.trim() !== "");
-      values.prerequisites = prerequisites.filter(
-        (prerequisite) => prerequisite.trim() !== ""
-      );
-      console.log("ivde aaane");
+      if (!base64Image) {
+        toast.error("Please add a thumbnail");
+      } else {
 
-      dispatch(setCourseData1(values))
-      dispatch(setCourseData3Empty())
-      navigate(instructorEndpoints.addLessonPage);
+        values.thumbnail = base64Image
+
+        values.benefits = benefits.filter((benefit) => benefit.trim() !== "");
+        values.prerequisites = prerequisites.filter(
+          (prerequisite) => prerequisite.trim() !== ""
+        );
+        console.log(values,"ivde aaane");
+
+        dispatch(setCourseData1(values));
+        dispatch(setCourseData3Empty());
+        navigate(instructorEndpoints.addLessonPage);
+      }
     } catch (error) {
       console.error("Error:", error);
     } finally {
@@ -160,8 +168,44 @@ const CreateCourse1 = () => {
   //     }));
   //   }
   // };
+
+  // const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
+  //   const file = event.target.files?.[0];
+  //   if (file) {
+  //     setSelectedFile(file);
+  //     const imageURL = URL.createObjectURL(file);
+  //     setPreviewURL(imageURL);
+  //   }
+  // };
+
+  const handleImageChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files && event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        if (reader.result && typeof reader.result === "string") {
+          const base64String = reader.result.split(",")[1];
+          setBase64Image(base64String);
+        } else {
+          console.error("Failed to read file or result is not a string.");
+        }
+      };
+      reader.readAsDataURL(file);
+    } else {
+      // Clear preview if no file is selected
+      setBase64Image("");
+    }
+  };
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const clearFile = () => {
+    setBase64Image("");
+    if (fileInputRef.current) {
+      fileInputRef.current.value = ""; // Reset input field value
+    }
+  };
+
   return (
-    <div className="text-gray-900 bg-slate-50 h-screen w-full ">
+    <div className="text-gray-900 bg-slate-50  w-full ">
       <ToastContainer />
       <div className="px-3 py-4 flex justify-center">
         <Formik
@@ -171,13 +215,51 @@ const CreateCourse1 = () => {
           onSubmit={handleSubmit}
         >
           {({ errors, touched, isSubmitting }) => (
-            <Form className="sm:w-3/4 bg-white p-4 rounded-xl">
-              <div className="pb-7 pt-2 flex">
+            <Form className="sm:w-3/4 bg-white p-4 rounded-xl mt-7">
+              <div className="pb-3 pt-2 flex">
                 <h1 className="text-2xl font-semibold">Create course</h1>
               </div>
-              <div className="flex flex-wrap -mx-3 mb-6">
+              <div className="flex flex-wrap -mx-3 mb-5">
+                <div className="container mx-auto py-">
+                  <div className="p-6">
+                    <label
+                      htmlFor="fileInput"
+                      className="relative cursor-pointer"
+                    >
+                      <input
+                        id="fileInput"
+                        type="file"
+                        onChange={handleImageChange}
+                        className="hidden"
+                        ref={fileInputRef}
+                      />
+                      {!base64Image && (
+                        <div className="flex items-center justify-center bg-gray-100 cursor-pointer rounded-lg p-8">
+                          <FaUpload className="mr-2" />
+                          <span className="text-lg">Choose a thumbnail</span>
+                        </div>
+                      )}
+                    </label>
+                    {base64Image && (
+                      <div className="mt-4 flex flex-col items-center">
+                        <img
+                          src={`data:image/png;base64,${base64Image}`}
+                          alt="Preview"
+                          className="max-w-xs h-auto w-1/4 mx-auto"
+                          style={{ maxHeight: "200px" }}
+                        />
+                        <button
+                          onClick={clearFile}
+                          className="text-sm  px-2 py-1 flex items-center bg-red-500 text-white rounded cursor-pointer mt-2"
+                        >
+                          <FaTrash className="mr-2 text-sm" />
+                          Clear
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                </div>
 
-                
                 <div className="w-full px-3 mb-6 md:mb-0">
                   <label
                     htmlFor="courseName"
@@ -189,10 +271,11 @@ const CreateCourse1 = () => {
                     type="text"
                     id="courseName"
                     name="courseName"
-                    className={`appearance-none block w-full bg-slate-50 text-gray-700 border ${errors.courseName && touched.courseName && !isSubmitting
-                      ? "border-red-500"
-                      : "border-gray-200"
-                      } rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white`}
+                    className={`appearance-none block w-full bg-slate-50 text-gray-700 border ${
+                      errors.courseName && touched.courseName && !isSubmitting
+                        ? "border-red-500"
+                        : "border-gray-200"
+                    } rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white`}
                     placeholder="Enter course name"
                   />
                   {errors.courseName && touched.courseName && !isSubmitting && (
@@ -213,12 +296,13 @@ const CreateCourse1 = () => {
                     type="text"
                     id="courseDescription"
                     name="courseDescription"
-                    className={`appearance-none block w-full bg-slate-50 text-gray-700 border ${errors.courseDescription &&
+                    className={`appearance-none block w-full bg-slate-50 text-gray-700 border ${
+                      errors.courseDescription &&
                       touched.courseDescription &&
                       !isSubmitting
-                      ? "border-red-500"
-                      : "border-gray-200"
-                      } rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white`}
+                        ? "border-red-500"
+                        : "border-gray-200"
+                    } rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white`}
                     placeholder="Enter course description"
                   />
                   {errors.courseDescription &&
@@ -241,10 +325,11 @@ const CreateCourse1 = () => {
                     type="number"
                     id="coursePrice"
                     name="coursePrice"
-                    className={`appearance-none block w-full bg-slate-50 text-gray-700 border ${errors.coursePrice && touched.coursePrice && !isSubmitting
-                      ? "border-red-500"
-                      : "border-gray-200"
-                      } rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white`}
+                    className={`appearance-none block w-full bg-slate-50 text-gray-700 border ${
+                      errors.coursePrice && touched.coursePrice && !isSubmitting
+                        ? "border-red-500"
+                        : "border-gray-200"
+                    } rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white`}
                     placeholder="Enter course price"
                   />
                   {errors.coursePrice &&
@@ -267,12 +352,13 @@ const CreateCourse1 = () => {
                     type="number"
                     id="estimatedPrice"
                     name="estimatedPrice"
-                    className={`appearance-none block w-full bg-slate-50 text-gray-700 border ${errors.estimatedPrice &&
+                    className={`appearance-none block w-full bg-slate-50 text-gray-700 border ${
+                      errors.estimatedPrice &&
                       touched.estimatedPrice &&
                       !isSubmitting
-                      ? "border-red-500"
-                      : "border-gray-200"
-                      } rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white`}
+                        ? "border-red-500"
+                        : "border-gray-200"
+                    } rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white`}
                     placeholder="Enter estimated price"
                   />
                   {errors.estimatedPrice &&
@@ -295,10 +381,11 @@ const CreateCourse1 = () => {
                     type="text"
                     id="courseTags"
                     name="courseTags"
-                    className={`appearance-none block w-full bg-slate-50 text-gray-700 border ${errors.courseTags && touched.courseTags && !isSubmitting
-                      ? "border-red-500"
-                      : "border-gray-200"
-                      } rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white`}
+                    className={`appearance-none block w-full bg-slate-50 text-gray-700 border ${
+                      errors.courseTags && touched.courseTags && !isSubmitting
+                        ? "border-red-500"
+                        : "border-gray-200"
+                    } rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white`}
                     placeholder="Enter course tags"
                   />
                   {errors.courseTags && touched.courseTags && !isSubmitting && (
@@ -319,10 +406,11 @@ const CreateCourse1 = () => {
                     type="text"
                     id="totalVideos"
                     name="totalVideos"
-                    className={`appearance-none block w-full bg-slate-50 text-gray-700 border ${errors.totalVideos && touched.totalVideos && !isSubmitting
-                      ? "border-red-500"
-                      : "border-gray-200"
-                      } rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white`}
+                    className={`appearance-none block w-full bg-slate-50 text-gray-700 border ${
+                      errors.totalVideos && touched.totalVideos && !isSubmitting
+                        ? "border-red-500"
+                        : "border-gray-200"
+                    } rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white`}
                     placeholder="Amount of videos"
                   />
                   {errors.totalVideos &&
@@ -345,10 +433,11 @@ const CreateCourse1 = () => {
                     type="text"
                     id="courseLevel"
                     name="courseLevel"
-                    className={`appearance-none block w-full bg-slate-50 text-gray-700 border ${errors.courseLevel && touched.courseLevel && !isSubmitting
-                      ? "border-red-500"
-                      : "border-gray-200"
-                      } rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white`}
+                    className={`appearance-none block w-full bg-slate-50 text-gray-700 border ${
+                      errors.courseLevel && touched.courseLevel && !isSubmitting
+                        ? "border-red-500"
+                        : "border-gray-200"
+                    } rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white`}
                     placeholder="Enter course level"
                   />
                   {errors.courseLevel &&
@@ -361,35 +450,35 @@ const CreateCourse1 = () => {
                 </div>
 
                 <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-  <label
-    htmlFor="demoURL"
-    className="block  tracking-wide text-gray-700 text-xs font-bold mb-2"
-  >
-    Demo URL
-  </label>
-  <Field
-    as="select" // Use a select element
-    id="demoURL"
-    name="demoURL"
-    className={`appearance-none block w-full bg-slate-50 text-gray-700 border ${errors.demoURL && touched.demoURL && !isSubmitting
-      ? "border-red-500"
-      : "border-gray-200"
-      } rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white`}
-  >
-    <option value="">Select Demo URL</option>
-    {videoDetails.map((video, index) => (
-      <option key={index} value={video.videoUrl}>
-        {video.fileName}
-      </option>
-    ))}
-  </Field>
-  {errors.demoURL && touched.demoURL && !isSubmitting && (
-    <div className="text-red-500 border-red-500 text-xs italic">
-      {errors.demoURL}
-    </div>
-  )}
-</div>
-
+                  <label
+                    htmlFor="demoURL"
+                    className="block  tracking-wide text-gray-700 text-xs font-bold mb-2"
+                  >
+                    Demo URL
+                  </label>
+                  <Field
+                    as="select" // Use a select element
+                    id="demoURL"
+                    name="demoURL"
+                    className={`appearance-none block w-full bg-slate-50 text-gray-700 border ${
+                      errors.demoURL && touched.demoURL && !isSubmitting
+                        ? "border-red-500"
+                        : "border-gray-200"
+                    } rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white`}
+                  >
+                    <option value="">Select Demo URL</option>
+                    {videoDetails.map((video, index) => (
+                      <option key={index} value={video.videoUrl}>
+                        {video.fileName}
+                      </option>
+                    ))}
+                  </Field>
+                  {errors.demoURL && touched.demoURL && !isSubmitting && (
+                    <div className="text-red-500 border-red-500 text-xs italic">
+                      {errors.demoURL}
+                    </div>
+                  )}
+                </div>
 
                 <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                   <p className="text-lg font-semibold mb-2">
@@ -485,7 +574,6 @@ const CreateCourse1 = () => {
                   Next
                 </button>
               </div>
-
             </Form>
           )}
         </Formik>
@@ -493,6 +581,5 @@ const CreateCourse1 = () => {
     </div>
   );
 };
-
 
 export default CreateCourse1;
