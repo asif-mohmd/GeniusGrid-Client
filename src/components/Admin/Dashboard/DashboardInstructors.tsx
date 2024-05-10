@@ -35,7 +35,7 @@ const DashboardInstructors: React.FC = () => {
       };
 
       // Make the PATCH request with the id and isVerified
-      const response = await adminAxios.patch(adminEndpoints.instructorBlockUnblock, {
+      const response = await adminAxios.post(adminEndpoints.instructorBlockUnblock, {
       instructorBlockUnblock
       });
       console.log(response, "response block");

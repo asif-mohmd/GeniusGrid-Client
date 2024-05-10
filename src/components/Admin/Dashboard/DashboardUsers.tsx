@@ -33,21 +33,21 @@ const DashboardUsers: React.FC = () => {
         id: id,
         isVerified: isVerified
       };
-
+      console.log(userBlockUnblock, "--------------");
+  
       // Make the PATCH request with the id and isVerified
-      const response = await adminAxios.patch(adminEndpoints.userBlockUnblock, {
-        userBlockUnblock
-      });
+      const response = await adminAxios.post(adminEndpoints.userBlockUnblock, userBlockUnblock);
       console.log(response, "response block");
-      
+  
       // Fetch updated user list after successful block/unblock
       const updatedResponse = await adminAxios.get<{ users: User[] }>(adminEndpoints.getAllUsers);
       setUsersList(updatedResponse.data.users); // Update usersList with the updated data
-
+  
     } catch (error) {
       console.error("Error blocking/unblocking user:", error);
     }
   };
+  
 
   return (
     <>

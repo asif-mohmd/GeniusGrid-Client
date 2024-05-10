@@ -1,7 +1,6 @@
 import { Formik, Form, Field, FormikHelpers, ErrorMessage } from "formik";
 import * as Yup from "yup";
-
-import { useEffect, useRef, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -14,8 +13,8 @@ import {
 import { RootState } from "../../../../redux/Store";
 import { instructoraxios } from "../../../../constraints/axiosInterceptors/instructorAxiosInterceptors";
 import { ICreateCourse1 } from "../../../../interfaces/ICourseInterfaceRedux";
-import { FaTrash, FaUpload } from "react-icons/fa";
-import { compress } from 'image-conversion';
+import { FaUpload } from "react-icons/fa";
+
 
 interface videoData {
   fileName: string;
@@ -26,7 +25,8 @@ const CreateCourse1 = () => {
   const [benefits, setBenefits] = useState<string[]>([""]);
   const [prerequisites, setPrerequisites] = useState<string[]>([""]);
 
-  const [base64Image, setBase64Image] = useState<string>("");
+  const [selectedImage, setSelectedImage] = useState<File | null>(null);
+
 
   const [videoDetails, setvideoDetails] = useState<videoData[]>([]);
 
@@ -48,7 +48,7 @@ const CreateCourse1 = () => {
       // dispatch(setCourseData1Empty())
       setBenefits(courseDetails.benefits || []);
       setPrerequisites(courseDetails.prerequisites || []);
-      setBase64Image(courseDetails.thumbnail)
+
     }
     async function fetchCourseData() {
       try {
@@ -69,7 +69,7 @@ const CreateCourse1 = () => {
   }, [courseDetails]);
 
   const initialValues = {
-    thumbnail: courseDetails?.thumbnail || "",
+    thumbnail: courseDetails?.thumbnail || null,
     courseName: courseDetails?.courseName || "",
     courseDescription: courseDetails?.courseDescription || "",
     coursePrice: courseDetails?.coursePrice || "",
@@ -137,72 +137,55 @@ const CreateCourse1 = () => {
     }
   };
 
+
   const handleSubmit = async (
     values: ICreateCourse1,
     { setSubmitting }: FormikHelpers<ICreateCourse1>
   ) => {
     try {
-      if (!base64Image) {
-        toast.error("Please add a thumbnail");
-      } else {
+      // Filtering out empty benefits and prerequisites
+      values.benefits = benefits.filter((benefit) => benefit.trim() !== "");
+      values.prerequisites = prerequisites.filter(
+        (prerequisite) => prerequisite.trim() !== ""
+      );
 
-        values.thumbnail = base64Image
-
-        values.benefits = benefits.filter((benefit) => benefit.trim() !== "");
-        values.prerequisites = prerequisites.filter(
-          (prerequisite) => prerequisite.trim() !== ""
-        );
-        console.log(values, "ivde aaane");
+      if(!selectedImage){
+        toast.error("Upload Thumbnail")
+      }else{
+        values.thumbnail = selectedImage
+        console.log(values, "ivde aaane"); // Log the values to check if they are correct
 
         dispatch(setCourseData1(values));
         dispatch(setCourseData3Empty());
         navigate(instructorEndpoints.addLessonPage);
       }
+  
     } catch (error) {
       console.error("Error:", error);
     } finally {
       setSubmitting(false);
     }
   };
+  
 
+  
 
-
-  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files && event.target.files[0];
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0]; // Get the first file selected by the user
     if (file) {
-      compress(file, {
-        quality: 0.6, // Set the quality of the compressed image (0 to 1)
-        maxWidth: 800, // Set the maximum width of the compressed image
-        maxHeight: 600, // Set the maximum height of the compressed image
-      }).then((compressedBlob: Blob) => {
-        const compressedFile = new File([compressedBlob], file.name, { type: file.type });
-        const reader = new FileReader();
-        reader.onloadend = () => {
-          if (reader.result && typeof reader.result === "string") {
-            const base64String = reader.result.split(",")[1];
-            setBase64Image(base64String);
-            
-          } else {
-            console.error("Failed to read file or result is not a string.");
-          }
-        };
-        reader.readAsDataURL(compressedFile);
-      }).catch((error: Error) => {
-        console.error("Image compression failed:", error);
-      });
-    } else {
-      // Clear preview if no file is selected
-      setBase64Image("");
+      // Check if a file is selected
+      const reader = new FileReader(); // Create a new FileReader instance
+      reader.onload = () => {
+        if (typeof reader.result === 'string') {
+          setSelectedImage(file);
+        }
+      };
+      reader.readAsDataURL(file); // Read the file as a data URL
     }
   };
 
-
-  const fileInputRef = useRef<HTMLInputElement>(null);
-  const clearFile = () => {
-    setBase64Image("");
-    if (fileInputRef.current) {
-      fileInputRef.current.value = ""; // Reset input field value
-    }
+  const handleClear = () => {
+    setSelectedImage(null);
   };
 
   return (
@@ -221,45 +204,34 @@ const CreateCourse1 = () => {
                 <h1 className="text-2xl font-semibold">Create course</h1>
               </div>
               <div className="flex flex-wrap -mx-3 mb-5">
-                <div className="container mx-auto py-">
-                  <div className="p-6">
-                    <label
-                      htmlFor="fileInput"
-                      className="relative cursor-pointer"
-                    >
-                      <input
-                        id="fileInput"
-                        type="file"
-                        onChange={handleImageChange}
-                        className="hidden"
-                        ref={fileInputRef}
-                      />
-                      {!base64Image && (
-                        <div className="flex items-center justify-center bg-gray-100 cursor-pointer rounded-lg p-8">
-                          <FaUpload className="mr-2" />
-                          <span className="text-lg">Choose a thumbnail</span>
-                        </div>
-                      )}
-                    </label>
-                    {base64Image && (
-                      <div className="mt-4 flex flex-col items-center">
-                        <img
-                          src={`data:image/png;base64,${base64Image}`}
-                          alt="Preview"
-                          className="max-w-xs h-auto w-1/4 mx-auto"
-                          style={{ maxHeight: "200px" }}
-                        />
-                        <button
-                          onClick={clearFile}
-                          className="text-sm  px-2 py-1 flex items-center bg-red-500 text-white rounded cursor-pointer mt-2"
-                        >
-                          <FaTrash className="mr-2 text-sm" />
-                          Clear
-                        </button>
-                      </div>
-                    )}
-                  </div>
-                </div>
+
+
+              <div className="container mx-auto py-4">
+  <form className="p-6" encType="multipart/form-data">
+    <label htmlFor="fileInput" className="relative cursor-pointer">
+      <input
+        id="fileInput"
+        type="file"
+        accept="image/*"
+        className="hidden"
+        onChange={handleChange}
+      />
+      <div className="flex items-center justify-center bg-gray-100 cursor-pointer rounded-lg p-8">
+        <FaUpload className="mr-2" />
+        <span className="text-lg">Choose a thumbnail</span>
+      </div>
+    </label>
+    {selectedImage && (
+      <div>
+        <p>Selected Image:</p>
+        <img className="w-22 h-20" src={URL.createObjectURL(selectedImage)} alt="Selected" />
+        <button onClick={handleClear}>Clear</button>
+      </div>
+    )}
+  </form>
+</div>
+
+
 
                 <div className="w-full px-3 mb-6 md:mb-0">
                   <label
@@ -273,8 +245,8 @@ const CreateCourse1 = () => {
                     id="courseName"
                     name="courseName"
                     className={`appearance-none block w-full bg-slate-50 text-gray-700 border ${errors.courseName && touched.courseName && !isSubmitting
-                        ? "border-red-500"
-                        : "border-gray-200"
+                      ? "border-red-500"
+                      : "border-gray-200"
                       } rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white`}
                     placeholder="Enter course name"
                   />
@@ -297,10 +269,10 @@ const CreateCourse1 = () => {
                     id="courseDescription"
                     name="courseDescription"
                     className={`appearance-none block w-full bg-slate-50 text-gray-700 border ${errors.courseDescription &&
-                        touched.courseDescription &&
-                        !isSubmitting
-                        ? "border-red-500"
-                        : "border-gray-200"
+                      touched.courseDescription &&
+                      !isSubmitting
+                      ? "border-red-500"
+                      : "border-gray-200"
                       } rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white`}
                     placeholder="Enter course description"
                   />
@@ -325,8 +297,8 @@ const CreateCourse1 = () => {
                     id="coursePrice"
                     name="coursePrice"
                     className={`appearance-none block w-full bg-slate-50 text-gray-700 border ${errors.coursePrice && touched.coursePrice && !isSubmitting
-                        ? "border-red-500"
-                        : "border-gray-200"
+                      ? "border-red-500"
+                      : "border-gray-200"
                       } rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white`}
                     placeholder="Enter course price"
                   />
@@ -351,10 +323,10 @@ const CreateCourse1 = () => {
                     id="estimatedPrice"
                     name="estimatedPrice"
                     className={`appearance-none block w-full bg-slate-50 text-gray-700 border ${errors.estimatedPrice &&
-                        touched.estimatedPrice &&
-                        !isSubmitting
-                        ? "border-red-500"
-                        : "border-gray-200"
+                      touched.estimatedPrice &&
+                      !isSubmitting
+                      ? "border-red-500"
+                      : "border-gray-200"
                       } rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white`}
                     placeholder="Enter estimated price"
                   />
@@ -379,8 +351,8 @@ const CreateCourse1 = () => {
                     id="courseCategory"
                     name="courseCategory"
                     className={`appearance-none block w-full bg-slate-50 text-gray-700 border ${errors.courseCategory && touched.courseCategory && !isSubmitting
-                        ? "border-red-500"
-                        : "border-gray-200"
+                      ? "border-red-500"
+                      : "border-gray-200"
                       } rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white`}
                     placeholder="Enter course tags"
                   />
@@ -403,8 +375,8 @@ const CreateCourse1 = () => {
                     id="totalVideos"
                     name="totalVideos"
                     className={`appearance-none block w-full bg-slate-50 text-gray-700 border ${errors.totalVideos && touched.totalVideos && !isSubmitting
-                        ? "border-red-500"
-                        : "border-gray-200"
+                      ? "border-red-500"
+                      : "border-gray-200"
                       } rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white`}
                     placeholder="Amount of videos"
                   />
@@ -430,8 +402,8 @@ const CreateCourse1 = () => {
                     id="courseLevel"
                     name="courseLevel"
                     className={`appearance-none block w-full bg-slate-50 text-gray-700 border ${errors.courseLevel && touched.courseLevel && !isSubmitting
-                        ? "border-red-500"
-                        : "border-gray-200"
+                      ? "border-red-500"
+                      : "border-gray-200"
                       } rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white`}
                     placeholder="Enter course level"
                   >
@@ -463,8 +435,8 @@ const CreateCourse1 = () => {
                     id="demoURL"
                     name="demoURL"
                     className={`appearance-none block w-full bg-slate-50 text-gray-700 border ${errors.demoURL && touched.demoURL && !isSubmitting
-                        ? "border-red-500"
-                        : "border-gray-200"
+                      ? "border-red-500"
+                      : "border-gray-200"
                       } rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white`}
                   >
                     <option value="">Select Demo URL</option>

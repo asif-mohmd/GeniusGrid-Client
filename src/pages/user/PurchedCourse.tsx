@@ -15,6 +15,12 @@ const PurchasedCourse = () => {
     
     console.log(_id,"kkkkkkkkkkkkkk")
     const [courseData, setCourseData] = useState<CourseData | null>(null);
+
+    const [selectedVideoTitle, setSelectedVideoTitle] = useState<string | null>(null);
+
+    const handleVideoTitleClick = (title: string) => {
+        setSelectedVideoTitle(title);
+    };
     
     useEffect(() => {
         async function fetchCourseData() {
@@ -24,9 +30,8 @@ const PurchasedCourse = () => {
             );
     
             const courseData: CourseData = response.data.response;
-            console.log(courseData, "enrrollleeeeeeddddddddd")
             setCourseData(courseData);
-           
+            setSelectedVideoTitle(courseData.courseLessons[0][0].videoURL)
           } catch (error) {
             console.error("Error fetching course data:", error);
           }
@@ -35,6 +40,7 @@ const PurchasedCourse = () => {
       }, [_id]);
 
       console.log(_id)
+      console.log(selectedVideoTitle,"iam setttt")
   return (
     <div>
     <div>
@@ -42,7 +48,7 @@ const PurchasedCourse = () => {
       <div className="flex bg-gray-50">
         <div className="w-1/2 p-6 bg-gray-50">
           <VideoPlayer
-            videoUrl={courseData?.demoURL || ""}
+            videoUrl={selectedVideoTitle || ""}
             subtitleUrl="dfsdafasd"
           />
 
@@ -51,7 +57,8 @@ const PurchasedCourse = () => {
           </div>
         </div>
         <div className="w-1/2 p-6 ">
-          {courseData && <PurchesedCoursePage {...courseData} />}
+          {courseData && <PurchesedCoursePage courseData={courseData}
+                        onVideoTitleClick={handleVideoTitleClick} />}
         </div>
       </div>
     </div>

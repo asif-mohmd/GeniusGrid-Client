@@ -17,7 +17,9 @@ export default {
     getAllUsers: "/admin/get-all-users",
     userBlockUnblock: "/admin/user-block-unblock",
     getAllInstructors: "/admin/get-all-instructors",
-    instructorBlockUnblock: "/admin/instructor-block-unblock"
+    instructorBlockUnblock: "/admin/instructor-block-unblock",
+    addCategory:  "/admin/add/category",
+    viewCategory: "/admin/view/category"
 
 
 }

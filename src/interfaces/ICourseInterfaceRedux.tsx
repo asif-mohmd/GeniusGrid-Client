@@ -6,7 +6,8 @@ export interface CreateCourse3Props {
 
 
 export interface ICreateCourse1 {
-  thumbnail: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  thumbnail: File | null;
   courseName: string;
   courseDescription: string;
   coursePrice: string;

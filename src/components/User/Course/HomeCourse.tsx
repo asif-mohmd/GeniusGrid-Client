@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import courseEndspoints from '../../../constraints/endpoints/courseEndspoints';
 import { userAxios } from '../../../constraints/axiosInterceptors/userAxiosInterceptors';
 import { Course } from '../../../interfaces/ICourseDetails';
+import courseData from '../../../redux/instructorSlices/courseData';
 
 
 function HomeCourse() {
@@ -37,7 +38,7 @@ function HomeCourse() {
             <div className="bg-white rounded-lg overflow-hidden shadow-lg">
               <img
                 className="w-full h-40 object-cover"
-                src="https://via.placeholder.com/350x200"
+                src={course.thumbnail}
                 alt=""
               />
               <div className="p-4">

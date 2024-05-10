@@ -4,9 +4,8 @@ import { FaPlayCircle } from 'react-icons/fa'; // Importing play circle icon fro
 
 
 
-function PurchasedCoursePage(courseData: CourseData) {
+function PurchasedCoursePage({ courseData, onVideoTitleClick }: { courseData: CourseData, onVideoTitleClick: (title: string) => void }) {
     const { courseLessons } = courseData;
-    console.log(courseLessons,"-------------------------")
     const [openLessonIndex, setOpenLessonIndex] = useState<number | null>(null);
 
     const toggleLesson = (lessonIndex: number) => {
@@ -16,6 +15,7 @@ function PurchasedCoursePage(courseData: CourseData) {
             setOpenLessonIndex(lessonIndex);
         }
     };
+
 
     return (
         <div>
@@ -39,7 +39,7 @@ function PurchasedCoursePage(courseData: CourseData) {
                                 <div key={videoIndex} className="flex items-center p-4 bg-gray-200 rounded-lg mt-1">
                                     <FaPlayCircle size={24} className="text-blue-500 mr-4 cursor-pointer" /> {/* Play circle icon */}
                                     <span className="flex-1">{video.videoTitle}</span> {/* Video title */}
-                                    <button className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:outline-none focus:bg-blue-600">Watch</button>
+                                    <button onClick={() => onVideoTitleClick(video.videoURL)} className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:outline-none focus:bg-blue-600">Watch</button>
                                 </div>
                             ))}
                         </div>

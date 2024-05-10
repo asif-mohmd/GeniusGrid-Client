@@ -5,7 +5,8 @@ const authURL = import.meta.env.VITE_APIURL;
 export const instructoraxios = axios.create({
     baseURL: authURL,
     headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'multipart/form-data'
+        
         
     },
     withCredentials:true

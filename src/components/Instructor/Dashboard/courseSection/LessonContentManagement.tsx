@@ -21,10 +21,10 @@ interface LessonContent {
 }
 
 interface videoData {
-  fileName:string;
-  videoUrl:string;
+  fileName: string;
+  videoUrl: string;
 }
- 
+
 
 
 const LessonContentManagement: React.FC = () => {
@@ -44,7 +44,7 @@ const LessonContentManagement: React.FC = () => {
   useEffect(() => {
     async function fetchCourseData() {
       try {
-      
+
 
         const lessonsData = courseLessonsDetails?.courseLessons || [];
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -58,13 +58,13 @@ const LessonContentManagement: React.FC = () => {
             links: content.links || [],
           }));
         });
-        
+
         console.log("uuuuuuuuuuuuuuuuuuuuiiiiiiiiiiiii")
         const response = await instructoraxios.get("http://localhost:4000/transcode/videoURL");
         if (response && response.data) {
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           const urls = response.data
-          console.log(urls,"vvvvvvvvvvvvvvvvvvvvvvvvvvv")
+          console.log(urls, "vvvvvvvvvvvvvvvvvvvvvvvvvvv")
           setvideoDetails(urls); // Set video URLs in state
         }
         setLessons(formattedLessons);
@@ -116,15 +116,67 @@ const LessonContentManagement: React.FC = () => {
             onClick: async () => {
               let response
               if (courseLessonsDetails == null) {
-                console.log(courseDetails,"wwwwwwwwwwwwwwwwwwwwwwwwww")
-                response = await instructoraxios.post(courseEndspoints.createOrEditCourse, { courseDetails, lessons });
+                console.log(courseDetails, "wwwwwwwwwwwwwwwwwwwwwwwwww")
+
+                const formData = new FormData();
+
+                if (courseDetails && courseDetails?.thumbnail) {
+                  formData.append("thumbnail", courseDetails?.thumbnail);
+                  formData.append("courseName", courseDetails?.courseName);
+                  formData.append("courseDescription", courseDetails.courseDescription);
+                  formData.append("coursePrice", courseDetails.coursePrice);
+                  formData.append("estimatedPrice", courseDetails.estimatedPrice);
+                  formData.append("courseCategory", courseDetails.courseCategory);
+                  formData.append("totalVideos", courseDetails.totalVideos);
+                  formData.append("courseLevel", courseDetails.courseLevel);
+                  formData.append("demoURL", courseDetails.demoURL);
+
+                  courseDetails.benefits.forEach((benefit, index) => {
+                    formData.append(`benefits[${index}]`, benefit);
+                  });
+
+                  courseDetails.prerequisites.forEach((prerequisite, index) => {
+                    formData.append(`prerequisites[${index}]`, prerequisite);
+                  });
+
+                  lessons.forEach((lessonRow, rowIndex) => {
+                    lessonRow.forEach((lesson, lessonIndex) => {
+                      const lessonPrefix = `lessons[${rowIndex}][${lessonIndex}]`;
+                      formData.append(`${lessonPrefix}[videoTitle]`, lesson.videoTitle);
+                      formData.append(`${lessonPrefix}[videoURL]`, lesson.videoURL);
+                      formData.append(`${lessonPrefix}[subtitleURL]`, lesson.subtitleURL);
+                      formData.append(`${lessonPrefix}[videoDescription]`, lesson.videoDescription);
+
+                      lesson.links.forEach((link, linkIndex) => {
+                        formData.append(`${lessonPrefix}[links][${linkIndex}]`, link);
+                      });
+                    });
+                  });
+
+                  // Create a Promise to ensure all data is appended before making the API call
+                  const formDataPromise = new Promise<void>((resolve) => {
+                    // Resolve the promise after appending all data
+                    resolve();
+                  });
+
+                  // Wait for the promise to be resolved
+                  await formDataPromise;
+
+                  // Once all data is appended, make the API call
+                  for (const key of formData.entries()) {
+                    console.log(key[0] + ', ' + key[1]);
+                  }
+                  
+                  console.log()
+                  response = await instructoraxios.post(courseEndspoints.createOrEditCourse, formData);
+                }
 
               } else {
                 const courseDetails = editCourseDetails
                 response = await instructoraxios.post(courseEndspoints.createOrEditCourse, { courseDetails, lessons });
               }
 
-              if (response.status == 200) {
+              if (response && response.status == 200) {
                 dispatch(setCourseData1Empty())
                 navigate(instructorEndpoints.myCourses);
               } else {

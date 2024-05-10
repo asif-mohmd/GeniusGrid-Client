@@ -4,8 +4,9 @@ import controlPNG from "../../../assets/DashboardIcons/control.png";
 import logoPNG from "../../../assets/DashboardIcons/logo.png";
 import { Link } from "react-router-dom";
 import adminEndpoints from "../../../constraints/endpoints/adminEndpoints";
-import { faChartBar, faUsers, faChalkboardTeacher, faFileAlt, faClipboardList, faListAlt, faQuestionCircle, faFileInvoice } from '@fortawesome/free-solid-svg-icons'; import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { FaBeer } from 'react-icons/fa';
+import {  faChalkboardTeacher } from '@fortawesome/free-solid-svg-icons'; import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { BiBookAdd } from "react-icons/bi";
+import { TbCategory } from "react-icons/tb";
 import { AiOutlineDashboard } from "react-icons/ai";
 import { LuUsers } from "react-icons/lu";
 const DashboardSidebar = () => {
@@ -73,6 +74,24 @@ const DashboardSidebar = () => {
   </li>
   <li>
     <Link
+      to={adminEndpoints.addCategory}
+      className="flex items-center px-4 py-2 text-gray-800 rounded-md hover:bg-[#00df9a] hover:text-black cursor-pointer"
+    >
+      <BiBookAdd  className="mr-2" />
+      Add Category
+    </Link>
+  </li>
+  <li>
+    <Link
+      to={adminEndpoints.viewCategory}
+      className="flex items-center px-4 py-2 text-gray-800 rounded-md hover:bg-[#00df9a] hover:text-black cursor-pointer"
+    >
+      <TbCategory className="mr-2" />
+      View Category
+    </Link>
+  </li>
+  {/* <li>
+    <Link
       to={adminEndpoints.courseAnalysis}
       className="flex items-center px-4 py-2 text-gray-800 rounded-md hover:bg-[#00df9a] hover:text-black cursor-pointer"
     >
@@ -97,17 +116,9 @@ const DashboardSidebar = () => {
       <FontAwesomeIcon icon={faListAlt} className="mr-2" />
       Order Analysis
     </Link>
-  </li>
-  <li>
-    <Link
-      to={adminEndpoints.categories}
-      className="flex items-center px-4 py-2 text-gray-800 rounded-md hover:bg-[#00df9a] hover:text-black cursor-pointer"
-    >
-      <FontAwesomeIcon icon={faQuestionCircle} className="mr-2" />
-      Categories
-    </Link>
-  </li>
-  <li>
+  </li> */}
+  
+  {/* <li>
     <Link
       to={adminEndpoints.faq}
       className="flex items-center px-4 py-2 text-gray-800 rounded-md hover:bg-[#00df9a] hover:text-black cursor-pointer"
@@ -124,7 +135,7 @@ const DashboardSidebar = () => {
       <FontAwesomeIcon icon={faFileInvoice} className="mr-2" />
       Invoices
     </Link>
-  </li>
+  </li> */}
 </ul>
       </div>
 
