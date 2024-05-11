@@ -31,7 +31,8 @@ const PurchasedCourse = () => {
     
             const courseData: CourseData = response.data.response;
             setCourseData(courseData);
-            setSelectedVideoTitle(courseData.courseLessons[0][0].videoURL)
+            console.log(courseData,"yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy")
+            setSelectedVideoTitle(courseData.lessons[0][0].videoURL)
           } catch (error) {
             console.error("Error fetching course data:", error);
           }

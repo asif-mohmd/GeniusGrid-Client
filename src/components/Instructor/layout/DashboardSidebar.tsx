@@ -3,14 +3,13 @@ import { useState } from "react";
 import controlPNG from "../../../assets/DashboardIcons/control.png";
 import logoPNG from "../../../assets/DashboardIcons/logo.png";
 import { Link } from "react-router-dom";
-import adminEndpoints from "../../../constraints/endpoints/adminEndpoints";
-import { LiaFileInvoiceSolid } from "react-icons/lia";import { CiCirclePlus } from "react-icons/ci";
+
+import { CiCirclePlus } from "react-icons/ci";
 import { AiOutlineDashboard } from "react-icons/ai";
 import { LuUsers } from "react-icons/lu";
 import instructorEndpoints from "../../../constraints/endpoints/instructorEndpoints";
 import { MdChecklist, MdOutlineAnalytics } from "react-icons/md";
-import { TbCategory, TbUsersGroup } from "react-icons/tb";
-import { FaQuora } from "react-icons/fa";
+import {  TbUsersGroup } from "react-icons/tb";
 import { IoVideocamOutline } from "react-icons/io5";
 const DashboardSidebar = () => {
   const [open, setOpen] = useState(true);
@@ -112,16 +111,8 @@ const DashboardSidebar = () => {
       Order Analysis
     </Link>
   </li>
-  <li>
-    <Link
-      to={adminEndpoints.categories}
-      className="flex items-center px-4 py-2 text-gray-800 rounded-md hover:bg-[#00df9a] hover:text-black cursor-pointer"
-    >
-      <TbCategory  className="mr-2" />
-      Categories
-    </Link>
-  </li>
-  <li>
+
+  {/* <li>
     <Link
       to={adminEndpoints.faq}
       className="flex items-center px-4 py-2 text-gray-800 rounded-md hover:bg-[#00df9a] hover:text-black cursor-pointer"
@@ -138,7 +129,7 @@ const DashboardSidebar = () => {
       <LiaFileInvoiceSolid className="mr-2" />
       Invoices
     </Link>
-  </li>
+  </li> */}
 </ul>
       </div>
 

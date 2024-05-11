@@ -1,6 +1,6 @@
-import DashboardOrderAnalysis from "../../components/Instructor/Dashboard/DashboardOrderAnalysis";
-import DashboardHeader from "../../components/Instructor/layout/DashBoardHeader";
-import DashboardSidebar from "../../components/Instructor/layout/DashboardSidebar";
+import DashboardOrderAnalysis from "../../../components/Instructor/Dashboard/DashboardOrderAnalysis";
+import DashboardHeader from "../../../components/Instructor/layout/DashBoardHeader";
+import DashboardSidebar from "../../../components/Instructor/layout/DashboardSidebar";
 
 
 function InstructorOrderAnalysis() {

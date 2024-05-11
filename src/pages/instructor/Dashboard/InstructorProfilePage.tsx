@@ -1,7 +1,7 @@
-import DashboardHeader from "../../components/Instructor/layout/DashBoardHeader";
-import DashboardSidebar from "../../components/Instructor/layout/DashboardSidebar";
+import DashboardHeader from "../../../components/Instructor/layout/DashBoardHeader";
+import DashboardSidebar from "../../../components/Instructor/layout/DashboardSidebar";
 
-import ProfiePage from "../../components/Instructor/Dashboard/ProfiePage";
+import ProfiePage from "../../../components/Instructor/Dashboard/ProfiePage";
 
 function InstructorProfilePage() {
 

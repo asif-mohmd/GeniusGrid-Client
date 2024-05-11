@@ -10,7 +10,7 @@ function InstructorBanner() {
         <div className="md:mr-8">
           <div className="rounded-lg overflow-hidden bg-cover bg-center" style={{backgroundImage: `url(${bgInstructor})`}}>
             {/* Adjust the width of the InstructorImg */}
-            <img src={InstructorImg} alt="" className="w-full md:w-72 lg:w-96 xl:w-120 mx-auto md:mx-0 mb-4 md:mb-0" />
+            <img src={InstructorImg} alt="" className="w-full md:w-72 lg:w-96 xl:w- mx-auto md:mx-0 mb-4 md:mb-0" />
           </div>
         </div>
         <div className="text-gray-800 text-center md:text-left md:mx-10">

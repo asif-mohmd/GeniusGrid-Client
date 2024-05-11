@@ -13,7 +13,7 @@ function CourseDetailsPage(courseData:CourseData) {
 
  
   return (
-    <div className="container mx-auto py-12 bg-gray-50">
+    <div className="container mx-auto py-1 bg-gray-50">
       <div className="max-w-2xl mx-auto bg-gray-50 rounded-lg overflow-hidden">
         <div className="px-6 py-4">
           <div className="mb-4">

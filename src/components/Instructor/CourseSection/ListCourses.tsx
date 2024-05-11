@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
-import { instructoraxios } from "../../../../constraints/axiosInterceptors/instructorAxiosInterceptors";
-import courseEndspoints from "../../../../constraints/endpoints/courseEndspoints";
+import { instructoraxios } from "../../../constraints/axiosInterceptors/instructorAxiosInterceptors";
+import courseEndspoints from "../../../constraints/endpoints/courseEndspoints";
 import { useNavigate } from "react-router-dom";
-import instructorEndpoints from "../../../../constraints/endpoints/instructorEndpoints";
+import instructorEndpoints from "../../../constraints/endpoints/instructorEndpoints";
 import { useDispatch } from "react-redux";
-import { setPrivateId } from "../../../../redux/instructorSlices/courseData";
+import { setPrivateId } from "../../../redux/instructorSlices/courseData";
 import { ToastContainer, toast } from "react-toastify";
 import { confirmAlert } from "react-confirm-alert";
 

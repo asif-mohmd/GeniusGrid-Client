@@ -1,75 +1,64 @@
 import { Formik, Form, Field, FormikHelpers, ErrorMessage } from "formik";
 import * as Yup from "yup";
+import { ICreateCourse2 } from "../../../interfaces/ICourseInterfaceRedux";
+
 import { ChangeEvent, useEffect, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
-
+import courseEndspoints from "../../../constraints/endpoints/courseEndspoints";
+import { instructoraxios } from "../../../constraints/axiosInterceptors/instructorAxiosInterceptors";
 import { useNavigate } from "react-router-dom";
-import instructorEndpoints from "../../../../constraints/endpoints/instructorEndpoints";
-import {
-  setCourseData1,
-  setCourseData3Empty,
-} from "../../../../redux/instructorSlices/courseData";
-import { RootState } from "../../../../redux/Store";
-import { instructoraxios } from "../../../../constraints/axiosInterceptors/instructorAxiosInterceptors";
-import { ICreateCourse1 } from "../../../../interfaces/ICourseInterfaceRedux";
+import instructorEndpoints from "../../../constraints/endpoints/instructorEndpoints";
+import { setCourseData2, setCourseData3 } from "../../../redux/instructorSlices/courseData";
+import { IoMdArrowRoundBack } from "react-icons/io";
+import { RootState } from "../../../redux/Store";
 import { FaUpload } from "react-icons/fa";
 
-
-interface videoData {
-  fileName: string;
-  videoUrl: string;
-}
-
-const CreateCourse1 = () => {
+const EditCourse = () => {
   const [benefits, setBenefits] = useState<string[]>([""]);
   const [prerequisites, setPrerequisites] = useState<string[]>([""]);
 
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
 
+  const [existThumbnail, setExistThumbnail] = useState<string>()
 
-  const [videoDetails, setvideoDetails] = useState<videoData[]>([]);
 
-  const courseLevel = {
-    Beginner: "Beginner",
-    Intermediate: "Intermediate",
-    Advanced: "Advanced"
-  };
+  const courseId = useSelector((state: RootState) => state.courseData.privateIdStore)
+  const courseDetails = useSelector((state: RootState) => state.courseData.courseData3)
 
-  const courseDetails = useSelector(
-    (store: RootState) => store.courseData.courseData1
-  );
+  console.log(courseDetails, "ooooooooooooooooooooooooo")
 
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const dispatch = useDispatch()
+
 
   useEffect(() => {
-    if (courseDetails) {
-      // dispatch(setCourseData1Empty())
-      setBenefits(courseDetails.benefits || []);
-      setPrerequisites(courseDetails.prerequisites || []);
-
-    }
     async function fetchCourseData() {
       try {
-        const response = await instructoraxios.get(
-          "http://localhost:4000/transcode/videoURL"
-        );
-        if (response && response.data) {
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          const urls = response.data;
-          console.log(urls, "vvvvvvvvvvvvvvvvvvvvvvvvvvv");
-          setvideoDetails(urls); // Set video URLs in state
-        }
+        const response = await instructoraxios.get(`${courseEndspoints.courseDetails}/${courseId}`);
+        console.log(response, "gggggggg")
+
+        dispatch(setCourseData3(response.data.response))
+        setBenefits(response.data.response.benefits);
+        setPrerequisites(response.data.response.prerequisites);
+        setExistThumbnail(response.data.response.thumbnail)
       } catch (error) {
         console.error("Error fetching course details:", error);
       }
     }
-    fetchCourseData();
-  }, [courseDetails]);
+
+    fetchCourseData()
+  }, [courseId, dispatch])
+
+
+
+
+  const navigate = useNavigate();
+
+  // console.log(courseDetails.courseName,"haiiiiiiiiiiii")
 
   const initialValues = {
-    thumbnail: courseDetails?.thumbnail || null,
+    _id: courseId, // Replace with actual ID or a placeholder
+    thumbnail: courseDetails?.thumbnail || "",
     courseName: courseDetails?.courseName || "",
     courseDescription: courseDetails?.courseDescription || "",
     coursePrice: courseDetails?.coursePrice || "",
@@ -78,8 +67,8 @@ const CreateCourse1 = () => {
     courseLevel: courseDetails?.courseLevel || "",
     totalVideos: courseDetails?.totalVideos || "",
     demoURL: courseDetails?.demoURL || "",
-    benefits: courseDetails?.benefits || [""],
-    prerequisites: courseDetails?.prerequisites || [""],
+    benefits: courseDetails?.benefits || [" "],
+    prerequisites: courseDetails?.prerequisites || [" "],
   };
 
   const validationSchema = Yup.object().shape({
@@ -87,9 +76,9 @@ const CreateCourse1 = () => {
     courseDescription: Yup.string().required("Course description is required"),
     coursePrice: Yup.number().required("Course price is required"),
     estimatedPrice: Yup.number().required("Estimated price is required"),
-    courseCategory: Yup.string().required("Course category are required"),
+    courseCategory: Yup.string().required("Course tags are required"),
     courseLevel: Yup.string().required("Course level is required"),
-    totalVideos: Yup.number().required("Course category is required"),
+    totalVideos: Yup.string().required("Course category is required"),
     demoURL: Yup.string().required("Introduction URL is required"),
     benefits: Yup.array().of(Yup.string()).required("Benefits are required"),
     prerequisites: Yup.array()
@@ -137,38 +126,41 @@ const CreateCourse1 = () => {
     }
   };
 
-
   const handleSubmit = async (
-    values: ICreateCourse1,
-    { setSubmitting }: FormikHelpers<ICreateCourse1>
+    values: ICreateCourse2,
+    { setSubmitting }: FormikHelpers<ICreateCourse2>
   ) => {
     try {
-      // Filtering out empty benefits and prerequisites
       values.benefits = benefits.filter((benefit) => benefit.trim() !== "");
       values.prerequisites = prerequisites.filter(
         (prerequisite) => prerequisite.trim() !== ""
       );
 
-      if(!selectedImage){
+      if (!selectedImage) {
         toast.error("Upload Thumbnail")
-      }else{
-        values.thumbnail = selectedImage
-        console.log(values, "ivde aaane"); // Log the values to check if they are correct
+      } else {
+        console.log(values, "--------------------");
+        console.log("ivde aaane");
 
-        dispatch(setCourseData1(values));
-        dispatch(setCourseData3Empty());
-        navigate(instructorEndpoints.addLessonPage);
+
+
+
+        dispatch(setCourseData2(values))
+
+        navigate(instructorEndpoints.editLessonPage);
+
       }
-  
     } catch (error) {
       console.error("Error:", error);
     } finally {
       setSubmitting(false);
     }
   };
-  
 
-  
+  const handleBack = () => {
+    console.log("workin gbackkk");
+    navigate(instructorEndpoints.myCourses);
+  };
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0]; // Get the first file selected by the user
@@ -199,40 +191,54 @@ const CreateCourse1 = () => {
           onSubmit={handleSubmit}
         >
           {({ errors, touched, isSubmitting }) => (
-            <Form className="sm:w-3/4 bg-white p-4 rounded-xl mt-7">
-              <div className="pb-3 pt-2 flex">
-                <h1 className="text-2xl font-semibold">Create course</h1>
+            <Form className="sm:w-3/4 bg-white p-4 rounded-xl">
+              <div className="pb-7 pt-2 flex items-center justify-between">
+                <h1 className="text-2xl font-semibold">Edit course</h1>
+                <div>
+                  <h1 className="cursor-pointer">
+                    <IoMdArrowRoundBack
+                      onClick={handleBack}
+                      className="text-4xl hover:text-gray-700 focus:text-gray-700 transition duration-300 ease-in-out"
+                    />
+                  </h1>
+                </div>
               </div>
-              <div className="flex flex-wrap -mx-3 mb-5">
 
 
               <div className="container mx-auto py-4">
-  <form className="p-6" encType="multipart/form-data">
-    <label htmlFor="fileInput" className="relative cursor-pointer">
-      <input
-        id="fileInput"
-        type="file"
-        accept="image/*"
-        className="hidden"
-        onChange={handleChange}
-      />
-      <div className="flex items-center justify-center bg-gray-100 cursor-pointer rounded-lg p-8">
-        <FaUpload className="mr-2" />
-        <span className="text-lg">Choose a thumbnail</span>
-      </div>
-    </label>
-    {selectedImage && (
-      <div>
-        <p>Selected Image:</p>
-        <img className="w-22 h-20" src={URL.createObjectURL(selectedImage)} alt="Selected" />
-        <button onClick={handleClear}>Clear</button>
-      </div>
-    )}
-  </form>
-</div>
+                <form className="p-1 md:max-w-sm mx-auto" encType="multipart/form-data">
+
+                  {selectedImage ? (
+                    <div className="text-center">
+                      <img className="mx-auto mb-2  h-16 object-cover" src={URL.createObjectURL(selectedImage)} alt="Selected" />
+                      <button onClick={handleClear} className="block mx-auto px-2 bg-red-400 rounded-lg ">Clear</button>
+                    </div>
+                  ) : (
+                    <div className="text-center">
+                      <img className="mx-auto mb-2  h-16 object-cover" src={existThumbnail} alt="Selected" />
+                    </div>
+                  )}
+                  <label htmlFor="fileInput" className="relative cursor-pointer block mt-2 ">
+                    <input
+                      id="fileInput"
+                      type="file"
+                      accept="image/*"
+                      className="hidden"
+                      onChange={handleChange}
+                      style={{ display: "none" }}
+                    />
+                    <div className="flex items-center justify-center bg-gray-100 cursor-pointer rounded-lg p-1">
+                      <FaUpload className="mr-2" />
+                      <span className="text-lg">Choose new thumbnail</span>
+                    </div>
+                  </label>
+                </form>
+              </div>
 
 
 
+
+              <div className="flex flex-wrap -mx-3 mb-6">
                 <div className="w-full px-3 mb-6 md:mb-0">
                   <label
                     htmlFor="courseName"
@@ -245,8 +251,8 @@ const CreateCourse1 = () => {
                     id="courseName"
                     name="courseName"
                     className={`appearance-none block w-full bg-slate-50 text-gray-700 border ${errors.courseName && touched.courseName && !isSubmitting
-                      ? "border-red-500"
-                      : "border-gray-200"
+                        ? "border-red-500"
+                        : "border-gray-200"
                       } rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white`}
                     placeholder="Enter course name"
                   />
@@ -269,10 +275,10 @@ const CreateCourse1 = () => {
                     id="courseDescription"
                     name="courseDescription"
                     className={`appearance-none block w-full bg-slate-50 text-gray-700 border ${errors.courseDescription &&
-                      touched.courseDescription &&
-                      !isSubmitting
-                      ? "border-red-500"
-                      : "border-gray-200"
+                        touched.courseDescription &&
+                        !isSubmitting
+                        ? "border-red-500"
+                        : "border-gray-200"
                       } rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white`}
                     placeholder="Enter course description"
                   />
@@ -297,8 +303,8 @@ const CreateCourse1 = () => {
                     id="coursePrice"
                     name="coursePrice"
                     className={`appearance-none block w-full bg-slate-50 text-gray-700 border ${errors.coursePrice && touched.coursePrice && !isSubmitting
-                      ? "border-red-500"
-                      : "border-gray-200"
+                        ? "border-red-500"
+                        : "border-gray-200"
                       } rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white`}
                     placeholder="Enter course price"
                   />
@@ -323,10 +329,10 @@ const CreateCourse1 = () => {
                     id="estimatedPrice"
                     name="estimatedPrice"
                     className={`appearance-none block w-full bg-slate-50 text-gray-700 border ${errors.estimatedPrice &&
-                      touched.estimatedPrice &&
-                      !isSubmitting
-                      ? "border-red-500"
-                      : "border-gray-200"
+                        touched.estimatedPrice &&
+                        !isSubmitting
+                        ? "border-red-500"
+                        : "border-gray-200"
                       } rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white`}
                     placeholder="Enter estimated price"
                   />
@@ -344,15 +350,15 @@ const CreateCourse1 = () => {
                     htmlFor="courseCategory"
                     className="block  tracking-wide text-gray-700 text-xs font-bold mb-2"
                   >
-                    Course categories
+                    Course Category
                   </label>
                   <Field
                     type="text"
                     id="courseCategory"
                     name="courseCategory"
                     className={`appearance-none block w-full bg-slate-50 text-gray-700 border ${errors.courseCategory && touched.courseCategory && !isSubmitting
-                      ? "border-red-500"
-                      : "border-gray-200"
+                        ? "border-red-500"
+                        : "border-gray-200"
                       } rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white`}
                     placeholder="Enter course tags"
                   />
@@ -371,12 +377,12 @@ const CreateCourse1 = () => {
                     Total Videos
                   </label>
                   <Field
-                    type="number"
+                    type="text"
                     id="totalVideos"
                     name="totalVideos"
                     className={`appearance-none block w-full bg-slate-50 text-gray-700 border ${errors.totalVideos && touched.totalVideos && !isSubmitting
-                      ? "border-red-500"
-                      : "border-gray-200"
+                        ? "border-red-500"
+                        : "border-gray-200"
                       } rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white`}
                     placeholder="Amount of videos"
                   />
@@ -397,23 +403,15 @@ const CreateCourse1 = () => {
                     Course Level
                   </label>
                   <Field
-                    as="select"
                     type="text"
                     id="courseLevel"
                     name="courseLevel"
                     className={`appearance-none block w-full bg-slate-50 text-gray-700 border ${errors.courseLevel && touched.courseLevel && !isSubmitting
-                      ? "border-red-500"
-                      : "border-gray-200"
+                        ? "border-red-500"
+                        : "border-gray-200"
                       } rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white`}
                     placeholder="Enter course level"
-                  >
-                    <option value="">Select Demo URL</option>
-                    {Object.values(courseLevel).map((level, index) => (
-                      <option key={index} value={level}>
-                        {level}
-                      </option>
-                    ))}
-                  </Field>
+                  />
                   {errors.courseLevel &&
                     touched.courseLevel &&
                     !isSubmitting && (
@@ -431,21 +429,15 @@ const CreateCourse1 = () => {
                     Demo URL
                   </label>
                   <Field
-                    as="select" // Use a select element
+                    type="text"
                     id="demoURL"
                     name="demoURL"
                     className={`appearance-none block w-full bg-slate-50 text-gray-700 border ${errors.demoURL && touched.demoURL && !isSubmitting
-                      ? "border-red-500"
-                      : "border-gray-200"
+                        ? "border-red-500"
+                        : "border-gray-200"
                       } rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white`}
-                  >
-                    <option value="">Select Demo URL</option>
-                    {videoDetails.map((video, index) => (
-                      <option key={index} value={video.videoUrl}>
-                        {video.fileName}
-                      </option>
-                    ))}
-                  </Field>
+                    placeholder="Enter Demo URL"
+                  />
                   {errors.demoURL && touched.demoURL && !isSubmitting && (
                     <div className="text-red-500 border-red-500 text-xs italic">
                       {errors.demoURL}
@@ -455,7 +447,7 @@ const CreateCourse1 = () => {
 
                 <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                   <p className="text-lg font-semibold mb-2">
-                    What are the benefits of this course
+                    What are the benefits for the students in the course
                   </p>
                   {benefits.map((benefit, index) => (
                     <div key={index} className="mb-3 flex">
@@ -496,7 +488,7 @@ const CreateCourse1 = () => {
 
                 <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                   <p className="text-lg font-semibold mb-2">
-                    What are the prerequisites for this course
+                    What are the prerequisites for students in this course
                   </p>
                   {prerequisites.map((prerequisite, index) => (
                     <div key={index} className="mb-3 flex">
@@ -555,4 +547,4 @@ const CreateCourse1 = () => {
   );
 };
 
-export default CreateCourse1;
+export default EditCourse;

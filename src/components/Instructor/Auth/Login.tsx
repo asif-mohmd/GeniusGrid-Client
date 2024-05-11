@@ -29,7 +29,7 @@ const Login: React.FC = () => {
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-
+console.log(instructorLoginData,"-------------")
     const instructorData = await instructoraxios.post(
       instructorEndpoints.login,
       { instructorLoginData }

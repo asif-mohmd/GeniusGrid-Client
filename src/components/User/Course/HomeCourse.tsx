@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import courseEndspoints from '../../../constraints/endpoints/courseEndspoints';
 import { userAxios } from '../../../constraints/axiosInterceptors/userAxiosInterceptors';
 import { Course } from '../../../interfaces/ICourseDetails';
-import courseData from '../../../redux/instructorSlices/courseData';
 
 
 function HomeCourse() {
@@ -28,21 +27,21 @@ function HomeCourse() {
   }, []);
 
     return (
-      <div className="container mx-auto px-4 py-8 lg:px-64">
+      <div className="container mx-auto px-4 py-9 lg:px-64">
 
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {/* First Card */}
           {courses.map(course=>(
           <Link to={`/course-details/${course.id}`} key={course.id} className="block">
-            <div className="bg-white rounded-lg overflow-hidden shadow-lg">
+            <div className="bg-white rounded-lg overflow-hidden shadow-lg h-full">
               <img
                 className="w-full h-40 object-cover"
                 src={course.thumbnail}
                 alt=""
               />
               <div className="p-4">
-                <h5 className="mb-2 text-lg font-semibold text-gray-800">
+                <h5 className="mb-2 text-md font-semibold text-gray-800">
                  {course.courseName}
                 </h5>
                 <p className="mb-2 text-gray-700">

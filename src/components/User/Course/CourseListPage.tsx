@@ -36,7 +36,7 @@ function CourseListPage() {
     <div className="bg-white rounded-lg overflow-hidden shadow-lg">
       <img
         className="w-full h-40 object-cover"
-        src="https://via.placeholder.com/350x200"
+        src={course.thumbnail}
         alt=""
       />
       <div className="p-4">

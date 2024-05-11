@@ -40,5 +40,5 @@ export interface Course {
     totalVideos: string;
     prerequisites: string[];
     benefits: string[];
-    courseLessons: Lesson[][]; 
+    lessons: Lesson[][]; 
   }

@@ -22,6 +22,7 @@ export interface ICreateCourse1 {
 
 export interface ICreateCourse3 {
   _id: string;
+  thumbnail : File | string;
   instructorId:string;
   courseName: string;
   courseDescription: string;
@@ -34,12 +35,13 @@ export interface ICreateCourse3 {
   benefits: Array<string>;
   prerequisites: Array<string>;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  courseLessons: Array<Array<{ [key: string]: any }>>;
+  lessons: Array<Array<{ [key: string]: any }>>;
 
 }
 
 export interface ICreateCourse2 {
   _id: string;
+  thumbnail : File | string;
   courseName: string;
   courseDescription: string;
   coursePrice: string;

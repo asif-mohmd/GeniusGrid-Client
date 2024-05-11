@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from "react";
-import LessonComponent from "./LessonComponent";
 import { ToastContainer, toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../../../redux/Store";
-import { instructoraxios } from "../../../../constraints/axiosInterceptors/instructorAxiosInterceptors";
-import courseEndspoints from "../../../../constraints/endpoints/courseEndspoints";
+import { RootState } from "../../../redux/Store";
+import { instructoraxios } from "../../../constraints/axiosInterceptors/instructorAxiosInterceptors";
+import courseEndspoints from "../../../constraints/endpoints/courseEndspoints";
 import { useNavigate } from "react-router-dom";
-import instructorEndpoints from "../../../../constraints/endpoints/instructorEndpoints";
+import instructorEndpoints from "../../../constraints/endpoints/instructorEndpoints";
 import { confirmAlert } from "react-confirm-alert"; // Import the library
 import "react-confirm-alert/src/react-confirm-alert.css"; // Import its CSS
 import { IoArrowBackCircleOutline } from "react-icons/io5";
-import { setCourseData1Empty } from "../../../../redux/instructorSlices/courseData";
+import { setCourseData1Empty } from "../../../redux/instructorSlices/courseData";
+import LessonComponent from "./LessonContent";
 
 interface LessonContent {
   videoTitle: string;
@@ -26,15 +26,12 @@ interface videoData {
 }
 
 
-
 const LessonContentManagement: React.FC = () => {
   const [lessons, setLessons] = useState<LessonContent[][]>([]);
 
   const courseLessonsDetails = useSelector((store: RootState) => store.courseData.courseData3)
 
   const courseDetails = useSelector((store: RootState) => store.courseData.courseData1)
-
-  const editCourseDetails = useSelector((store: RootState) => store.courseData.courseData2)
 
   const [videoDetails, setvideoDetails] = useState<videoData[]>([]);
 
@@ -46,7 +43,7 @@ const LessonContentManagement: React.FC = () => {
       try {
 
 
-        const lessonsData = courseLessonsDetails?.courseLessons || [];
+        const lessonsData = courseLessonsDetails?.lessons || [];
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const formattedLessons: LessonContent[][] = lessonsData.map((lesson: any) => {
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -59,7 +56,6 @@ const LessonContentManagement: React.FC = () => {
           }));
         });
 
-        console.log("uuuuuuuuuuuuuuuuuuuuiiiiiiiiiiiii")
         const response = await instructoraxios.get("http://localhost:4000/transcode/videoURL");
         if (response && response.data) {
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -74,7 +70,7 @@ const LessonContentManagement: React.FC = () => {
     }
 
     fetchCourseData();
-  }, [courseLessonsDetails?.courseLessons]);
+  }, [courseLessonsDetails?.lessons]);
 
 
 
@@ -115,66 +111,64 @@ const LessonContentManagement: React.FC = () => {
             label: "Yes",
             onClick: async () => {
               let response
-              if (courseLessonsDetails == null) {
-                console.log(courseDetails, "wwwwwwwwwwwwwwwwwwwwwwwwww")
 
-                const formData = new FormData();
 
-                if (courseDetails && courseDetails?.thumbnail) {
-                  formData.append("thumbnail", courseDetails?.thumbnail);
-                  formData.append("courseName", courseDetails?.courseName);
-                  formData.append("courseDescription", courseDetails.courseDescription);
-                  formData.append("coursePrice", courseDetails.coursePrice);
-                  formData.append("estimatedPrice", courseDetails.estimatedPrice);
-                  formData.append("courseCategory", courseDetails.courseCategory);
-                  formData.append("totalVideos", courseDetails.totalVideos);
-                  formData.append("courseLevel", courseDetails.courseLevel);
-                  formData.append("demoURL", courseDetails.demoURL);
+              const formData = new FormData();
 
-                  courseDetails.benefits.forEach((benefit, index) => {
-                    formData.append(`benefits[${index}]`, benefit);
-                  });
+              if (courseDetails && courseDetails?.thumbnail) {
+                formData.append("thumbnail", courseDetails?.thumbnail);
+                formData.append("courseName", courseDetails?.courseName);
+                formData.append("courseDescription", courseDetails.courseDescription);
+                formData.append("coursePrice", courseDetails.coursePrice);
+                formData.append("estimatedPrice", courseDetails.estimatedPrice);
+                formData.append("courseCategory", courseDetails.courseCategory);
+                formData.append("totalVideos", courseDetails.totalVideos);
+                formData.append("courseLevel", courseDetails.courseLevel);
+                formData.append("demoURL", courseDetails.demoURL);
 
-                  courseDetails.prerequisites.forEach((prerequisite, index) => {
-                    formData.append(`prerequisites[${index}]`, prerequisite);
-                  });
+                courseDetails.benefits.forEach((benefit, index) => {
+                  formData.append(`benefits[${index}]`, benefit);
+                });
 
-                  lessons.forEach((lessonRow, rowIndex) => {
-                    lessonRow.forEach((lesson, lessonIndex) => {
-                      const lessonPrefix = `lessons[${rowIndex}][${lessonIndex}]`;
-                      formData.append(`${lessonPrefix}[videoTitle]`, lesson.videoTitle);
-                      formData.append(`${lessonPrefix}[videoURL]`, lesson.videoURL);
-                      formData.append(`${lessonPrefix}[subtitleURL]`, lesson.subtitleURL);
-                      formData.append(`${lessonPrefix}[videoDescription]`, lesson.videoDescription);
+                courseDetails.prerequisites.forEach((prerequisite, index) => {
+                  formData.append(`prerequisites[${index}]`, prerequisite);
+                });
 
-                      lesson.links.forEach((link, linkIndex) => {
-                        formData.append(`${lessonPrefix}[links][${linkIndex}]`, link);
-                      });
+                lessons.forEach((lessonRow, rowIndex) => {
+                  lessonRow.forEach((lesson, lessonIndex) => {
+                    const lessonPrefix = `lessons[${rowIndex}][${lessonIndex}]`;
+                    formData.append(`${lessonPrefix}[videoTitle]`, lesson.videoTitle);
+                    formData.append(`${lessonPrefix}[videoURL]`, lesson.videoURL);
+                    formData.append(`${lessonPrefix}[subtitleURL]`, lesson.subtitleURL);
+                    formData.append(`${lessonPrefix}[videoDescription]`, lesson.videoDescription);
+
+                    lesson.links.forEach((link, linkIndex) => {
+                      formData.append(`${lessonPrefix}[links][${linkIndex}]`, link);
                     });
                   });
+                });
 
-                  // Create a Promise to ensure all data is appended before making the API call
-                  const formDataPromise = new Promise<void>((resolve) => {
-                    // Resolve the promise after appending all data
-                    resolve();
-                  });
+                // Create a Promise to ensure all data is appended before making the API call
+                const formDataPromise = new Promise<void>((resolve) => {
+                  // Resolve the promise after appending all data
+                  resolve();
+                });
 
-                  // Wait for the promise to be resolved
-                  await formDataPromise;
+                // Wait for the promise to be resolved
+                await formDataPromise;
 
-                  // Once all data is appended, make the API call
-                  for (const key of formData.entries()) {
-                    console.log(key[0] + ', ' + key[1]);
-                  }
-                  
-                  console.log()
-                  response = await instructoraxios.post(courseEndspoints.createOrEditCourse, formData);
+                // Once all data is appended, make the API call
+                for (const key of formData.entries()) {
+                  console.log(key[0] + ', ' + key[1]);
                 }
 
-              } else {
-                const courseDetails = editCourseDetails
-                response = await instructoraxios.post(courseEndspoints.createOrEditCourse, { courseDetails, lessons });
+                response = await instructoraxios.post(courseEndspoints.createOrEditCourse, formData, {
+                  headers: {
+                    'Content-Type': 'multipart/form-data',
+                  }
+                });
               }
+
 
               if (response && response.status == 200) {
                 dispatch(setCourseData1Empty())
@@ -208,13 +202,26 @@ const LessonContentManagement: React.FC = () => {
   return (
     <div className="min-h-screen bg-slate-50 flex flex-col">
       <ToastContainer />
-      <div className="flex justify-end">
-        <IoArrowBackCircleOutline
-          onClick={HandleBackPage}
-          className="text-3xl cursor-pointer hover:text-gray-500 transition-colors duration-300 mt-2 mr-4"
-        />
-      </div>
+      {courseDetails != null ? (
+        <div className="flex justify-end">
 
+
+          <IoArrowBackCircleOutline
+
+            onClick={HandleBackPage}
+            className="text-3xl cursor-pointer hover:text-red-200 transition-colors duration-300 mt-2 mr-4"
+          />
+        </div>
+      ) : (
+        <div className="flex justify-end">
+
+          <IoArrowBackCircleOutline
+            onClick={HandleBackPage}
+            className="text-3xl cursor-pointer hover:text-gray-500 transition-colors duration-300 mt-2 mr-4"
+          />
+        </div>
+
+      )}
       <div className="container mx-auto p-8 flex-grow ">
         <div className="bg-slate-50">
           {lessons.map((lesson, lessonIndex) => (

@@ -1,7 +1,7 @@
-import DashboardHeader from "../../components/Instructor/layout/DashBoardHeader";
-import DashboardSidebar from "../../components/Instructor/layout/DashboardSidebar";
+import DashboardHeader from "../../../components/Instructor/layout/DashBoardHeader";
+import DashboardSidebar from "../../../components/Instructor/layout/DashboardSidebar";
 
-import DashboardUserAnalysis from "../../components/Instructor/Dashboard/DashboardUserAnalysis";
+import DashboardUserAnalysis from "../../../components/Instructor/Dashboard/DashboardUserAnalysis";
 
 function InstructorUserAnalysis() {
 

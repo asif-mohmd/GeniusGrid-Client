@@ -1,21 +1,22 @@
 import { Route, Routes } from "react-router";
 
-import InstructorDashboard from "../../pages/instructor/InstructorDashboard";
+import InstructorDashboard from "../../pages/instructor/Dashboard/InstructorDashboard";
 
-import InstructorLoginPage from "../../pages/instructor/InstructorLoginPage";
-import InstructorSignupPage from "../../pages/instructor/InstructorSignupPage";
+import InstructorLoginPage from "../../pages/instructor/Auth/InstructorLoginPage";
+import InstructorSignupPage from "../../pages/instructor/Auth/InstructorSignupPage";
 import InstructorOTPPage from "../../components/Instructor/Auth/OTPPage";
-import InstructorUserPage from "../../pages/instructor/InstructorUserPage";
-import InstructorCreateCourse from "../../pages/instructor/InstructorCreateCourse";
+import InstructorUserPage from "../../pages/instructor/Dashboard/InstructorUserPage";
+import InstructorCreateCourse from "../../pages/instructor/Course/InstructorCreateCourse";
 import InstructorProtectorRoute from "./InstructorProtectorRoute";
 import InstructorPublicRoute from "./InstructorPublicRoute";
-import InstructorListCourse from "../../pages/instructor/InstructorListCourses";
-import EditCourse from "../../components/Instructor/Dashboard/courseSection/EditCourse";
-import InstructorProfilePage from "../../pages/instructor/InstructorProfilePage";
-import InstructorUserAnalysis from "../../pages/instructor/InstructorUserAnalysis";
-import InstructorOrderAnalysis from "../../pages/instructor/InstructorOrderAnalysis";
-import LessonContentManage from "../../pages/instructor/LessonContentManage"
-import InstructorTranscodeVideo from "../../pages/instructor/InstructorTranscodeVideo";
+import InstructorListCourse from "../../pages/instructor/Course/InstructorListCourses";
+import InstructorProfilePage from "../../pages/instructor/Dashboard/InstructorProfilePage";
+import InstructorUserAnalysis from "../../pages/instructor/Dashboard/InstructorUserAnalysis";
+import InstructorOrderAnalysis from "../../pages/instructor/Dashboard/InstructorOrderAnalysis";
+import AddLessonManagement from "../../pages/instructor/Course/AddLessonManagement"
+import InstructorTranscodeVideo from "../../pages/instructor/Dashboard/InstructorTranscodeVideo";
+import InstructorEditCourse from "../../pages/instructor/Course/InstructorEditCourse";
+import EditLessonManagement from "../../pages/instructor/Course/EditLessonManagement";
 
 export const InstructorRouter = () => {
   return (
@@ -28,8 +29,11 @@ export const InstructorRouter = () => {
       <Route path="/users" element={<InstructorProtectorRoute component={InstructorUserPage} />} ></Route>
       <Route path="/create/course" element={<InstructorProtectorRoute component={InstructorCreateCourse} />}></Route>
       <Route path="/my/courses" element={<InstructorProtectorRoute component={InstructorListCourse} />}></Route>
-      <Route path="/edit/course" element={<InstructorProtectorRoute component={EditCourse} />}></Route>
-      <Route path="/add/lesson/page" element={<InstructorProtectorRoute component={LessonContentManage} />}></Route>
+      <Route path="/edit/course" element={<InstructorProtectorRoute component={InstructorEditCourse} />}></Route>
+      <Route path="/add/lesson/page" element={<InstructorProtectorRoute component={AddLessonManagement} />}></Route>
+      <Route path="/edit/lesson/page" element={<InstructorProtectorRoute component={EditLessonManagement} />}></Route>
+
+
 
       <Route path="/profile/page" element={<InstructorProtectorRoute component={InstructorProfilePage} />}></Route>
       <Route path="/user/analysis" element={<InstructorProtectorRoute component={InstructorUserAnalysis} />}></Route>

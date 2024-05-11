@@ -1,4 +1,4 @@
-import Signup from "../../components/Instructor/Auth/Signup"
+import Signup from "../../../components/Instructor/Auth/Signup"
 
 function InstructorSignupPage() {
   return (

@@ -4,10 +4,12 @@ export default {
     listCourse:  "/course/list-course",
     courseDetails: "/course/get-course-details",
     updateCourse: "/course/edit-course",
-    addLessonContent: "/course/add-lesson-content",
+    addLessonContent: "/course/add/lesson",
     getLessonsContents : "/course/getLessonsContenes",
     deleteCourse : "/course/delete/course",
     allUserCourses: "/course/get-all-user-courses",
-    coursePurchased: "/course/get-purchased-course"
+    coursePurchased: "/course/get-purchased-course",
+    editLessonContent : "/course/edit/lesson"
+    
    
 }

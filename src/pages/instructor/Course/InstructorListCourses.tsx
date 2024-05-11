@@ -1,7 +1,7 @@
-import DashboardHeader from "../../components/Instructor/layout/DashBoardHeader";
-import DashboardSidebar from "../../components/Instructor/layout/DashboardSidebar";
+import DashboardHeader from "../../../components/Instructor/layout/DashBoardHeader";
+import DashboardSidebar from "../../../components/Instructor/layout/DashboardSidebar";
 
-import ListCourses from "../../components/Instructor/Dashboard/courseSection/ListCourses";
+import ListCourses from "../../../components/Instructor/CourseSection/ListCourses";
 
 
 function InstructorUserPage() {
