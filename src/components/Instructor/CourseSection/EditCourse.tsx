@@ -137,12 +137,15 @@ const EditCourse = () => {
       );
 
       if (!selectedImage) {
-        toast.error("Upload Thumbnail")
-      } else {
+        // toast.error("Upload Thumbnail")
+        console.log(values,"0000000000000")
+        dispatch(setCourseData2(values))
+        navigate(instructorEndpoints.editLessonPage);
+      } else { 
         console.log(values, "--------------------");
         console.log("ivde aaane");
 
-
+       values.thumbnail = selectedImage
 
 
         dispatch(setCourseData2(values))
@@ -215,6 +218,7 @@ const EditCourse = () => {
                     </div>
                   ) : (
                     <div className="text-center">
+                      
                       <img className="mx-auto mb-2  h-16 object-cover" src={existThumbnail} alt="Selected" />
                     </div>
                   )}

@@ -56,10 +56,8 @@ const CreateCourse1 = () => {
           "http://localhost:4000/transcode/videoURL"
         );
         if (response && response.data) {
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           const urls = response.data;
-          console.log(urls, "vvvvvvvvvvvvvvvvvvvvvvvvvvv");
-          setvideoDetails(urls); // Set video URLs in state
+          setvideoDetails(urls);
         }
       } catch (error) {
         console.error("Error fetching course details:", error);
@@ -149,26 +147,22 @@ const CreateCourse1 = () => {
         (prerequisite) => prerequisite.trim() !== ""
       );
 
-      if(!selectedImage){
+      if (!selectedImage) {
         toast.error("Upload Thumbnail")
-      }else{
+      } else {
         values.thumbnail = selectedImage
-        console.log(values, "ivde aaane"); // Log the values to check if they are correct
-
         dispatch(setCourseData1(values));
         dispatch(setCourseData3Empty());
         navigate(instructorEndpoints.addLessonPage);
       }
-  
+
     } catch (error) {
       console.error("Error:", error);
     } finally {
       setSubmitting(false);
     }
   };
-  
 
-  
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0]; // Get the first file selected by the user
@@ -206,36 +200,33 @@ const CreateCourse1 = () => {
               <div className="flex flex-wrap -mx-3 mb-5">
 
 
-              <div className="container mx-auto py-4">
-  <form className="p-6" encType="multipart/form-data">
-    <label htmlFor="fileInput" className="relative cursor-pointer">
-      <input
-        id="fileInput"
-        type="file"
-        accept="image/*"
-        className="hidden"
-        onChange={handleChange}
-      />
-      {!selectedImage && (
-        <div className="flex items-center justify-center bg-gray-100 cursor-pointer rounded-lg p-8 text-center">
-          <FaUpload className="mr-2" />
-          <span className="text-lg">Choose a thumbnail</span>
-        </div>
-      )}
-    </label>
-    {selectedImage && (
-      <div className="text-center">
-        <div className="flex justify-center">
-          <img className="w-22 h-20" src={URL.createObjectURL(selectedImage)} alt="Selected" />
-        </div>
-        <button onClick={handleClear} className="block mx-auto px-2 bg-red-400 rounded-lg mt-4">Clear</button> 
-      </div>
-    )}
-  </form>
-</div>
-
-
-
+                <div className="container mx-auto py-4">
+                  <form className="p-6" encType="multipart/form-data">
+                    <label htmlFor="fileInput" className="relative cursor-pointer">
+                      <input
+                        id="fileInput"
+                        type="file"
+                        accept="image/*"
+                        className="hidden"
+                        onChange={handleChange}
+                      />
+                      {!selectedImage && (
+                        <div className="flex items-center justify-center bg-gray-100 cursor-pointer rounded-lg p-8 text-center">
+                          <FaUpload className="mr-2" />
+                          <span className="text-lg">Choose a thumbnail</span>
+                        </div>
+                      )}
+                    </label>
+                    {selectedImage && (
+                      <div className="text-center">
+                        <div className="flex justify-center">
+                          <img className="w-22 h-20" src={URL.createObjectURL(selectedImage)} alt="Selected" />
+                        </div>
+                        <button onClick={handleClear} className="block mx-auto px-2 bg-red-400 rounded-lg mt-4">Clear</button>
+                      </div>
+                    )}
+                  </form>
+                </div>
 
 
                 <div className="w-full px-3 mb-6 md:mb-0">

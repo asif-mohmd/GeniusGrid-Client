@@ -115,27 +115,27 @@ const EditLessonComponent: React.FC = () => {
             label: "Yes",
             onClick: async () => {
               let response
-              if (courseLessonsDetails == null) {
-                console.log(courseDetails, "wwwwwwwwwwwwwwwwwwwwwwwwww")
+    
 
                 const formData = new FormData();
 
-                if (courseDetails && courseDetails?.thumbnail) {
-                  formData.append("thumbnail", courseDetails?.thumbnail);
-                  formData.append("courseName", courseDetails?.courseName);
-                  formData.append("courseDescription", courseDetails.courseDescription);
-                  formData.append("coursePrice", courseDetails.coursePrice);
-                  formData.append("estimatedPrice", courseDetails.estimatedPrice);
-                  formData.append("courseCategory", courseDetails.courseCategory);
-                  formData.append("totalVideos", courseDetails.totalVideos);
-                  formData.append("courseLevel", courseDetails.courseLevel);
-                  formData.append("demoURL", courseDetails.demoURL);
+                if (editCourseDetails && lessons) {
+                  formData.append("_id",editCourseDetails?._id)
+                  formData.append("thumbnail", editCourseDetails?.thumbnail);
+                  formData.append("courseName", editCourseDetails?.courseName);
+                  formData.append("courseDescription", editCourseDetails.courseDescription);
+                  formData.append("coursePrice", editCourseDetails.coursePrice);
+                  formData.append("estimatedPrice", editCourseDetails.estimatedPrice);
+                  formData.append("courseCategory", editCourseDetails.courseCategory);
+                  formData.append("totalVideos", editCourseDetails.totalVideos);
+                  formData.append("courseLevel", editCourseDetails.courseLevel);
+                  formData.append("demoURL", editCourseDetails.demoURL);
 
-                  courseDetails.benefits.forEach((benefit, index) => {
+                  editCourseDetails.benefits.forEach((benefit, index) => {
                     formData.append(`benefits[${index}]`, benefit);
                   });
 
-                  courseDetails.prerequisites.forEach((prerequisite, index) => {
+                  editCourseDetails.prerequisites.forEach((prerequisite, index) => {
                     formData.append(`prerequisites[${index}]`, prerequisite);
                   });
 
@@ -173,14 +173,10 @@ const EditLessonComponent: React.FC = () => {
                         'Content-Type': 'multipart/form-data',
                     }
                 });
+                }else{
+                  toast.error("Something went wrong. Try again")
                 }
 
-              } else {
-
-                
-                const courseDetails = editCourseDetails
-                response = await instructoraxios.post(courseEndspoints.createOrEditCourse, { courseDetails, lessons });
-              }
 
               if (response && response.status == 200) {
                 dispatch(setCourseData1Empty())

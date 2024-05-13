@@ -19,7 +19,6 @@ interface LessonContent {
   videoDescription: string;
   links: string[];
 }
-
 interface videoData {
   fileName: string;
   videoUrl: string;
@@ -28,11 +27,8 @@ interface videoData {
 
 const LessonContentManagement: React.FC = () => {
   const [lessons, setLessons] = useState<LessonContent[][]>([]);
-
   const courseLessonsDetails = useSelector((store: RootState) => store.courseData.courseData3)
-
   const courseDetails = useSelector((store: RootState) => store.courseData.courseData1)
-
   const [videoDetails, setvideoDetails] = useState<videoData[]>([]);
 
   const navigate = useNavigate()
@@ -41,13 +37,10 @@ const LessonContentManagement: React.FC = () => {
   useEffect(() => {
     async function fetchCourseData() {
       try {
-
-
         const lessonsData = courseLessonsDetails?.lessons || [];
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const formattedLessons: LessonContent[][] = lessonsData.map((lesson: any) => {
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          return lesson.map((content: any) => ({
+          return lesson.map((content: LessonContent) => ({
             videoTitle: content.videoTitle || '',
             videoURL: content.videoURL || '',
             subtitleURL: content.subtitleURL || '',
@@ -58,10 +51,9 @@ const LessonContentManagement: React.FC = () => {
 
         const response = await instructoraxios.get("http://localhost:4000/transcode/videoURL");
         if (response && response.data) {
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           const urls = response.data
           console.log(urls, "vvvvvvvvvvvvvvvvvvvvvvvvvvv")
-          setvideoDetails(urls); // Set video URLs in state
+          setvideoDetails(urls); 
         }
         setLessons(formattedLessons);
       } catch (error) {
