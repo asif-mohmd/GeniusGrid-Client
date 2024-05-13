@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { CourseData } from "../../../interfaces/ICourseDetails"; // Assuming "ICourseDetails" is correct
+import { CourseData } from "../../../interfaces/UserInterfaces/ICourseDetails"; // Assuming "ICourseDetails" is correct
 import { FaPlayCircle } from 'react-icons/fa'; // Importing play circle icon from react-icons library
 
 

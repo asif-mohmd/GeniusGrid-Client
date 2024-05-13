@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import courseEndspoints from '../../../constraints/endpoints/courseEndspoints';
 import { userAxios } from '../../../constraints/axiosInterceptors/userAxiosInterceptors';
-import { Course } from '../../../interfaces/ICourseDetails';
+import { Course } from '../../../interfaces/UserInterfaces/ICourseDetails';
 
 
 function HomeCourse() {

@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
-import { instructoraxios } from "../../../constraints/axiosInterceptors/instructorAxiosInterceptors";
-import courseEndspoints from "../../../constraints/endpoints/courseEndspoints";
 import { useNavigate } from "react-router-dom";
-import instructorEndpoints from "../../../constraints/endpoints/instructorEndpoints";
 import { useDispatch } from "react-redux";
-import { setPrivateId } from "../../../redux/instructorSlices/courseData";
 import { ToastContainer, toast } from "react-toastify";
 import { confirmAlert } from "react-confirm-alert";
+import courseEndspoints from "../../../constraints/endpoints/courseEndspoints";
+import { instructoraxios } from "../../../constraints/axiosInterceptors/instructorAxiosInterceptors";
+import { setPrivateId } from "../../../redux/instructorSlices/couseSlice/editCourseData";
+import instructorEndpoints from "../../../constraints/endpoints/instructorEndpoints";
 
 
 interface Course {
@@ -29,10 +29,7 @@ const ListCourses = () => {
   useEffect(() => {
     async function listCourses() {
       try {
-        console.log("lsisttttttttttttttttt")
         const listCoursesResponse = await instructoraxios.get(courseEndspoints.listCourse);
-
-        console.log(listCoursesResponse.data.courseData.courses);
         const coursesData = listCoursesResponse.data.courseData.courses;
         setCourses(coursesData);
       } catch (error) {

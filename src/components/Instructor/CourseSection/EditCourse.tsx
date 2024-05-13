@@ -1,7 +1,5 @@
 import { Formik, Form, Field, FormikHelpers, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import { ICreateCourse2 } from "../../../interfaces/ICourseInterfaceRedux";
-
 import { ChangeEvent, useEffect, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
@@ -9,10 +7,11 @@ import courseEndspoints from "../../../constraints/endpoints/courseEndspoints";
 import { instructoraxios } from "../../../constraints/axiosInterceptors/instructorAxiosInterceptors";
 import { useNavigate } from "react-router-dom";
 import instructorEndpoints from "../../../constraints/endpoints/instructorEndpoints";
-import { setCourseData2, setCourseData3 } from "../../../redux/instructorSlices/courseData";
-import { IoMdArrowRoundBack } from "react-icons/io";
 import { RootState } from "../../../redux/Store";
 import { FaUpload } from "react-icons/fa";
+import { IEditCourse } from "../../../interfaces/InstructorInterfaces/IEditCourse";
+import { setEditCourseData, setFullCourseData } from "../../../redux/instructorSlices/couseSlice/editCourseData";
+import { IoMdArrowRoundBack } from "react-icons/io";
 
 const EditCourse = () => {
   const [benefits, setBenefits] = useState<string[]>([""]);
@@ -23,10 +22,8 @@ const EditCourse = () => {
   const [existThumbnail, setExistThumbnail] = useState<string>()
 
 
-  const courseId = useSelector((state: RootState) => state.courseData.privateIdStore)
-  const courseDetails = useSelector((state: RootState) => state.courseData.courseData3)
-
-  console.log(courseDetails, "ooooooooooooooooooooooooo")
+  const courseId = useSelector((state: RootState) => state.editCourseData.privateIdStore)
+  const courseDetails = useSelector((state: RootState) => state.editCourseData.FullCourseData)
 
   const dispatch = useDispatch()
 
@@ -35,9 +32,7 @@ const EditCourse = () => {
     async function fetchCourseData() {
       try {
         const response = await instructoraxios.get(`${courseEndspoints.courseDetails}/${courseId}`);
-        console.log(response, "gggggggg")
-
-        dispatch(setCourseData3(response.data.response))
+        dispatch(setFullCourseData(response.data.response))
         setBenefits(response.data.response.benefits);
         setPrerequisites(response.data.response.prerequisites);
         setExistThumbnail(response.data.response.thumbnail)
@@ -47,7 +42,7 @@ const EditCourse = () => {
     }
 
     fetchCourseData()
-  }, [courseId, dispatch])
+  }, [courseId,dispatch])
 
 
 
@@ -127,8 +122,8 @@ const EditCourse = () => {
   };
 
   const handleSubmit = async (
-    values: ICreateCourse2,
-    { setSubmitting }: FormikHelpers<ICreateCourse2>
+    values: IEditCourse,
+    { setSubmitting }: FormikHelpers<IEditCourse>
   ) => {
     try {
       values.benefits = benefits.filter((benefit) => benefit.trim() !== "");
@@ -139,7 +134,7 @@ const EditCourse = () => {
       if (!selectedImage) {
         // toast.error("Upload Thumbnail")
         console.log(values,"0000000000000")
-        dispatch(setCourseData2(values))
+        dispatch(setEditCourseData(values))
         navigate(instructorEndpoints.editLessonPage);
       } else { 
         console.log(values, "--------------------");
@@ -148,7 +143,7 @@ const EditCourse = () => {
        values.thumbnail = selectedImage
 
 
-        dispatch(setCourseData2(values))
+        dispatch(setEditCourseData(values))
 
         navigate(instructorEndpoints.editLessonPage);
 
@@ -160,7 +155,7 @@ const EditCourse = () => {
     }
   };
 
-  const handleBack = () => {
+   const handleBack = () => {
     console.log("workin gbackkk");
     navigate(instructorEndpoints.myCourses);
   };
@@ -195,6 +190,8 @@ const EditCourse = () => {
         >
           {({ errors, touched, isSubmitting }) => (
             <Form className="sm:w-3/4 bg-white p-4 rounded-xl">
+          
+
               <div className="pb-7 pt-2 flex items-center justify-between">
                 <h1 className="text-2xl font-semibold">Edit course</h1>
                 <div>

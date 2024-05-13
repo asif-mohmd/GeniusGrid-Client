@@ -4,7 +4,7 @@ import {
   faClock,
   faMoneyBillWave,
 } from "@fortawesome/free-solid-svg-icons";
-import { CourseData } from "../../../interfaces/ICourseDetails";
+import { CourseData } from "../../../interfaces/UserInterfaces/ICourseDetails";
 
 
 

@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import userEndpoints from "../../../constraints/endpoints/userEndpoints";
-import { FormDataLogin } from "../../../interfaces/IAuthInterface";
+import { FormDataLogin } from "../../../interfaces/AuthInterfaces/IAuthInterface";
 import { userAxios } from "../../../constraints/axiosInterceptors/userAxiosInterceptors";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";

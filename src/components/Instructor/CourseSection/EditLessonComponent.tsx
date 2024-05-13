@@ -8,9 +8,9 @@ import { useNavigate } from "react-router-dom";
 import instructorEndpoints from "../../../constraints/endpoints/instructorEndpoints";
 import { confirmAlert } from "react-confirm-alert"; // Import the library
 import "react-confirm-alert/src/react-confirm-alert.css"; // Import its CSS
-import { IoArrowBackCircleOutline } from "react-icons/io5";
-import { setCourseData1Empty } from "../../../redux/instructorSlices/courseData";
+// import { IoArrowBackCircleOutline } from "react-icons/io5";
 import LessonComponent from "./LessonContent";
+import { setEditCourseDataEmpty } from "../../../redux/instructorSlices/couseSlice/editCourseData";
 
 interface LessonContent {
   videoTitle: string;
@@ -30,11 +30,10 @@ interface videoData {
 const EditLessonComponent: React.FC = () => {
   const [lessons, setLessons] = useState<LessonContent[][]>([]);
 
-  const courseLessonsDetails = useSelector((store: RootState) => store.courseData.courseData3)
+  const courseLessonsDetails = useSelector((store: RootState) => store.editCourseData.FullCourseData)
 
-  const courseDetails = useSelector((store: RootState) => store.courseData.courseData1)
 
-  const editCourseDetails = useSelector((store: RootState) => store.courseData.courseData2)
+  const editCourseDetails = useSelector((store: RootState) => store.editCourseData.EditCourseData)
 
   const [videoDetails, setvideoDetails] = useState<videoData[]>([]);
 
@@ -59,14 +58,13 @@ const EditLessonComponent: React.FC = () => {
           }));
         });
 
-        console.log("uuuuuuuuuuuuuuuuuuuuiiiiiiiiiiiii")
         const response = await instructoraxios.get("http://localhost:4000/transcode/videoURL");
         if (response && response.data) {
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           const urls = response.data
-          console.log(urls, "vvvvvvvvvvvvvvvvvvvvvvvvvvv")
           setvideoDetails(urls); // Set video URLs in state
         }
+        console.log(formattedLessons,"formaaaateeeeddddddddddddd")
         setLessons(formattedLessons);
       } catch (error) {
         console.error("Error fetching course details:", error);
@@ -116,7 +114,7 @@ const EditLessonComponent: React.FC = () => {
             onClick: async () => {
               let response
     
-
+console.log(lessons,"lessonsssssssssssssssss")
                 const formData = new FormData();
 
                 if (editCourseDetails && lessons) {
@@ -179,7 +177,7 @@ const EditLessonComponent: React.FC = () => {
 
 
               if (response && response.status == 200) {
-                dispatch(setCourseData1Empty())
+                dispatch(setEditCourseDataEmpty())
                 navigate(instructorEndpoints.myCourses);
               } else {
                 toast.error("Something went wrong");
@@ -202,34 +200,21 @@ const EditLessonComponent: React.FC = () => {
     setLessons(updatedLessons);
   };
 
-  const HandleBackPage = () => {
-    navigate(instructorEndpoints.createCourse);
-  }
+  // const HandleBackPage = () => {
+  //   navigate(instructorEndpoints.editCourse);
+  // }
 
 
   return (
     <div className="min-h-screen bg-slate-50 flex flex-col">
       <ToastContainer />
-      {courseDetails != null ? (
-      <div className="flex justify-end">
-
-      
-        <IoArrowBackCircleOutline
-        
-          onClick={HandleBackPage}
-          className="text-3xl cursor-pointer hover:text-red-200 transition-colors duration-300 mt-2 mr-4"
-        />
-      </div>
-    ):(
-      <div className="flex justify-end">
-
-    <IoArrowBackCircleOutline
+      {/* <div className="flex justify-end">
+       <IoArrowBackCircleOutline
           onClick={HandleBackPage}
           className="text-3xl cursor-pointer hover:text-gray-500 transition-colors duration-300 mt-2 mr-4"
         />
-              </div>
+           </div> */}
 
-    )}
       <div className="container mx-auto p-8 flex-grow ">
         <div className="bg-slate-50">
 

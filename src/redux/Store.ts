@@ -9,7 +9,8 @@ import userAuthReducer from './userSlices/authSlice';
 import instructorAuthReducer from "./instructorSlices/authSlice";
 import registerData from './registerData/registerData';
 import instructorDataReducer from './instructorSlices/instructorDataSlice'; // Import the correct reducer for instructor data
-import courseData from "./instructorSlices/courseData";
+import createCourseData from "./instructorSlices/couseSlice/createCourseData";
+import editCourseData from "./instructorSlices/couseSlice/editCourseData";
 
 const persistConfig = {
   key: "root",
@@ -24,7 +25,9 @@ const rootReducer = combineReducers({
   registerData: registerData,
   instructorAuth: instructorAuthReducer,
   instructorData: instructorDataReducer, 
-  courseData : courseData
+  createCourseData : createCourseData,
+  editCourseData : editCourseData
+
 });
 
 const persistReducer = persistReducerFromPersist(persistConfig, rootReducer);

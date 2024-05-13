@@ -6,13 +6,10 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { useNavigate } from "react-router-dom";
 import instructorEndpoints from "../../../constraints/endpoints/instructorEndpoints";
-import {
-  setCourseData1,
-  setCourseData3Empty,
-} from "../../../redux/instructorSlices/courseData";
+import { setCreateCourse } from "../../../redux/instructorSlices/couseSlice/createCourseData";
 import { RootState } from "../../../redux/Store";
 import { instructoraxios } from "../../../constraints/axiosInterceptors/instructorAxiosInterceptors";
-import { ICreateCourse1 } from "../../../interfaces/ICourseInterfaceRedux";
+import { ICreateCourse1 } from "../../../interfaces/InstructorInterfaces/ICreateCourse";
 import { FaUpload } from "react-icons/fa";
 
 
@@ -24,10 +21,7 @@ interface videoData {
 const CreateCourse1 = () => {
   const [benefits, setBenefits] = useState<string[]>([""]);
   const [prerequisites, setPrerequisites] = useState<string[]>([""]);
-
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
-
-
   const [videoDetails, setvideoDetails] = useState<videoData[]>([]);
 
   const courseLevel = {
@@ -36,18 +30,18 @@ const CreateCourse1 = () => {
     Advanced: "Advanced"
   };
 
-  const courseDetails = useSelector(
-    (store: RootState) => store.courseData.courseData1
+  const createCourseDetails = useSelector(
+    (store: RootState) => store.createCourseData.createCourse
   );
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (courseDetails) {
+    if (createCourseDetails) {
       // dispatch(setCourseData1Empty())
-      setBenefits(courseDetails.benefits || []);
-      setPrerequisites(courseDetails.prerequisites || []);
+      setBenefits(createCourseDetails.benefits || []);
+      setPrerequisites(createCourseDetails.prerequisites || []);
 
     }
     async function fetchCourseData() {
@@ -64,20 +58,20 @@ const CreateCourse1 = () => {
       }
     }
     fetchCourseData();
-  }, [courseDetails]);
+  }, [createCourseDetails]);
 
   const initialValues = {
-    thumbnail: courseDetails?.thumbnail || null,
-    courseName: courseDetails?.courseName || "",
-    courseDescription: courseDetails?.courseDescription || "",
-    coursePrice: courseDetails?.coursePrice || "",
-    estimatedPrice: courseDetails?.estimatedPrice || "",
-    courseCategory: courseDetails?.courseCategory || "",
-    courseLevel: courseDetails?.courseLevel || "",
-    totalVideos: courseDetails?.totalVideos || "",
-    demoURL: courseDetails?.demoURL || "",
-    benefits: courseDetails?.benefits || [""],
-    prerequisites: courseDetails?.prerequisites || [""],
+    thumbnail: createCourseDetails?.thumbnail || null,
+    courseName: createCourseDetails?.courseName || "",
+    courseDescription: createCourseDetails?.courseDescription || "",
+    coursePrice: createCourseDetails?.coursePrice || "",
+    estimatedPrice: createCourseDetails?.estimatedPrice || "",
+    courseCategory: createCourseDetails?.courseCategory || "",
+    courseLevel: createCourseDetails?.courseLevel || "",
+    totalVideos: createCourseDetails?.totalVideos || "",
+    demoURL: createCourseDetails?.demoURL || "",
+    benefits: createCourseDetails?.benefits || [""],
+    prerequisites: createCourseDetails?.prerequisites || [""],
   };
 
   const validationSchema = Yup.object().shape({
@@ -151,8 +145,8 @@ const CreateCourse1 = () => {
         toast.error("Upload Thumbnail")
       } else {
         values.thumbnail = selectedImage
-        dispatch(setCourseData1(values));
-        dispatch(setCourseData3Empty());
+        dispatch(setCreateCourse(values));
+        // dispatch(setCourseData3Empty());
         navigate(instructorEndpoints.addLessonPage);
       }
 
