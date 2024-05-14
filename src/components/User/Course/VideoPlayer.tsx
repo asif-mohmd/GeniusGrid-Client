@@ -74,6 +74,7 @@ const VideoPlayer:React.FC<Props> = ({videoUrl, subtitleUrl}) => {
   const supported = Hls.isSupported();
 
   return (
+    <>
     <div className="wrapper">
       {supported ? (
         <CustomPlyrInstance
@@ -87,6 +88,10 @@ const VideoPlayer:React.FC<Props> = ({videoUrl, subtitleUrl}) => {
         "HLS is not supported in your browser"
       )}
     </div>
+
+    
+
+    </>
   );
 };
 

@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { CourseData } from "../../../interfaces/UserInterfaces/ICourseDetails"; // Assuming "ICourseDetails" is correct
-import { FaPlayCircle } from 'react-icons/fa'; // Importing play circle icon from react-icons library
+import { LuMonitorPlay } from "react-icons/lu";
 
 
 
-function PurchasedCoursePage({ courseData, onVideoTitleClick }: { courseData: CourseData, onVideoTitleClick: (title: string) => void }) {
+function PurchasedCoursePage({ courseData, onVideoTitleClick, onSelectedVideo }: { courseData: CourseData, onVideoTitleClick: (title: string) => void, onSelectedVideo: string | null }) {
     const { lessons } = courseData;
     const [openLessonIndex, setOpenLessonIndex] = useState<number | null>(null);
 
@@ -16,36 +16,41 @@ function PurchasedCoursePage({ courseData, onVideoTitleClick }: { courseData: Co
         }
     };
 
-
     return (
-        <div>
-            {lessons.map((lesson, lessonIndex) => (
-                <div key={lessonIndex} className="mb-4">
-                    <button
-                        className="flex items-center justify-between w-full p-4 bg-gray-100 rounded-lg focus:outline-none focus:bg-gray-200"
-                        onClick={() => toggleLesson(lessonIndex)}
-                    >
-                        <span className="text-lg font-semibold">Lesson {lessonIndex + 1}</span>
-                        <svg
-                            className={`w-6 h-6 transition-transform transform ${openLessonIndex === lessonIndex ? 'rotate-180' : ''}`}
-                            viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
+        <div className="mt-5 mb-3">
+            <div className="p-3 bg-gray-100 rounded-lg md:w-5/6">
+                {lessons.map((lesson, lessonIndex) => (
+                    <div key={lessonIndex} className="mb-4 border-b pb-3 border-gray-200">
+                        <button
+                            className="flex items-center justify-between w-full focus:outline-none"
+                            onClick={() => toggleLesson(lessonIndex)}
                         >
-                            <path d="M6 9L12 15L18 9" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                        </svg>
-                    </button>
-                    {openLessonIndex === lessonIndex && (
-                        <div>
-                            {lesson.map((video, videoIndex) => ( // Here, use 'lesson' instead of 'lessons'
-                                <div key={videoIndex} className="flex items-center p-4 bg-gray-200 rounded-lg mt-1">
-                                    <FaPlayCircle size={24} className="text-blue-500 mr-4 cursor-pointer" /> {/* Play circle icon */}
-                                    <span className="flex-1">{video.videoTitle}</span> {/* Video title */}
-                                    <button onClick={() => onVideoTitleClick(video.videoURL)} className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:outline-none focus:bg-blue-600">Watch</button>
-                                </div>
-                            ))}
-                        </div>
-                    )}
-                </div>
-            ))}
+                            <span className="text-md font-Poppins font-[500] text-black ">Chapter {lessonIndex + 1}</span>
+                            <svg
+                                className={`w-6 h-6 transition-transform transform ${openLessonIndex === lessonIndex ? 'rotate-180' : ''}`}
+                                viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
+                            >
+                                <path d="M6 9L12 15L18 9" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                            </svg>
+                        </button>
+                        {openLessonIndex === lessonIndex && (
+                            <div className="mt-2">
+                                {lesson.map((video, videoIndex) => (
+
+                                    <div key={videoIndex} className={`flex items-center mb-2 p-1 cursor-pointer ${video.videoURL.toLowerCase() === onSelectedVideo?.toLowerCase() ? "bg-gray-800 text-white" : ""
+                                        }`}
+                                        onClick={() => onVideoTitleClick(video.videoURL)} >
+                                        <LuMonitorPlay size={18} className="text mr-4 text-[#1cdada] " />
+                                        <span className="flex-1 ">{video.videoTitle}</span>
+
+                                    </div>
+                                ))}
+                            </div>
+                        )}
+                    </div>
+                ))}
+            </div>
+            
         </div>
     );
 }
