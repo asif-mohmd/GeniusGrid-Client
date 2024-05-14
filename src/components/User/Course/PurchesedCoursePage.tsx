@@ -1,11 +1,17 @@
 import { CourseData } from "../../../interfaces/UserInterfaces/ICourseDetails"; // Assuming "ICourseDetails" is correct
 import { LuMonitorPlay } from "react-icons/lu";
 
-function PurchasedCoursePage({ courseData, onVideoTitleClick, onSelectedVideo, openLessonIndex }: { courseData: CourseData, onVideoTitleClick: (title: string) => void, onSelectedVideo: string | null, openLessonIndex: number | null }) {
+function PurchasedCoursePage({ courseData, onVideoTitleClick, onSelectedVideo, openLessonIndex, setOpenLessonIndex }: { courseData: CourseData, onVideoTitleClick: (title: string) => void, onSelectedVideo: string | null, openLessonIndex: number | null, setOpenLessonIndex: (index: number | null) => void }) {
     const { lessons } = courseData;
 
-    const toggleLesson = (lessonIndex: number) => {
-        toggleLesson(lessonIndex);
+    const toggleLesson = (lessonIndex: number, forceOpen: boolean = false) => {
+        // Check if the clicked lesson is already open and forceOpen is false, if yes, close it.
+        if (openLessonIndex === lessonIndex && !forceOpen) {
+            setOpenLessonIndex(null);
+        } else {
+            // Lesson is not open or forceOpen is true, set openLessonIndex to the index of the clicked lesson to open it
+            setOpenLessonIndex(lessonIndex);
+        }
     };
 
     return (
@@ -43,3 +49,4 @@ function PurchasedCoursePage({ courseData, onVideoTitleClick, onSelectedVideo, o
 }
 
 export default PurchasedCoursePage;
+

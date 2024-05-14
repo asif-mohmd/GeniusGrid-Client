@@ -106,12 +106,13 @@ const PurchasedCourse = () => {
         </div>
         <div className="w-full md:w-2/5 p-6">
           {courseData && (
-            <PurchasedCoursePage
-              courseData={courseData}
-              onVideoTitleClick={handleVideoTitleClick}
-              onSelectedVideo={selectedVideoTitle}
-              openLessonIndex={openLessonIndex} // Pass openLessonIndex to PurchasedCoursePage
-            />
+           <PurchasedCoursePage
+           courseData={courseData}
+           onVideoTitleClick={handleVideoTitleClick}
+           onSelectedVideo={selectedVideoTitle}
+           openLessonIndex={openLessonIndex} // Pass openLessonIndex to PurchasedCoursePage
+           setOpenLessonIndex={setOpenLessonIndex} // Pass setOpenLessonIndex function to allow opening and closing lessons manually
+       />
           )}
         </div>
       </div>
