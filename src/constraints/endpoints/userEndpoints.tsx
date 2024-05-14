@@ -6,7 +6,8 @@ export default{
     forgotPassword: '/forgotpassword',
     forgotOTP: '/forgototp',
     courseDetails: "/course-details/:courseId",
-    purchasedCoures : "/purchased/course/:_id"
+    purchasedCoures : "/purchased/course/:_id",
+    userDetails : "/user/details"
     
     
 }

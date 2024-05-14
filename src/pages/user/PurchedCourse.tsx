@@ -6,6 +6,8 @@ import courseEndspoints from "../../constraints/endpoints/courseEndspoints";
 import { CourseData } from "../../interfaces/UserInterfaces/ICourseDetails";
 import VideoPlayer from "../../components/User/Course/VideoPlayer";
 import PurchasedCoursePage from "../../components/User/Course/PurchesedCoursePage";
+import PurchaseContents from "../../components/User/Course/PurchaseContents/PurchaseContents";
+
 
 const PurchasedCourse = () => {
   const { _id } = useParams<{ _id: string }>();
@@ -36,7 +38,7 @@ const PurchasedCourse = () => {
       }
     }
   };
-  
+
   const handlePreviousVideo = () => {
     // Check if there are previous videos in the current lesson
     const currentLesson = courseData?.lessons[currentLessonIndex];
@@ -55,7 +57,7 @@ const PurchasedCourse = () => {
       }
     }
   };
-  
+
 
   useEffect(() => {
     async function fetchCourseData() {
@@ -74,6 +76,7 @@ const PurchasedCourse = () => {
     }
     fetchCourseData();
   }, [_id]);
+
 
   return (
     <div>
@@ -101,18 +104,21 @@ const PurchasedCourse = () => {
                 Next
               </button>
             </div>
+            
+            <PurchaseContents courseData={courseData} />
+
           </div>
           <div></div>
         </div>
         <div className="w-full md:w-2/5 p-6">
           {courseData && (
-           <PurchasedCoursePage
-           courseData={courseData}
-           onVideoTitleClick={handleVideoTitleClick}
-           onSelectedVideo={selectedVideoTitle}
-           openLessonIndex={openLessonIndex} // Pass openLessonIndex to PurchasedCoursePage
-           setOpenLessonIndex={setOpenLessonIndex} // Pass setOpenLessonIndex function to allow opening and closing lessons manually
-       />
+            <PurchasedCoursePage
+              courseData={courseData}
+              onVideoTitleClick={handleVideoTitleClick}
+              onSelectedVideo={selectedVideoTitle}
+              openLessonIndex={openLessonIndex} // Pass openLessonIndex to PurchasedCoursePage
+              setOpenLessonIndex={setOpenLessonIndex} // Pass setOpenLessonIndex function to allow opening and closing lessons manually
+            />
           )}
         </div>
       </div>

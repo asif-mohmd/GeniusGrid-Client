@@ -6,10 +6,14 @@ import { instructoraxios } from "../../constraints/axiosInterceptors/instructorA
 import courseEndspoints from "../../constraints/endpoints/courseEndspoints";
 import { Link, useParams } from "react-router-dom";
 import { CourseData } from "../../interfaces/UserInterfaces/ICourseDetails";
+import { userAxios } from "../../constraints/axiosInterceptors/userAxiosInterceptors";
+import userEndpoints from "../../constraints/endpoints/userEndpoints";
+
 
 function UserCourseDetails() {
   const { courseId } = useParams<{ courseId: string }>();
   const [courseData, setCourseData] = useState<CourseData | null>(null);
+  const [enrolled,setEntrolled] = useState<boolean>(false)
   
   // Function to calculate offer price
   const calculateOfferPrice = (estimatedPrice: number | undefined, coursePrice: number | undefined): number => {
@@ -33,9 +37,17 @@ const calculateOfferPercentage = (offerPrice: number, coursePrice: number): stri
         const response = await instructoraxios.get(
           `${courseEndspoints.courseDetails}/${courseId}`
         );
+        console.log("user details aboveeeeeeeee")
+        const userData = await userAxios.get(userEndpoints.userDetails)
+        const courses = userData.data.courses
+        console.log(courses,"vvvvvvvvvvvvvvvvvvvvvv")
 
         const courseData: CourseData = response.data.response;
+        const enrolled = courses.find((id:number)=>id===courseData._id)
+        console.log(enrolled,"xxxxxxxccccccccccccccccc")
+        setEntrolled
         setCourseData(courseData);
+            
         console.log(courseData, "============");
       } catch (error) {
         console.error("Error fetching course data:", error);
@@ -43,6 +55,15 @@ const calculateOfferPercentage = (offerPrice: number, coursePrice: number): stri
     }
     fetchCourseData();
   }, [courseId]);
+
+  const handlePurchase = (courseId: string | undefined) => {
+    if (courseId) {
+      console.log(courseId, "====------=----=====");
+    } else {
+      console.log("courseId is undefined");
+    }
+  };
+  
 
   return (
     <div>
@@ -54,17 +75,30 @@ const calculateOfferPercentage = (offerPrice: number, coursePrice: number): stri
             subtitleUrl="dfsdafasd"
           />
 
-          <div className="m-4">
+          <div className="m-1">
             <div className="flex m-1 items-center ">
               <p className="class text-xl font-bold">₹ {courseData?.estimatedPrice}</p>
               <p className="pl-3 line-through text-sm">₹ {courseData?.coursePrice}</p>
               <p className="pl-2 font-semibold"><span className=" text-green-500 ">{calculateOfferPercentage(calculateOfferPrice(Number(courseData?.estimatedPrice), Number(courseData?.coursePrice)), Number(courseData?.coursePrice))}% </span>off</p>            </div>
-            
-            <Link to={`/purchased/course/${courseData?._id}`}>
+            {enrolled ? (
+              <div className="m-3">
+              <Link to={`/purchased/course/${courseData?._id}`}>
               <button className="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-full text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700">
                 Enroll now
               </button>
             </Link>
+            </div>
+            ):(
+              <div className="m-1">
+              <button
+              onClick={() => handlePurchase(courseData?._id?.toString())}
+              className="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-full text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700"
+            >
+              Buy now
+            </button>
+            </div>
+            )}
+            
             <ul className="list-disc text-[#6a6f73] text-xs p-1 ">
               <li className="pb-1">30-Day Money-Back Guarantee</li>
               <li className="pb-1">Full Lifetime Access</li>

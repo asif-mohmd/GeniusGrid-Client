@@ -2,20 +2,19 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import courseEndspoints from '../../../constraints/endpoints/courseEndspoints';
 import { userAxios } from '../../../constraints/axiosInterceptors/userAxiosInterceptors';
-import { Course } from '../../../interfaces/UserInterfaces/ICourseDetails';
+import { AllCourse } from '../../../interfaces/UserInterfaces/ICourseDetails';
 
 
 function HomeCourse() {
 
-  const [courses, setCourses] = useState<Course[]>([]);
+  const [courses, setCourses] = useState<AllCourse[]>([]);
 
   useEffect(() => {
     async function listCourses() {
       try {
-        const listCoursesResponse = await userAxios.get(courseEndspoints.listCourse);
-
-        console.log(listCoursesResponse.data.courseData.courses,"ithhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh");
-        const coursesData = listCoursesResponse.data.courseData.courses;
+        const listCoursesResponse = await userAxios.get(courseEndspoints.allUserCourses);
+console.log(listCoursesResponse.data.response)
+        const coursesData = listCoursesResponse.data.response;
         console.log(coursesData,"[[[[[[[[[[[[[[[[[[[[[[")
         setCourses(coursesData);
         
@@ -33,7 +32,7 @@ function HomeCourse() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {/* First Card */}
           {courses.map(course=>(
-          <Link to={`/course-details/${course.id}`} key={course.id} className="block">
+          <Link to={`/course-details/${course._id}`} key={course._id} className="block">
             <div className="bg-white rounded-lg overflow-hidden shadow-lg h-full">
               <img
                 className="w-full h-40 object-cover"
