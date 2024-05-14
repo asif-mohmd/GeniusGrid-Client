@@ -13,6 +13,7 @@ const PurchasedCourse = () => {
   const [courseData, setCourseData] = useState<CourseData | null>(null);
   const [selectedVideoTitle, setSelectedVideoTitle] = useState<string | null>(null);
   const [currentLessonIndex, setCurrentLessonIndex] = useState<number>(0); // Track current lesson index
+  const [openLessonIndex, setOpenLessonIndex] = useState<number | null>(null); // Track open lesson index
 
   const handleVideoTitleClick = (title: string) => {
     setSelectedVideoTitle(title);
@@ -30,11 +31,12 @@ const PurchasedCourse = () => {
         if (currentLessonIndex < courseData!.lessons.length - 1) {
           setCurrentLessonIndex(currentLessonIndex + 1);
           setSelectedVideoTitle(courseData!.lessons[currentLessonIndex + 1][0].videoURL);
+          setOpenLessonIndex(currentLessonIndex + 1); // Set openLessonIndex to the index of the next lesson
         }
       }
     }
   };
-
+  
   const handlePreviousVideo = () => {
     // Check if there are previous videos in the current lesson
     const currentLesson = courseData?.lessons[currentLessonIndex];
@@ -48,10 +50,12 @@ const PurchasedCourse = () => {
           setCurrentLessonIndex(currentLessonIndex - 1);
           const previousLesson = courseData!.lessons[currentLessonIndex - 1];
           setSelectedVideoTitle(previousLesson[previousLesson.length - 1].videoURL);
+          setOpenLessonIndex(currentLessonIndex - 1); // Set openLessonIndex to the index of the previous lesson
         }
       }
     }
   };
+  
 
   useEffect(() => {
     async function fetchCourseData() {
@@ -63,6 +67,7 @@ const PurchasedCourse = () => {
         const courseData: CourseData = response.data.response;
         setCourseData(courseData);
         setSelectedVideoTitle(courseData.lessons[0][0].videoURL);
+        setOpenLessonIndex(0); // Initially set the open lesson index to the first lesson
       } catch (error) {
         console.error("Error fetching course data:", error);
       }
@@ -105,6 +110,7 @@ const PurchasedCourse = () => {
               courseData={courseData}
               onVideoTitleClick={handleVideoTitleClick}
               onSelectedVideo={selectedVideoTitle}
+              openLessonIndex={openLessonIndex} // Pass openLessonIndex to PurchasedCoursePage
             />
           )}
         </div>
