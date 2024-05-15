@@ -8,12 +8,22 @@ import { Link, useParams } from "react-router-dom";
 import { CourseData } from "../../interfaces/UserInterfaces/ICourseDetails";
 import { userAxios } from "../../constraints/axiosInterceptors/userAxiosInterceptors";
 import userEndpoints from "../../constraints/endpoints/userEndpoints";
+import { toast } from "react-toastify";
 
+
+// interface User{
+//   id:string;
+//   name:string;
+//   email:string;
+//   courses: string[];
+// }
 
 function UserCourseDetails() {
   const { courseId } = useParams<{ courseId: string }>();
   const [courseData, setCourseData] = useState<CourseData | null>(null);
   const [enrolled,setEntrolled] = useState<boolean>(false)
+  // const [userDetails,setUserDetails] = useState<User | null>(null)
+
   
   // Function to calculate offer price
   const calculateOfferPrice = (estimatedPrice: number | undefined, coursePrice: number | undefined): number => {
@@ -37,18 +47,18 @@ const calculateOfferPercentage = (offerPrice: number, coursePrice: number): stri
         const response = await instructoraxios.get(
           `${courseEndspoints.courseDetails}/${courseId}`
         );
-        console.log("user details aboveeeeeeeee")
         const userData = await userAxios.get(userEndpoints.userDetails)
         const courses = userData.data.courses
-        console.log(courses,"vvvvvvvvvvvvvvvvvvvvvv")
-
         const courseData: CourseData = response.data.response;
         const enrolled = courses.find((id:number)=>id===courseData._id)
-        console.log(enrolled,"xxxxxxxccccccccccccccccc")
-        setEntrolled
+
+        if(enrolled){
+          setEntrolled(true)
+        }
+       
         setCourseData(courseData);
-            
-        console.log(courseData, "============");
+        // setUserDetails(userData.data)
+
       } catch (error) {
         console.error("Error fetching course data:", error);
       }
@@ -56,12 +66,25 @@ const calculateOfferPercentage = (offerPrice: number, coursePrice: number): stri
     fetchCourseData();
   }, [courseId]);
 
-  const handlePurchase = (courseId: string | undefined) => {
-    if (courseId) {
-      console.log(courseId, "====------=----=====");
-    } else {
-      console.log("courseId is undefined");
+  const makePayment = async () => {
+   
+    try {
+      console.log(courseData,"ccccccccccccccccccc")
+      const enroll = await userAxios.post(userEndpoints.makePayment,{courseData})
+      console.log(enroll)
+      if(enroll.status === 200){
+           window.location.href = enroll.data.response.url
+      }else{
+        toast.error("Payment Failed. Try Again")
+      }
+
+
+    } catch (error) {
+      console.log("error",error)
     }
+   
+
+
   };
   
 
@@ -69,6 +92,7 @@ const calculateOfferPercentage = (offerPrice: number, coursePrice: number): stri
     <div>
       <Header />
       <div className="flex flex-wrap bg-gray-50">
+      
         <div className="w-full md:w-2/5 md:p-8 sm:p-6 bg-gray-50">
           <VideoPlayer
             videoUrl={courseData?.demoURL || ""}
@@ -91,7 +115,7 @@ const calculateOfferPercentage = (offerPrice: number, coursePrice: number): stri
             ):(
               <div className="m-1">
               <button
-              onClick={() => handlePurchase(courseData?._id?.toString())}
+              onClick={() => makePayment()}
               className="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-full text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700"
             >
               Buy now

@@ -7,7 +7,10 @@ export default{
     forgotOTP: '/forgototp',
     courseDetails: "/course-details/:courseId",
     purchasedCoures : "/purchased/course/:_id",
-    userDetails : "/user/details"
+    userDetails : "/user/details",
+    checkout : "/order/checkout/session",
+    makePayment : "/order/checkout/session",
+    checkoutSuccess : "/payment/success"
     
     
 }
