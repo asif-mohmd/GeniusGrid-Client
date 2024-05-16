@@ -2,25 +2,25 @@ import { AiOutlineClose, AiOutlineMenu } from "react-icons/ai";
 import { Link, useNavigate } from "react-router-dom";
 import userEndpoints from "../../../constraints/endpoints/userEndpoints";
 import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { userLogout } from "../../../redux/userSlices/authSlice";
 import { clearUserData } from "../../../redux/userSlices/userDataSlice";
-import instructorEndpoints from "../../../constraints/endpoints/instructorEndpoints";
 import courseEndspoints from "../../../constraints/endpoints/courseEndspoints";
+import logo from "../../../assets/logoGeniusGrid.jpg"
+import { RootState } from "../../../redux/Store";
+
 
 const Header = () => {
   // State to manage the navbar's visibility
   const [nav, setNav] = useState(false);
-  const [open, setOpen] = useState(false);
+
+  const userLogin = useSelector((store:RootState)=>store.userAuth)
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
   // Toggle function to handle the navbar's display
   const handleNav = () => {
     setNav(!nav);
-  };
-  const showDropDown = () => {
-    setOpen(!open);
   };
 
   const handleClick = () => {
@@ -36,89 +36,73 @@ const Header = () => {
 
   return (
     <>
-      <div className="bg-white flex justify-between items-center h-24 w-100 mx-auto px-4 text-black shadow-lg pr-10">
-        {/* Logo */}
-        <h1 className="w-full text-3xl font-bold text-[#00df9a]">GeniusGrid</h1>
+      <div className="items-center w-full mx-auto p-3 px-5 ">
 
-        <div className="flex items-center p-3 space-x-2 bg-white rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition duration-500 hidden md:flex ">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-6 w-6 opacity-30"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-            />
-          </svg>
-          <input
-            className=" outline-none"
-            type="text"
-            placeholder="Search courses..."
-          />
-        </div>
+        <div className="grid grid-cols-3">
 
-        {/* Desktop Navigation */}
-        <ul className="hidden md:flex ">
-        <Link   to={userEndpoints.home}
-         className="p-4 hover:bg-[#00df9a] rounded-xl m-1 cursor-pointer duration-300 hover:text-black">
-            Home
-            </Link>
-          <Link to={courseEndspoints.allUserCourses}
-           className="p-4 hover:bg-[#00df9a] rounded-xl m-1 cursor-pointer duration-300 hover:text-black">
-            Courses
-            </Link>
-          <Link to={courseEndspoints.coursePurchased}
-          className="p-4 hover:bg-[#00df9a] rounded-xl m-1 cursor-pointer duration-300 hover:text-black">
-            About
-          </Link>
-          <Link
-            to={instructorEndpoints.login}
-            className="p-4 hover:bg-[#00df9a] rounded-xl m-1 cursor-pointer duration-300 hover:text-black"
-          >
-            Instructor
-          </Link>
-          <div className="w-10" onClick={showDropDown}>
-            <img
-              className="cursor-pointer m-2 h-10 w-10 rounded-full ring-2 ring-white"
-              src="https://images.unsplash.com/photo-1491528323818-fdd1faba62cc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-              alt=""
-            />
-            {open && (
-              <div className="absolute right-4 mt-2 w-44 bg-white border rounded-lg shadow-lg">
-                <div className="py-2">
-                  <Link
-                    to={userEndpoints.login}
-                    className="block px-4 py-2 text-gray-800 rounded-md hover:bg-[#00df9a] hover:text-black cursor-pointer"
-                  >
-                    Profile
-                  </Link>
-                  <Link
-                    to={userEndpoints.login}
-                    className="block px-4 py-2 text-gray-800 rounded-md hover:bg-[#00df9a] hover:text-black cursor-pointer"
-                  >
-                    Settings
-                  </Link>
-                  <div
-                    className="block px-4 py-2 text-gray-800 rounded-md hover:bg-[#00df9a] hover:text-black cursor-pointer"
-                    onClick={handleClick}
-                  >
-                    Signout
-                  </div>{" "}
-                </div>
-              </div>
-            )}
+          <div className="col-span-1">
+            <img src={logo} className="w-20" alt="" />
           </div>
-        </ul>
 
-        {/* Mobile Navigation Icon */}
-        <div onClick={handleNav} className="block md:hidden">
-          {nav ? <AiOutlineClose size={20} /> : <AiOutlineMenu size={20} />}
+
+
+
+
+          <div className="col-span-1 flex justify-center items-center font-mono">
+            {/* Desktop Navigation */}
+            <ul className="hidden md:flex ">
+              <Link to={userEndpoints.home} className="p-3 hover:font-medium font-semibold text-xl m-1 cursor-pointer hover:text-black ">
+                Home
+              </Link>
+              <Link to={courseEndspoints.allUserCourses} className="p-3  hover:font-medium  text-xl font-semibold  m-1 cursor-pointer  hover:text-black">
+                Courses
+              </Link>
+              <Link to={courseEndspoints.allUserCourses} className="p-3  hover:font-medium  text-xl  font-semibold   m-1 cursor-pointer  hover:text-black">
+                About
+              </Link>
+            </ul>
+          </div>
+
+          {userLogin ? (
+
+<div className="col-span-1 flex justify-end" >
+<Link to={userEndpoints.profilePage} className="w-10">
+  <img
+    className="cursor-pointer m-2 h-10 w-10 rounded-full ring-2 ring-white"
+    src="https://images.unsplash.com/photo-1491528323818-fdd1faba62cc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+    alt=""
+  />
+</Link>
+</div>
+          ):(
+
+            <div className="col-span-1 flex justify-end" >
+            <Link to={userEndpoints.profilePage} className="w-10">
+              <img
+                className="cursor-pointer m-2 h-10 w-10 rounded-full ring-2 ring-white"
+                // src="https://images.unsplash.com/photo-1491528323818-fdd1faba62cc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                alt=""
+              />
+            </Link>
+          </div>
+          )}
+
+
+
+
+          {/* Mobile Navigation Icon */}
+          <div onClick={handleNav} className="block md:hidden">
+            {nav ? <AiOutlineClose size={20} /> : <AiOutlineMenu size={20} />}
+          </div>
+
+
+
         </div>
+
+
+
+
+
 
         {/* Mobile Navigation Menu */}
         <ul
@@ -133,43 +117,26 @@ const Header = () => {
             GeniusGrid
           </h1>
 
-          <div className="m-3 mt-6 flex items-center p-3 space-x-2 bg-white rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition duration-500  ">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-6 w-6 opacity-30"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-              />
-            </svg>
-            <input
-              className="bg-gray-100 outline-none"
-              type="text"
-              placeholder="Article name or keyword..."
-            />
-          </div>
+
 
           {/* Mobile Navigation Items */}
-          <li className="p-4 border-b rounded-xl hover:bg-[#00df9a] duration-300 hover:text-black cursor-pointer border-gray-#f3f4f6">
+          <li className="p-4 border-b rounded-xl duration-300 hover:text-black cursor-pointer ">
             Home
           </li>
-          <li className="p-4 border-b rounded-xl hover:bg-[#00df9a] duration-300 hover:text-black cursor-pointer border-gray-#f3f4f6">
+          <li className="p-4 border-b k cursor-pointer ">
             Courses
           </li>
-          <li className="p-4 border-b rounded-xl hover:bg-[#00df9a] duration-300 hover:text-black cursor-pointer border-gray-#f3f4f6">
+          <li className="p-4 border-b  cursor-pointer">
             About
           </li>
-          <li className="p-4 rounded-xl hover:bg-[#00df9a] duration-300 hover:text-black cursor-pointer border-gray-#f3f4f6">
+          <li className="p-4 rounded-xl  cursor-pointer ">
             Contact
           </li>
+          <li className="p-4 rounded-xl " onClick={handleClick}>
+            Signout
+          </li>
         </ul>
-        <hr className="bg-black" />
+
       </div>
     </>
   );

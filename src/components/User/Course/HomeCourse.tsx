@@ -13,7 +13,7 @@ function HomeCourse() {
     async function listCourses() {
       try {
         const listCoursesResponse = await userAxios.get(courseEndspoints.allUserCourses);
-console.log(listCoursesResponse.data.response)
+        console.log(listCoursesResponse.data.response)
         const coursesData = listCoursesResponse.data.response;
         console.log(coursesData,"[[[[[[[[[[[[[[[[[[[[[[")
         setCourses(coursesData);
@@ -26,10 +26,12 @@ console.log(listCoursesResponse.data.response)
   }, []);
 
     return (
-      <div className="container mx-auto px-4 py-9 lg:px-64">
+      <>
+   
+      <div className="container mx-auto px-4 py-9 lg:px-64  ">
 
         
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 ">
           {/* First Card */}
           {courses.map(course=>(
           <Link to={`/course-details/${course._id}`} key={course._id} className="block">
@@ -78,6 +80,7 @@ console.log(listCoursesResponse.data.response)
         </div>
      
       </div>
+         </>
     );
 }
 

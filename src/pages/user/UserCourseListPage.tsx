@@ -10,11 +10,14 @@ const UserCourseListPage = () => {
 
 
   return (
+    <>
     <div>
       <Header/>
        <CourseListPage/>
-      <Footer/>
+        <Footer/>
     </div>
+  
+    </>
   );
 };
 

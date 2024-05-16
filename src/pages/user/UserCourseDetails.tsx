@@ -92,6 +92,8 @@ const calculateOfferPercentage = (offerPrice: number, coursePrice: number): stri
     <div>
       <Header />
       <div className="flex flex-wrap bg-gray-50">
+
+
       
         <div className="w-full md:w-2/5 md:p-8 sm:p-6 bg-gray-50">
           <VideoPlayer
@@ -99,7 +101,7 @@ const calculateOfferPercentage = (offerPrice: number, coursePrice: number): stri
             subtitleUrl="dfsdafasd"
           />
 
-          <div className="m-1">
+          <div className="m-1 ">
             <div className="flex m-1 items-center ">
               <p className="class text-xl font-bold">₹ {courseData?.estimatedPrice}</p>
               <p className="pl-3 line-through text-sm">₹ {courseData?.coursePrice}</p>

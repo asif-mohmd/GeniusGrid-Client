@@ -46,9 +46,10 @@ const Login: React.FC = () => {
   }
 
    return (
-    <div className="flex flex-col min-h-screen justify-center items-center bg-gray-100">
+    <div className="fixed inset-0 flex justify-center items-center z-50">
+      <div className="bg-gray-100 absolute inset-0 opacity-50"></div>
       <ToastContainer />
-      <div className="bg-white p-14 rounded-xl shadow-lg">
+      <div className="bg-white p-14 rounded-xl shadow-lg relative z-10">
         <h6 className="text-xl font-medium m-7">Login to your account</h6>
         <form className="w-full max-w-md" onSubmit={handleSubmit}>
           <div className="mb-6">

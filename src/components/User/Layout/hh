@@ -1,0 +1,122 @@
+// import { AiOutlineClose, AiOutlineMenu } from "react-icons/ai";
+// import { Link, useNavigate } from "react-router-dom";
+// import userEndpoints from "../../../constraints/endpoints/userEndpoints";
+// import { useState } from "react";
+// import { useDispatch } from "react-redux";
+// import { userLogout } from "../../../redux/userSlices/authSlice";
+// import { clearUserData } from "../../../redux/userSlices/userDataSlice";
+// import courseEndspoints from "../../../constraints/endpoints/courseEndspoints";
+// import logo from "../../../assets/logoGeniusGrid.jpg"
+
+
+// const Header = () => {
+//   // State to manage the navbar's visibility
+//   const [nav, setNav] = useState(false);
+
+//   const dispatch = useDispatch();
+//   const navigate = useNavigate();
+//   // Toggle function to handle the navbar's display
+//   const handleNav = () => {
+//     setNav(!nav);
+//   };
+
+//   const handleClick = () => {
+//     // Handle signout logic here
+//     // For example, you can clear authentication tokens, redirect user, etc.
+
+//     // Redirect the user to the login page after signout
+//     dispatch(clearUserData());
+//     dispatch(userLogout());
+//     console.log("logiutt seee")
+//     navigate(userEndpoints.home);
+//   };
+
+//   return (
+//     <>
+//       <div className="bg-white   items-center w-100 mx-auto p-3 px-5 g-gradient-to-br from-blue-50  ">
+
+//         <div className="grid grid-cols-3">
+
+//           <div className="cols-span-1">
+//             <img src={logo} className="w-24" alt="" />
+//           </div>
+
+
+//           <div className=" pt-3">
+
+//             {/* Desktop Navigation */}
+//             <ul className="hidden md:flex ">
+//               <Link to={userEndpoints.home} className="p-3 hover:font-medium  m-1 cursor-pointer hover:text-black ">
+//                 Home
+//               </Link>
+//               <Link to={courseEndspoints.allUserCourses} className="p-3  hover:font-medium  m-1 cursor-pointer  hover:text-black">
+//                 Courses
+//               </Link>
+//               <Link to={courseEndspoints.allUserCourses} className="p-3  hover:font-medium  m-1 cursor-pointer  hover:text-black">
+//                 About
+//               </Link>
+//               <div>
+//                 <Link to={userEndpoints.profilePage} className="w-10">
+//                   <img
+//                     className="cursor-pointer m-2 h-10 w-10 rounded-full ring-2 ring-white"
+//                     src="https://images.unsplash.com/photo-1491528323818-fdd1faba62cc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+//                     alt=""
+//                   />
+//                 </Link>
+//               </div>
+
+//             </ul>
+
+//             {/* Mobile Navigation Icon */}
+//             <div onClick={handleNav} className="block md:hidden">
+//               {nav ? <AiOutlineClose size={20} /> : <AiOutlineMenu size={20} />}
+//             </div>
+
+//           </div>
+
+//         </div>
+
+
+
+
+
+
+//         {/* Mobile Navigation Menu */}
+//         <ul
+//           className={
+//             nav
+//               ? "fixed md:hidden left-0 top-0 w-[60%] h-full border-r border-r-gray-#9ca3af bg-white ease-in-out duration-500"
+//               : "ease-in-out w-[60%] duration-500 fixed top-0 bottom-0 left-[-100%]"
+//           }
+//         >
+//           {/* Mobile Logo */}
+//           <h1 className="w-full text-3xl font-bold text-[#00df9a] m-4">
+//             GeniusGrid
+//           </h1>
+
+
+
+//           {/* Mobile Navigation Items */}
+//           <li className="p-4 border-b rounded-xl duration-300 hover:text-black cursor-pointer ">
+//             Home
+//           </li>
+//           <li className="p-4 border-b k cursor-pointer ">
+//             Courses
+//           </li>
+//           <li className="p-4 border-b  cursor-pointer">
+//             About
+//           </li>
+//           <li className="p-4 rounded-xl  cursor-pointer ">
+//             Contact
+//           </li>
+//           <li className="p-4 rounded-xl " onClick={handleClick}>
+//             Signout
+//           </li>
+//         </ul>
+
+//       </div>
+//     </>
+//   );
+// };
+
+// export default Header;

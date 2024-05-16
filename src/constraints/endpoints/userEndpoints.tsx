@@ -10,7 +10,8 @@ export default{
     userDetails : "/user/details",
     checkout : "/order/checkout/session",
     makePayment : "/order/checkout/session",
-    checkoutSuccess : "/payment/success"
+    checkoutSuccess : "/payment/success",
+    profilePage : "/profile/page"
     
     
 }

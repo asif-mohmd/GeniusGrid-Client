@@ -1,4 +1,4 @@
-export interface IFullCourseCourseData {
+export interface  IFullCourseCourseData {
     _id: string;
     thumbnail : File | string;
     instructorId:string;
