@@ -3,17 +3,18 @@ import Overview from "./Overview";
 import Resources from "./Resources";
 import Reviews from "./Reviews";
 import QA from "./QA";
-import { CourseData } from "../../../../interfaces/UserInterfaces/ICourseDetails";
+
 
 
 interface PurchaseContentsProps {
-    courseData: CourseData | null;
+    
     selectedVideoDescription: string | null
+    selectedVideoLinks : string[] | null
   }
-  const PurchaseContents: React.FC<PurchaseContentsProps> = ({ courseData ,selectedVideoDescription }) => {
+  const PurchaseContents: React.FC<PurchaseContentsProps> = ({ selectedVideoDescription ,selectedVideoLinks }) => {
 
     const [activeComponent, setActiveComponent] = useState<string>("Overview"); // Track active component
-console.log(courseData,"purrrrrrrrrrrrr")
+console.log(selectedVideoLinks,"purrrrrrrrrrrrr")
 
     const handleComponentClick = (componentName: string) => {
         setActiveComponent(componentName === activeComponent ? "" : componentName);
@@ -29,7 +30,7 @@ console.log(courseData,"purrrrrrrrrrrrr")
             </div>
 
             {activeComponent === "Overview" && <Overview selectedVideoDescription={selectedVideoDescription}/>}
-            {activeComponent === "Resources" && <Resources />}
+            {activeComponent === "Resources" && <Resources selectedVideoLinks={selectedVideoLinks} />}
             {activeComponent === "QA" && <QA />}
             {activeComponent === "Reviews" && <Reviews />}
     </div>

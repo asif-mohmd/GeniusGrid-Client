@@ -1,7 +1,8 @@
 import { CourseData } from "../../../interfaces/UserInterfaces/ICourseDetails"; // Assuming "ICourseDetails" is correct
 import { LuMonitorPlay } from "react-icons/lu";
 
-function PurchasedCoursePage({ courseData, onVideoTitleClick, onSelectedVideo, openLessonIndex, setOpenLessonIndex }: { courseData: CourseData, onVideoTitleClick: (title: string,description:string) => void, onSelectedVideo: string | null, openLessonIndex: number | null, setOpenLessonIndex: (index: number | null) => void }) {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function PurchasedCoursePage({ courseData, onVideoTitleClick, onSelectedVideo, openLessonIndex, setOpenLessonIndex }: { courseData: CourseData, onVideoTitleClick: (title: string,description:string,links:string[]) => void, onSelectedVideo: string | null, openLessonIndex: number | null, setOpenLessonIndex: (index: number | null) => void }) {
     const { lessons } = courseData;
 
     const toggleLesson = (lessonIndex: number, forceOpen: boolean = false) => {
@@ -34,7 +35,7 @@ function PurchasedCoursePage({ courseData, onVideoTitleClick, onSelectedVideo, o
                         {openLessonIndex === lessonIndex && (
                             <div className="mt-2">
                                 {lesson.map((video, videoIndex) => (
-                                    <div key={videoIndex} className={`flex items-center mb-2 p-1 cursor-pointer ${video.videoURL.toLowerCase() === onSelectedVideo?.toLowerCase() ? "bg-gray-800 text-white" : ""}`} onClick={() => onVideoTitleClick(video.videoURL,video.videoDescription)}>
+                                    <div key={videoIndex} className={`flex items-center mb-2 p-1 cursor-pointer ${video.videoURL.toLowerCase() === onSelectedVideo?.toLowerCase() ? "bg-gray-800 text-white" : ""}`} onClick={() => onVideoTitleClick(video.videoURL,video.videoDescription,video.links)}>
                                         <LuMonitorPlay size={18} className="text mr-4 text-[#1cdada]" />
                                         <span className="flex-1">{video.videoTitle}</span>
                                     </div>

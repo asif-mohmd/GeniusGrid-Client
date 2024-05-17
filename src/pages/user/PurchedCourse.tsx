@@ -14,14 +14,16 @@ const PurchasedCourse = () => {
 
   const [courseData, setCourseData] = useState<CourseData | null>(null);
   const [selectedVideoTitle, setSelectedVideoTitle] = useState<string | null>(null);
-  const [currentLessonIndex, setCurrentLessonIndex] = useState<number>(0); // Track current lesson index
-  const [openLessonIndex, setOpenLessonIndex] = useState<number | null>(null); // Track open lesson index
+  const [currentLessonIndex, setCurrentLessonIndex] = useState<number>(0); 
+  const [openLessonIndex, setOpenLessonIndex] = useState<number | null>(null);
   const [selectedVideoDescription,setSelectedVideoDescription] = useState<string | null>(null)
+  const [selectedVideoLinks, setSelectedVideoLinks] = useState<string[] | null>(null);
 
-  const handleVideoTitleClick = (title: string,description:string) => {
+  const handleVideoTitleClick = (title: string,description:string,links:string[]) => {
     setSelectedVideoTitle(title);
-    console.log(description,"descriiiiiiiiiiidddddddddddddddddddddddddddd")
+    console.log(links,"descriiiiiiiiiiidddddddddddddddddddddddddddd")
     setSelectedVideoDescription(description)
+    setSelectedVideoLinks(links)
   };
 
   const handleNextVideo = () => {
@@ -37,6 +39,7 @@ const PurchasedCourse = () => {
           setCurrentLessonIndex(currentLessonIndex + 1);
           setSelectedVideoTitle(courseData!.lessons[currentLessonIndex + 1][0].videoURL);
           setSelectedVideoDescription(courseData!.lessons[currentLessonIndex + 1][0].videoDescription);
+          setSelectedVideoLinks(courseData!.lessons[currentLessonIndex + 1][0].links);
           setOpenLessonIndex(currentLessonIndex + 1); // Set openLessonIndex to the index of the next lesson
         }
       }
@@ -57,7 +60,7 @@ const PurchasedCourse = () => {
           const previousLesson = courseData!.lessons[currentLessonIndex - 1];
           setSelectedVideoTitle(previousLesson[previousLesson.length - 1].videoURL);
           setSelectedVideoDescription(previousLesson[previousLesson.length - 1].videoDescription);
-
+          setSelectedVideoLinks(previousLesson[previousLesson.length - 1].links);
           setOpenLessonIndex(currentLessonIndex - 1); // Set openLessonIndex to the index of the previous lesson
         }
       }
@@ -76,7 +79,7 @@ const PurchasedCourse = () => {
         setCourseData(courseData);
         setSelectedVideoTitle(courseData.lessons[0][0].videoURL);
         setSelectedVideoDescription(courseData.lessons[0][0].videoDescription)
-        setOpenLessonIndex(0); // Initially set the open lesson index to the first lesson
+        setOpenLessonIndex(0); 
       } catch (error) {
         console.error("Error fetching course data:", error);
       }
@@ -112,7 +115,7 @@ const PurchasedCourse = () => {
               </button>
             </div>
             
-            <PurchaseContents courseData={courseData} selectedVideoDescription={selectedVideoDescription} />
+            <PurchaseContents  selectedVideoDescription={selectedVideoDescription} selectedVideoLinks={selectedVideoLinks} />
 
           </div>
           <div></div>
