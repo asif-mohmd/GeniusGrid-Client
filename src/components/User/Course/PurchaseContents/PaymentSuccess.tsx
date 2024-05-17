@@ -2,10 +2,29 @@ import { Link } from "react-router-dom"
 import userEndpoints from "../../../../constraints/endpoints/userEndpoints"
 import Header from "../../Layout/Header"
 import Footer from "../../Layout/Footer"
+import { useEffect } from "react"
+import { useSelector } from "react-redux"
+import { RootState } from "../../../../redux/Store"
+import { userAxios } from "../../../../constraints/axiosInterceptors/userAxiosInterceptors"
 
 function PaymentSuccess() {
 
+  const userData = useSelector((store:RootState)=>store.userDetails)
+console.log(userData.purchasedCourseId,"---=-=-=------------=-=-=-",userData.userId)
+const createUserCourse = {
+  courseId : userData.purchasedCourseId,
+  userId : userData.userId
+}
 
+  useEffect(()=>{
+    console.log("payyyyyyyy")
+    const createUserOrder = async () =>{
+      console.log(userData,"usererererererer")
+      const response = await userAxios.post(userEndpoints.createUserOrder,{createUserCourse})
+      console.log(response,"hhhhhhhhhhgggggggggggggggggggggggggggggggg")
+    }
+    createUserOrder() 
+  })
 
 
   return (

@@ -28,7 +28,8 @@ export interface Course {
   }
   
   export interface CourseData {
-    _id:number;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    _id: any;
     courseName: string;
     coursePrice: string;
     courseDescription: string;

@@ -11,7 +11,8 @@ export default{
     checkout : "/order/checkout/session",
     makePayment : "/order/checkout/session",
     checkoutSuccess : "/payment/success",
-    profilePage : "/profile/page"
+    profilePage : "/profile/page",
+    createUserOrder : "/create/user/order",
     
     
 }

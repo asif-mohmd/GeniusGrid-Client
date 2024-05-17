@@ -1,38 +1,43 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface UserState {
-  userData: object | null;
+  userId: string | null;
   loading: boolean | null;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   error: any | null;
   userImg: string;
+  purchasedCourseId : string | number
 }
 
 const initialState: UserState = {
-  userData: null,
+  userId: null,
   loading: null,
   error: null,
-  userImg: ""
+  userImg: "",
+  purchasedCourseId : ""
 };
 
-const userDataSlice = createSlice({
+const userDetails = createSlice({
   name: "userData",
   initialState,
   reducers: {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    setUserData: (state, action: PayloadAction<object>) => {
-      state.userData = action.payload;
+    setUserId: (state, action: PayloadAction<string>) => {
+      state.userId = action.payload;
     },
     clearUserData: (state) => {
       console.log("clear called");
-      state.userData = null;
+      state.userId = null;
     },
     updatePicture: (state, action: PayloadAction<string>) => {
       state.userImg = action.payload;
-    }
+    },
+    setPurchasedCourseId :  (state, action: PayloadAction<string>) => {
+      state.purchasedCourseId = action.payload;
+    },
   }
-});
+}); 
 
-export const { setUserData, clearUserData, updatePicture } = userDataSlice.actions;
+export const { setUserId, clearUserData, updatePicture , setPurchasedCourseId} = userDetails.actions;
 
-export default userDataSlice.reducer;
+export default userDetails.reducer;

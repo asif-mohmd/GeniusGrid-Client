@@ -7,8 +7,8 @@ import { FormDataLogin } from "../../../interfaces/AuthInterfaces/IAuthInterface
 import { userAxios } from "../../../constraints/axiosInterceptors/userAxiosInterceptors";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { setUserData } from "../../../redux/userSlices/userDataSlice";
 import { userLogin } from "../../../redux/userSlices/authSlice";
+import { setUserId } from "../../../redux/userSlices/userDataSlice";
 
 
 
@@ -35,7 +35,7 @@ const Login: React.FC = () => {
    console.log(userData,"after login")
     if(userData.data.loginStatus){
       console.log(userData.data,"--------------------------")
-      dispatch(setUserData(userData.data))
+      dispatch(setUserId(userData.data.userId))
       dispatch(userLogin())
         navigate(userEndpoints.home)
     }else{
@@ -50,6 +50,7 @@ const Login: React.FC = () => {
       <div className="bg-gray-100 absolute inset-0 opacity-50"></div>
       <ToastContainer />
       <div className="bg-white p-14 rounded-xl shadow-lg relative z-10">
+        <button></button>
         <h6 className="text-xl font-medium m-7">Login to your account</h6>
         <form className="w-full max-w-md" onSubmit={handleSubmit}>
           <div className="mb-6">

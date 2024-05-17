@@ -12,6 +12,7 @@ function HomeCourse() {
   useEffect(() => {
     async function listCourses() {
       try {
+        console.log("=========--loGggggggggg-----------------")
         const listCoursesResponse = await userAxios.get(courseEndspoints.allUserCourses);
         console.log(listCoursesResponse.data.response)
         const coursesData = listCoursesResponse.data.response;
@@ -52,9 +53,7 @@ function HomeCourse() {
                 ₹ {course.coursePrice}
                 </p>
                 <div className="flex items-center justify-between">
-                  <Link to="#" className="text-blue-600 hover:underline">
-                    Read more
-                  </Link>
+                
                   <div className="flex items-center">
                     <svg
                       className="w-4 h-4 text-yellow-500 mr-1"

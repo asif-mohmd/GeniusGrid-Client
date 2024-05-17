@@ -2,14 +2,16 @@ import CourseDetailsPage from "../../components/User/Course/CourseDetailsPage";
 import VideoPlayer from "../../components/User/Course/VideoPlayer";
 import Header from "../../components/User/Layout/Header";
 import { useEffect, useState } from "react";
-import { instructoraxios } from "../../constraints/axiosInterceptors/instructorAxiosInterceptors";
 import courseEndspoints from "../../constraints/endpoints/courseEndspoints";
 import { Link, useParams } from "react-router-dom";
 import { CourseData } from "../../interfaces/UserInterfaces/ICourseDetails";
 import { userAxios } from "../../constraints/axiosInterceptors/userAxiosInterceptors";
 import userEndpoints from "../../constraints/endpoints/userEndpoints";
 import { toast } from "react-toastify";
-
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../redux/Store";
+import { User } from "../../interfaces/UserInterfaces/IUserDetails";
+import { setPurchasedCourseId } from "../../redux/userSlices/userDataSlice";
 
 // interface User{
 //   id:string;
@@ -22,7 +24,11 @@ function UserCourseDetails() {
   const { courseId } = useParams<{ courseId: string }>();
   const [courseData, setCourseData] = useState<CourseData | null>(null);
   const [enrolled,setEntrolled] = useState<boolean>(false)
-  // const [userDetails,setUserDetails] = useState<User | null>(null)
+  const [userDetails,setUserDetails] = useState<User | null>(null)
+  const [showLogin, setShowLogin] = useState(false);
+
+  const userAuth = useSelector((store:RootState)=>store.userAuth)
+  const dispatch = useDispatch()
 
   
   // Function to calculate offer price
@@ -41,43 +47,60 @@ const calculateOfferPercentage = (offerPrice: number, coursePrice: number): stri
 };
 
 
-  useEffect(() => {
-    async function fetchCourseData() {
-      try {
-        const response = await instructoraxios.get(
-          `${courseEndspoints.courseDetails}/${courseId}`
-        );
-        const userData = await userAxios.get(userEndpoints.userDetails)
-        const courses = userData.data.courses
-        const courseData: CourseData = response.data.response;
-        const enrolled = courses.find((id:number)=>id===courseData._id)
+useEffect(() => {
+  async function fetchCourseData() {
+    try {
+      const response = await userAxios.get(`${courseEndspoints.courseDetails}/${courseId}`);
+      console.log(response, "-----------", userAuth);
+      const courseData: CourseData = response.data.response;
+      setCourseData(courseData);
 
-        if(enrolled){
-          setEntrolled(true)
+      if (userAuth.isLogin) {
+        const userData = await userAxios.get(userEndpoints.userDetails);
+        const courses = userData.data.courses;
+        console.log(courses, "hhhhhhhhhhhhhhhhhhhhhh", userData.data);
+
+        // Assuming courseData._id contains the ID of the course you are checking for
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const enrolled = courses.find((courseId: string) => courseId === courseData._id);
+        console.log(enrolled, "000000000000");
+
+        setUserDetails(userData.data);
+        if (enrolled) {
+          setEntrolled(true);
         }
-       
-        setCourseData(courseData);
-        // setUserDetails(userData.data)
-
-      } catch (error) {
-        console.error("Error fetching course data:", error);
       }
+
+      console.log(courseData, "jyjyjyjyjyjy");
+    } catch (error) {
+      console.error("Error fetching course data:", error);
     }
-    fetchCourseData();
-  }, [courseId]);
+  }
+
+  fetchCourseData();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+}, []);
+
+
 
   const makePayment = async () => {
    
     try {
       console.log(courseData,"ccccccccccccccccccc")
-      const enroll = await userAxios.post(userEndpoints.makePayment,{courseData})
+      if(userAuth.isLogin){
+console.log("XXXXXXXXXXXXxxxxxxxxxxxxxxxxxXXXXXXXXXXXXXXXXXXXXXXXX")
+      
+      const enroll = await userAxios.post(userEndpoints.makePayment,{courseData,userDetails})
       console.log(enroll)
       if(enroll.status === 200){
+           dispatch(setPurchasedCourseId(courseData?._id))
            window.location.href = enroll.data.response.url
       }else{
         toast.error("Payment Failed. Try Again")
       }
-
+    }else{
+      setShowLogin(!showLogin)
+    }
 
     } catch (error) {
       console.log("error",error)
@@ -91,8 +114,10 @@ const calculateOfferPercentage = (offerPrice: number, coursePrice: number): stri
   return (
     <div>
       <Header />
+    
       <div className="flex flex-wrap bg-gray-50">
 
+    
 
       
         <div className="w-full md:w-2/5 md:p-8 sm:p-6 bg-gray-50">
@@ -133,11 +158,15 @@ const calculateOfferPercentage = (offerPrice: number, coursePrice: number): stri
             </ul>
           </div>
         </div>
+    
         <div className="w-full md:w-3/5 p-3">
           {courseData && <CourseDetailsPage {...courseData} />}
         </div>
       </div>
+   
+  
     </div>
+
   );
 }
 

@@ -6,15 +6,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { userLogout } from "../../../redux/userSlices/authSlice";
 import { clearUserData } from "../../../redux/userSlices/userDataSlice";
 import courseEndspoints from "../../../constraints/endpoints/courseEndspoints";
-import logo from "../../../assets/logoGeniusGrid.jpg"
+import logo from "../../../assets/logoGeniusGrid.jpg";
 import { RootState } from "../../../redux/Store";
-
 
 const Header = () => {
   // State to manage the navbar's visibility
   const [nav, setNav] = useState(false);
 
-  const userLogin = useSelector((store:RootState)=>store.userAuth)
+  const userLogin = useSelector((store: RootState) => store.userAuth);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -30,79 +29,67 @@ const Header = () => {
     // Redirect the user to the login page after signout
     dispatch(clearUserData());
     dispatch(userLogout());
-    console.log("logiutt seee")
+    console.log("logiutt seee");
     navigate(userEndpoints.home);
   };
 
   return (
     <>
-      <div className="items-center w-full mx-auto p-3 px-5 ">
-
+      <div className="items-center w-full mx-auto p-3 px-5">
         <div className="grid grid-cols-3">
-
           <div className="col-span-1">
             <img src={logo} className="w-20" alt="" />
           </div>
 
-
-
-
-
           <div className="col-span-1 flex justify-center items-center font-mono">
             {/* Desktop Navigation */}
-            <ul className="hidden md:flex ">
-              <Link to={userEndpoints.home} className="p-3 hover:font-medium font-semibold text-xl m-1 cursor-pointer hover:text-black ">
+            <ul className="hidden md:flex">
+              <Link
+                to={userEndpoints.home}
+                className="p-3 hover:font-medium font-semibold text-xl m-1 cursor-pointer hover:text-black"
+              >
                 Home
               </Link>
-              <Link to={courseEndspoints.allUserCourses} className="p-3  hover:font-medium  text-xl font-semibold  m-1 cursor-pointer  hover:text-black">
+              <Link
+                to={courseEndspoints.allUserCourses}
+                className="p-3 hover:font-medium text-xl font-semibold m-1 cursor-pointer hover:text-black"
+              >
                 Courses
               </Link>
-              <Link to={courseEndspoints.allUserCourses} className="p-3  hover:font-medium  text-xl  font-semibold   m-1 cursor-pointer  hover:text-black">
+              <Link
+                to={courseEndspoints.allUserCourses}
+                className="p-3 hover:font-medium text-xl font-semibold m-1 cursor-pointer hover:text-black"
+              >
                 About
               </Link>
             </ul>
           </div>
 
-          {userLogin ? (
-
-<div className="col-span-1 flex justify-end" >
-<Link to={userEndpoints.profilePage} className="w-10">
-  <img
-    className="cursor-pointer m-2 h-10 w-10 rounded-full ring-2 ring-white"
-    src="https://images.unsplash.com/photo-1491528323818-fdd1faba62cc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-    alt=""
-  />
-</Link>
-</div>
-          ):(
-
-            <div className="col-span-1 flex justify-end" >
-            <Link to={userEndpoints.profilePage} className="w-10">
+          {userLogin.isLogin ? (
+            <div className="col-span-1 flex justify-end">
+              <Link to={userEndpoints.profilePage} className="w-10">
+                <img
+                  className="cursor-pointer m-2 h-10 w-10 rounded-full ring-2 ring-white"
+                  src="https://images.unsplash.com/photo-1491528323818-fdd1faba62cc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                  alt=""
+                />
+              </Link>
+            </div>
+          ) : (
+            <div className="col-span-1 flex justify-end">
               <img
                 className="cursor-pointer m-2 h-10 w-10 rounded-full ring-2 ring-white"
-                // src="https://images.unsplash.com/photo-1491528323818-fdd1faba62cc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                src="https://images.unsplash.com/photo-1491528323818-fdd1faba62cc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
                 alt=""
               />
-            </Link>
-          </div>
+            </div>
           )}
-
-
-
 
           {/* Mobile Navigation Icon */}
           <div onClick={handleNav} className="block md:hidden">
             {nav ? <AiOutlineClose size={20} /> : <AiOutlineMenu size={20} />}
           </div>
-
-
-
         </div>
-
-
-
-
-
 
         {/* Mobile Navigation Menu */}
         <ul
@@ -117,26 +104,17 @@ const Header = () => {
             GeniusGrid
           </h1>
 
-
-
           {/* Mobile Navigation Items */}
           <li className="p-4 border-b rounded-xl duration-300 hover:text-black cursor-pointer ">
             Home
           </li>
-          <li className="p-4 border-b k cursor-pointer ">
-            Courses
-          </li>
-          <li className="p-4 border-b  cursor-pointer">
-            About
-          </li>
-          <li className="p-4 rounded-xl  cursor-pointer ">
-            Contact
-          </li>
+          <li className="p-4 border-b k cursor-pointer ">Courses</li>
+          <li className="p-4 border-b  cursor-pointer">About</li>
+          <li className="p-4 rounded-xl  cursor-pointer ">Contact</li>
           <li className="p-4 rounded-xl " onClick={handleClick}>
             Signout
           </li>
         </ul>
-
       </div>
     </>
   );
