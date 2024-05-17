@@ -16,9 +16,12 @@ const PurchasedCourse = () => {
   const [selectedVideoTitle, setSelectedVideoTitle] = useState<string | null>(null);
   const [currentLessonIndex, setCurrentLessonIndex] = useState<number>(0); // Track current lesson index
   const [openLessonIndex, setOpenLessonIndex] = useState<number | null>(null); // Track open lesson index
+  const [selectedVideoDescription,setSelectedVideoDescription] = useState<string | null>(null)
 
-  const handleVideoTitleClick = (title: string) => {
+  const handleVideoTitleClick = (title: string,description:string) => {
     setSelectedVideoTitle(title);
+    console.log(description,"descriiiiiiiiiiidddddddddddddddddddddddddddd")
+    setSelectedVideoDescription(description)
   };
 
   const handleNextVideo = () => {
@@ -33,6 +36,7 @@ const PurchasedCourse = () => {
         if (currentLessonIndex < courseData!.lessons.length - 1) {
           setCurrentLessonIndex(currentLessonIndex + 1);
           setSelectedVideoTitle(courseData!.lessons[currentLessonIndex + 1][0].videoURL);
+          setSelectedVideoDescription(courseData!.lessons[currentLessonIndex + 1][0].videoDescription);
           setOpenLessonIndex(currentLessonIndex + 1); // Set openLessonIndex to the index of the next lesson
         }
       }
@@ -52,6 +56,8 @@ const PurchasedCourse = () => {
           setCurrentLessonIndex(currentLessonIndex - 1);
           const previousLesson = courseData!.lessons[currentLessonIndex - 1];
           setSelectedVideoTitle(previousLesson[previousLesson.length - 1].videoURL);
+          setSelectedVideoDescription(previousLesson[previousLesson.length - 1].videoDescription);
+
           setOpenLessonIndex(currentLessonIndex - 1); // Set openLessonIndex to the index of the previous lesson
         }
       }
@@ -69,6 +75,7 @@ const PurchasedCourse = () => {
         const courseData: CourseData = response.data.response;
         setCourseData(courseData);
         setSelectedVideoTitle(courseData.lessons[0][0].videoURL);
+        setSelectedVideoDescription(courseData.lessons[0][0].videoDescription)
         setOpenLessonIndex(0); // Initially set the open lesson index to the first lesson
       } catch (error) {
         console.error("Error fetching course data:", error);
@@ -101,11 +108,11 @@ const PurchasedCourse = () => {
                 onClick={handleNextVideo}
                 className="justify-end text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700"
               >
-                Next
+                Next 
               </button>
             </div>
             
-            <PurchaseContents courseData={courseData} />
+            <PurchaseContents courseData={courseData} selectedVideoDescription={selectedVideoDescription} />
 
           </div>
           <div></div>

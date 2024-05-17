@@ -32,15 +32,29 @@ const Login: React.FC = () => {
 
     console.log(loginData,"login data")
     const userData = await userAxios.post(userEndpoints.login,{loginData})
+    
    console.log(userData,"after login")
-    if(userData.data.loginStatus){
-      console.log(userData.data,"--------------------------")
+    if(userData.data.status === 201){
+      console.log(userData.data,"-------------9898-------------")
       dispatch(setUserId(userData.data.userId))
       dispatch(userLogin())
         navigate(userEndpoints.home)
-    }else{
+ 
+    }else if(userData.data.status === 401){
       console.log("else login")
-        toast.error('Invalid email or password');
+        toast.error('User not found');
+    }else if(userData.data.status === 402){
+      console.log("else login")
+        toast.error('Invalid Password');
+    }else if(userData.data.status === 403){
+      console.log("else login")
+        toast.error('Your account is blocked');
+    }else if(userData.data.status === 404){
+      console.log("else login")
+        toast.error('Something went wrong try again');
+    }else{
+      toast.error('Something went wrong try again');
+
     }
 
   }

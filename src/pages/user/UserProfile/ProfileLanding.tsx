@@ -11,17 +11,27 @@ import { useNavigate } from "react-router-dom";
 import Footer from "../../../components/User/Layout/Footer";
 import { userAxios } from "../../../constraints/axiosInterceptors/userAxiosInterceptors";
 import { User } from "../../../interfaces/UserInterfaces/IUserDetails";
+import courseEndspoints from "../../../constraints/endpoints/courseEndspoints";
+import { IFullCourseCourseData } from "../../../interfaces/InstructorInterfaces/IEditCourse";
 
 function ProfileLanding() {
   const [activeComponent, setActiveComponent] =
     useState<string>("ProfilePageUser");
   const [userData, setUserData] = useState<User | null>(null);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const [purchasedCourses,setPurchasedCourses] = useState<IFullCourseCourseData | any>(null)
 
   useEffect(() => {
     async function fetchCourseData() {
       try {
         const userDetails = await userAxios.get(userEndpoints.userDetails);
+        console.log(userDetails)
+        const courses = userDetails.data.courses
+        console.log(courses,"77777777777777777777777777777777777777")
+        const purchasedCourses = await userAxios.post(courseEndspoints.userPurchasedCourses,courses)
 
+        console.log(purchasedCourses,"prrrrrrrrrrrrrrrrrr")
+        setPurchasedCourses(purchasedCourses.data)
         console.log(userData, "datattattatat");
         setUserData(userDetails.data);
       } catch (error) {
@@ -98,7 +108,7 @@ function ProfileLanding() {
               <ProfilePageUser {...userData} />
             )}
             {activeComponent === "ChangePassword" && <ChangePassword />}
-            {activeComponent === "EnrolledCourses" && <EnrolledCourses />}
+            {activeComponent === "EnrolledCourses" && <EnrolledCourses {...purchasedCourses} />}
             {/* Add your Logout component here */}
           </div>
         </div>

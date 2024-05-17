@@ -1,7 +1,13 @@
 
-function Overview() {
+
+interface PurchaseContentsProps {
+  selectedVideoDescription: string | null
+}
+
+
+const Overview: React.FC<PurchaseContentsProps> =({selectedVideoDescription}) =>{
   return (
-    <div>Overviewww</div>
+    <div>{selectedVideoDescription}</div>
   )
 }
 

@@ -14,6 +14,6 @@ export default {
     orderAnalysis: "/instructor/order/analysis",
     editLessonPage: "/instructor/edit/lesson/page",
     transcodeVideo : "/instructor/transcode/video",
-    videoURL: ""
+    getPurchasedUsers : "/order/purchased/users"
 
 }

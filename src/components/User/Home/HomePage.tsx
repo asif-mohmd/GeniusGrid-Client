@@ -27,35 +27,4 @@ export default HomePage;
 
 
 
-// import React from "react";
-// import BannerGirl from "../../../assets/Group 230.svg";
-
-// const HomePage: React.FC = () => {
-//   return (
-//     <>
-//       <div className="grid sm:grid-cols-2 place-items-center h-auto bg-gradient-to-br from-blue-50 ">
-//         <div className="">
-//           <p className="text-3xl font-bold tracking-wide ">Discover best</p>
-//           <p className="text-3xl font-bold leading-normal tracking-wide">classes for the</p>
-//           <p className="text-3xl font-bold tracking-wide">best learning</p>
-//           <p className="tracking-wide mt-5 font-serif">
-//             In the digital realm, knowledge is not just power;
-//           </p>
-//           <p className="tracking-wide font-serif">it's empowerment at your fingertips.</p>
-//         </div>
-
-//         <div className="md:m-10 max-w-40 sm:max-w-none object-scale-down ">
-//           <img
-//             src={BannerGirl}
-//             alt="Banner"
-//             className="md:w-4/6 sm:w-4/4 w-full h-auto md:ml-16"
-//           />
-//         </div>
-//       </div>
-   
-//     </>
-//   );
-// };
-
-// export default HomePage;
 
