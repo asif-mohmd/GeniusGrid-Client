@@ -11,6 +11,8 @@ import { RootState } from "../../../redux/Store";
 import { instructoraxios } from "../../../constraints/axiosInterceptors/instructorAxiosInterceptors";
 import { ICreateCourse1 } from "../../../interfaces/InstructorInterfaces/ICreateCourse";
 import { FaUpload } from "react-icons/fa";
+import { adminAxios } from "../../../constraints/axiosInterceptors/adminAxiosInterceptors";
+import adminEndpoints from "../../../constraints/endpoints/adminEndpoints";
 
 
 interface videoData {
@@ -42,13 +44,26 @@ const CreateCourse1 = () => {
       // dispatch(setCourseData1Empty())
       setBenefits(createCourseDetails.benefits || []);
       setPrerequisites(createCourseDetails.prerequisites || []);
+     
 
     }
+    async function fetchCategories(){
+      try {
+        const response = await adminAxios.get(adminEndpoints.getCategories)
+        console.log(response)
+      } catch (error) {
+        toast.error("something went wrong")
+      }
+
+    }
+
+
     async function fetchCourseData() {
       try {
         const response = await instructoraxios.get(
           "http://localhost:4000/transcode/videoURL"
         );
+
         if (response && response.data) {
           const urls = response.data;
           setvideoDetails(urls);
@@ -58,6 +73,7 @@ const CreateCourse1 = () => {
       }
     }
     fetchCourseData();
+    fetchCategories()
   }, [createCourseDetails]);
 
   const initialValues = {

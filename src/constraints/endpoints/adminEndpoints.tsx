@@ -19,7 +19,9 @@ export default {
     getAllInstructors: "/admin/get-all-instructors",
     instructorBlockUnblock: "/admin/instructor-block-unblock",
     addCategory:  "/admin/add/category",
-    viewCategory: "/admin/view/category"
+    viewCategory: "/admin/view/category",
+    getCategories: "/admin/get/categories"
+
 
 
 }

@@ -19,6 +19,7 @@ export interface Course {
   }
 
   export interface Lesson {
+    _id:string;
     videoTitle: string;
     videoURL: string;
     subtitleURL: string;

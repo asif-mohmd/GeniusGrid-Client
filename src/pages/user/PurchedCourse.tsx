@@ -18,12 +18,13 @@ const PurchasedCourse = () => {
   const [openLessonIndex, setOpenLessonIndex] = useState<number | null>(null);
   const [selectedVideoDescription,setSelectedVideoDescription] = useState<string | null>(null)
   const [selectedVideoLinks, setSelectedVideoLinks] = useState<string[] | null>(null);
-
-  const handleVideoTitleClick = (title: string,description:string,links:string[]) => {
+  const [selectVideoId,setSelectedVideoId] = useState<string>("")
+console.log(selectVideoId,"ideyeeeeeeeeeeeeeee")
+  const handleVideoTitleClick = (title: string,description:string,links:string[],id:string) => {
     setSelectedVideoTitle(title);
-    console.log(links,"descriiiiiiiiiiidddddddddddddddddddddddddddd")
     setSelectedVideoDescription(description)
     setSelectedVideoLinks(links)
+    setSelectedVideoId(id)
   };
 
   const handleNextVideo = () => {
@@ -40,6 +41,7 @@ const PurchasedCourse = () => {
           setSelectedVideoTitle(courseData!.lessons[currentLessonIndex + 1][0].videoURL);
           setSelectedVideoDescription(courseData!.lessons[currentLessonIndex + 1][0].videoDescription);
           setSelectedVideoLinks(courseData!.lessons[currentLessonIndex + 1][0].links);
+          setSelectedVideoId(courseData!.lessons[currentLessonIndex + 1][0]._id)
           setOpenLessonIndex(currentLessonIndex + 1); // Set openLessonIndex to the index of the next lesson
         }
       }
@@ -61,12 +63,13 @@ const PurchasedCourse = () => {
           setSelectedVideoTitle(previousLesson[previousLesson.length - 1].videoURL);
           setSelectedVideoDescription(previousLesson[previousLesson.length - 1].videoDescription);
           setSelectedVideoLinks(previousLesson[previousLesson.length - 1].links);
+          setSelectedVideoId(previousLesson[previousLesson.length - 1]._id)
           setOpenLessonIndex(currentLessonIndex - 1); // Set openLessonIndex to the index of the previous lesson
         }
       }
     }
   };
-
+console.log(courseData,"----------------")
 
   useEffect(() => {
     async function fetchCourseData() {
@@ -79,6 +82,7 @@ const PurchasedCourse = () => {
         setCourseData(courseData);
         setSelectedVideoTitle(courseData.lessons[0][0].videoURL);
         setSelectedVideoDescription(courseData.lessons[0][0].videoDescription)
+        setSelectedVideoId(courseData.lessons[0][0]._id)
         setOpenLessonIndex(0); 
       } catch (error) {
         console.error("Error fetching course data:", error);
@@ -115,7 +119,7 @@ const PurchasedCourse = () => {
               </button>
             </div>
             
-            <PurchaseContents  selectedVideoDescription={selectedVideoDescription} selectedVideoLinks={selectedVideoLinks} />
+            <PurchaseContents  selectedVideoDescription={selectedVideoDescription} selectedVideoLinks={selectedVideoLinks} courseId={courseData?._id} videoId={selectVideoId} />
 
           </div>
           <div></div>

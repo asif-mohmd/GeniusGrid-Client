@@ -35,7 +35,7 @@ const Header = () => {
 
   return (
     <>
-      <div className="items-center w-full mx-auto p-3 px-5">
+      <div className="items-center w-full mx-auto p-3 px-5 shadow-sm">
         <div className="grid grid-cols-3">
           <div className="col-span-1">
             <img src={logo} className="w-20" alt="" />

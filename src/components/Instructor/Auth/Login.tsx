@@ -35,14 +35,20 @@ console.log(instructorLoginData,"-------------")
       { instructorLoginData }
     );
 
-    if (instructorData.data.loginStatus) {
+    if (instructorData.data.status == 201) {
       console.log(instructorData.data,"[[[[[[[[[[[[[[[[[[[[[[[")
       
       dispatch(setInstructorData(instructorData.data));
       dispatch(instructorLogin());
       navigate(instructorEndpoints.dashboard);
-    } else {
-      toast.error("Invalid email or password");
+    } else if(instructorData.data.status == 401) {
+      toast.error("Instructor not found");
+    } else if(instructorData.data.status == 402) {
+      toast.error("Invalid password");
+    } else if(instructorData.data.status == 403) {
+      toast.error("Your account is blocked");
+    } else if(instructorData.data.status == 404) {
+      toast.error("Something went wrong");
     }
   };
 

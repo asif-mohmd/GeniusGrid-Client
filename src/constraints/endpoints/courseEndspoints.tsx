@@ -10,7 +10,8 @@ export default {
     allUserCourses: "/course/get-all-user-courses",
     coursePurchased: "/course/get-purchased-course",
     editLessonContent : "/course/edit/lesson",
-    userPurchasedCourses : "/course/user/purchased/courses"
+    userPurchasedCourses : "/course/user/purchased/courses",
+    addQuestion: "/course/user/add/question"
     
    
 }
