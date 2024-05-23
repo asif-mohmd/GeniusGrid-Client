@@ -3,18 +3,25 @@ import Overview from "./Overview";
 import Resources from "./Resources";
 import Reviews from "./Reviews";
 import Comments from "./Comments";
+import { Lesson } from "../../../../interfaces/UserInterfaces/ICourseDetails";
 
 interface PurchaseContentsProps {
   selectedVideoDescription: string | null;
   selectedVideoLinks: string[] | null;
   courseId:string,
   videoId:string
+  courseLessons:Lesson | unknown
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  questions :any
+
 }
 const PurchaseContents: React.FC<PurchaseContentsProps> = ({
   selectedVideoDescription,
   selectedVideoLinks,
   courseId,
-  videoId
+  videoId,
+  courseLessons,
+  questions
 }) => {
   const [activeComponent, setActiveComponent] = useState<string>("Overview"); // Track active component
 
@@ -22,8 +29,13 @@ const PurchaseContents: React.FC<PurchaseContentsProps> = ({
     setActiveComponent(componentName === activeComponent ? "" : componentName);
   };
 
-  console.log(courseId,"---------")
-  console.log(videoId,"00000000000000")
+  console.log(courseId,"---------",courseLessons)
+  console.log(videoId,"00000000000000vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv",questions)
+
+  
+
+
+
 
   return (
     <div>
@@ -69,7 +81,7 @@ const PurchaseContents: React.FC<PurchaseContentsProps> = ({
           <Resources selectedVideoLinks={selectedVideoLinks} />
         )}
         {activeComponent === "Comments" && <Comments 
-        courseId={courseId} videoId={videoId}
+        courseId={courseId} videoId={videoId}  questions={questions}
 
         />}
         {activeComponent === "Reviews" && <Reviews />}

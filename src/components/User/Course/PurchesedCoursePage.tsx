@@ -2,7 +2,7 @@ import { CourseData } from "../../../interfaces/UserInterfaces/ICourseDetails"; 
 import { LuMonitorPlay } from "react-icons/lu";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-function PurchasedCoursePage({ courseData, onVideoTitleClick, onSelectedVideo, openLessonIndex, setOpenLessonIndex }: { courseData: CourseData, onVideoTitleClick: (title: string,description:string,links:string[],_id:string) => void, onSelectedVideo: string | null, openLessonIndex: number | null, setOpenLessonIndex: (index: number | null) => void }) {
+function PurchasedCoursePage({ courseData, onVideoTitleClick, onSelectedVideo, openLessonIndex, setOpenLessonIndex }: { courseData: CourseData, onVideoTitleClick: (title: string,description:string,links:string[],_id:string,questions:any) => void, onSelectedVideo: string | null, openLessonIndex: number | null, setOpenLessonIndex: (index: number | null) => void }) {
     const { lessons } = courseData;
 
     const toggleLesson = (lessonIndex: number, forceOpen: boolean = false) => {
@@ -35,8 +35,9 @@ function PurchasedCoursePage({ courseData, onVideoTitleClick, onSelectedVideo, o
                         {openLessonIndex === lessonIndex && (
                             <div className="mt-2">
                                 {lesson.map((video, videoIndex) => (
-                                    <div key={videoIndex} className={`flex items-center mb-2 p-1 cursor-pointer ${video.videoURL.toLowerCase() === onSelectedVideo?.toLowerCase() ? "bg-gray-800 text-white" : ""}`} onClick={() => onVideoTitleClick(video.videoURL,video.videoDescription,video.links,video._id)}>
+                                    <div key={videoIndex} className={`flex items-center mb-2 p-1 cursor-pointer ${video.videoURL.toLowerCase() === onSelectedVideo?.toLowerCase() ? "bg-gray-800 text-white" : ""}`} onClick={() => onVideoTitleClick(video.videoURL,video.videoDescription,video.links,video._id,video.questions)}>
                                         <LuMonitorPlay size={18} className="text mr-4 text-[#1cdada]" />
+                                        
                                         <span className="flex-1">{video.videoTitle}</span>
                                     </div>
                                 ))}

@@ -19,13 +19,20 @@ const PurchasedCourse = () => {
   const [selectedVideoDescription,setSelectedVideoDescription] = useState<string | null>(null)
   const [selectedVideoLinks, setSelectedVideoLinks] = useState<string[] | null>(null);
   const [selectVideoId,setSelectedVideoId] = useState<string>("")
-console.log(selectVideoId,"ideyeeeeeeeeeeeeeee")
-  const handleVideoTitleClick = (title: string,description:string,links:string[],id:string) => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const [allQuestions,setAllQuestions] = useState<any>(null)
+   console.log(selectVideoId,"ideyeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",allQuestions)
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const handleVideoTitleClick = (title: string,description:string,links:string[],id:string,questions:any) => {
     setSelectedVideoTitle(title);
     setSelectedVideoDescription(description)
     setSelectedVideoLinks(links)
     setSelectedVideoId(id)
+    console.log(questions,"------------55555555555666666666666666666666666666666666666666666666666666666666666666666666666666666666666")
+    setAllQuestions(questions)
   };
+
+
 
   const handleNextVideo = () => {
     // Check if there are more videos in the current lesson
@@ -34,6 +41,8 @@ console.log(selectVideoId,"ideyeeeeeeeeeeeeeee")
       const currentIndex = currentLesson.findIndex(video => video.videoURL === selectedVideoTitle);
       if (currentIndex < currentLesson.length - 1) {
         setSelectedVideoTitle(currentLesson[currentIndex + 1].videoURL);
+        setSelectedVideoDescription(currentLesson[currentIndex + 1].videoDescription); 
+        setAllQuestions(currentLesson[currentIndex + 1].questions)
       } else {
         // Check if there are more lessons
         if (currentLessonIndex < courseData!.lessons.length - 1) {
@@ -42,6 +51,8 @@ console.log(selectVideoId,"ideyeeeeeeeeeeeeeee")
           setSelectedVideoDescription(courseData!.lessons[currentLessonIndex + 1][0].videoDescription);
           setSelectedVideoLinks(courseData!.lessons[currentLessonIndex + 1][0].links);
           setSelectedVideoId(courseData!.lessons[currentLessonIndex + 1][0]._id)
+          
+
           setOpenLessonIndex(currentLessonIndex + 1); // Set openLessonIndex to the index of the next lesson
         }
       }
@@ -55,6 +66,8 @@ console.log(selectVideoId,"ideyeeeeeeeeeeeeeee")
       const currentIndex = currentLesson.findIndex(video => video.videoURL === selectedVideoTitle);
       if (currentIndex > 0) {
         setSelectedVideoTitle(currentLesson[currentIndex - 1].videoURL);
+        setSelectedVideoDescription(currentLesson[currentIndex - 1].videoDescription);
+        setAllQuestions(currentLesson[currentIndex - 1].questions)
       } else {
         // Check if there are previous lessons
         if (currentLessonIndex > 0) {
@@ -64,7 +77,10 @@ console.log(selectVideoId,"ideyeeeeeeeeeeeeeee")
           setSelectedVideoDescription(previousLesson[previousLesson.length - 1].videoDescription);
           setSelectedVideoLinks(previousLesson[previousLesson.length - 1].links);
           setSelectedVideoId(previousLesson[previousLesson.length - 1]._id)
+          setAllQuestions(previousLesson[previousLesson.length - 1].questions);
+
           setOpenLessonIndex(currentLessonIndex - 1); // Set openLessonIndex to the index of the previous lesson
+
         }
       }
     }
@@ -83,6 +99,7 @@ console.log(courseData,"----------------")
         setSelectedVideoTitle(courseData.lessons[0][0].videoURL);
         setSelectedVideoDescription(courseData.lessons[0][0].videoDescription)
         setSelectedVideoId(courseData.lessons[0][0]._id)
+        setAllQuestions(courseData.lessons[0][0].questions)
         setOpenLessonIndex(0); 
       } catch (error) {
         console.error("Error fetching course data:", error);
@@ -119,7 +136,7 @@ console.log(courseData,"----------------")
               </button>
             </div>
             
-            <PurchaseContents  selectedVideoDescription={selectedVideoDescription} selectedVideoLinks={selectedVideoLinks} courseId={courseData?._id} videoId={selectVideoId} />
+            <PurchaseContents  selectedVideoDescription={selectedVideoDescription} selectedVideoLinks={selectedVideoLinks} courseId={courseData?._id} videoId={selectVideoId} courseLessons={courseData?.lessons} questions={allQuestions}/>
 
           </div>
           <div></div>

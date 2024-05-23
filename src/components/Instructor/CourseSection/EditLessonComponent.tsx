@@ -26,7 +26,7 @@ interface videoData {
 }
 
 
-    
+
 const EditLessonComponent: React.FC = () => {
   const [lessons, setLessons] = useState<LessonContent[][]>([]);
 
@@ -64,7 +64,7 @@ const EditLessonComponent: React.FC = () => {
           const urls = response.data
           setvideoDetails(urls); // Set video URLs in state
         }
-        console.log(formattedLessons,"formaaaateeeeddddddddddddd")
+        console.log(formattedLessons, "formaaaateeeeddddddddddddd")
         setLessons(formattedLessons);
       } catch (error) {
         console.error("Error fetching course details:", error);
@@ -113,67 +113,67 @@ const EditLessonComponent: React.FC = () => {
             label: "Yes",
             onClick: async () => {
               let response
-    
-console.log(lessons,"lessonsssssssssssssssss")
-                const formData = new FormData();
 
-                if (editCourseDetails && lessons) {
-                  formData.append("_id",editCourseDetails?._id)
-                  formData.append("thumbnail", editCourseDetails?.thumbnail);
-                  formData.append("courseName", editCourseDetails?.courseName);
-                  formData.append("courseDescription", editCourseDetails.courseDescription);
-                  formData.append("coursePrice", editCourseDetails.coursePrice);
-                  formData.append("estimatedPrice", editCourseDetails.estimatedPrice);
-                  formData.append("courseCategory", editCourseDetails.courseCategory);
-                  formData.append("totalVideos", editCourseDetails.totalVideos);
-                  formData.append("courseLevel", editCourseDetails.courseLevel);
-                  formData.append("demoURL", editCourseDetails.demoURL);
+              console.log(lessons, "lessonsssssssssssssssss")
+              const formData = new FormData();
 
-                  editCourseDetails.benefits.forEach((benefit, index) => {
-                    formData.append(`benefits[${index}]`, benefit);
-                  });
+              if (editCourseDetails && lessons) {
+                formData.append("_id", editCourseDetails?._id)
+                formData.append("thumbnail", editCourseDetails?.thumbnail);
+                formData.append("courseName", editCourseDetails?.courseName);
+                formData.append("courseDescription", editCourseDetails.courseDescription);
+                formData.append("coursePrice", editCourseDetails.coursePrice);
+                formData.append("estimatedPrice", editCourseDetails.estimatedPrice);
+                formData.append("courseCategory", editCourseDetails.courseCategory);
+                formData.append("totalVideos", editCourseDetails.totalVideos);
+                formData.append("courseLevel", editCourseDetails.courseLevel);
+                formData.append("demoURL", editCourseDetails.demoURL);
 
-                  editCourseDetails.prerequisites.forEach((prerequisite, index) => {
-                    formData.append(`prerequisites[${index}]`, prerequisite);
-                  });
+                editCourseDetails.benefits.forEach((benefit, index) => {
+                  formData.append(`benefits[${index}]`, benefit);
+                });
 
-                  lessons.forEach((lessonRow, rowIndex) => {
-                    lessonRow.forEach((lesson, lessonIndex) => {
-                      const lessonPrefix = `lessons[${rowIndex}][${lessonIndex}]`;
-                      formData.append(`${lessonPrefix}[videoTitle]`, lesson.videoTitle);
-                      formData.append(`${lessonPrefix}[videoURL]`, lesson.videoURL);
-                      formData.append(`${lessonPrefix}[subtitleURL]`, lesson.subtitleURL);
-                      formData.append(`${lessonPrefix}[videoDescription]`, lesson.videoDescription);
+                editCourseDetails.prerequisites.forEach((prerequisite, index) => {
+                  formData.append(`prerequisites[${index}]`, prerequisite);
+                });
 
-                      lesson.links.forEach((link, linkIndex) => {
-                        formData.append(`${lessonPrefix}[links][${linkIndex}]`, link);
-                      });
+                lessons.forEach((lessonRow, rowIndex) => {
+                  lessonRow.forEach((lesson, lessonIndex) => {
+                    const lessonPrefix = `lessons[${rowIndex}][${lessonIndex}]`;
+                    formData.append(`${lessonPrefix}[videoTitle]`, lesson.videoTitle);
+                    formData.append(`${lessonPrefix}[videoURL]`, lesson.videoURL);
+                    formData.append(`${lessonPrefix}[subtitleURL]`, lesson.subtitleURL);
+                    formData.append(`${lessonPrefix}[videoDescription]`, lesson.videoDescription);
+
+                    lesson.links.forEach((link, linkIndex) => {
+                      formData.append(`${lessonPrefix}[links][${linkIndex}]`, link);
                     });
                   });
-
-                  // Create a Promise to ensure all data is appended before making the API call
-                  const formDataPromise = new Promise<void>((resolve) => {
-                    // Resolve the promise after appending all data
-                    resolve();
-                  });
-
-                  // Wait for the promise to be resolved
-                  await formDataPromise;
-
-                  // Once all data is appended, make the API call
-                  for (const key of formData.entries()) {
-                    console.log(key[0] + ', ' + key[1]);
-                  }
-                  
-                  console.log()
-                  response = await instructoraxios.post(courseEndspoints.createOrEditCourse, formData, {
-                    headers: {
-                        'Content-Type': 'multipart/form-data',
-                    }
                 });
-                }else{
-                  toast.error("Something went wrong. Try again")
+
+                // Create a Promise to ensure all data is appended before making the API call
+                const formDataPromise = new Promise<void>((resolve) => {
+                  // Resolve the promise after appending all data
+                  resolve();
+                });
+
+                // Wait for the promise to be resolved
+                await formDataPromise;
+
+                // Once all data is appended, make the API call
+                for (const key of formData.entries()) {
+                  console.log(key[0] + ', ' + key[1]);
                 }
+
+                console.log()
+                response = await instructoraxios.post(courseEndspoints.createOrEditCourse, formData, {
+                  headers: {
+                    'Content-Type': 'multipart/form-data',
+                  }
+                });
+              } else {
+                toast.error("Something went wrong. Try again")
+              }
 
 
               if (response && response.status == 200) {
