@@ -5,6 +5,8 @@ import { ProtectedRouteProps } from "../../interfaces/ICommonInterface";
 
 
 const UserProtectorRoute: React.FC<ProtectedRouteProps> = ({ component: Component }) => {
+
+  // const { handleShowLogin } = useAuth();
   console.log("i ma hhererere")
   const user = useSelector((store: RootState) => store.userAuth);
     if(user.isLogin==false) {

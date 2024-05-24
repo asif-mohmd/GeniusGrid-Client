@@ -12,6 +12,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/Store";
 import { User } from "../../interfaces/UserInterfaces/IUserDetails";
 import { setPurchasedCourseId } from "../../redux/userSlices/userDataSlice";
+import { useAuth } from "../../utils/AuthContext";
+import AuthModalManager from "../../components/User/Auth/AuthModalManager";
 
 // interface User{
 //   id:string;
@@ -25,9 +27,10 @@ function UserCourseDetails() {
   const [courseData, setCourseData] = useState<CourseData | null>(null);
   const [enrolled, setEntrolled] = useState<boolean>(false);
   const [userDetails, setUserDetails] = useState<User | null>(null);
-  const [showLogin, setShowLogin] = useState(false);
 
   const userAuth = useSelector((store: RootState) => store.userAuth);
+
+  const { handleShowLogin } = useAuth();
   const dispatch = useDispatch();
 
   // Function to calculate offer price
@@ -87,7 +90,7 @@ function UserCourseDetails() {
 
     fetchCourseData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [userAuth]);
 
   const makePayment = async () => {
     try {
@@ -104,11 +107,11 @@ function UserCourseDetails() {
           dispatch(setPurchasedCourseId(courseData?._id));
           window.location.href = enroll.data.response.url;
         } else {
-          
+
           toast.error("Payment Failed. Try Again");
         }
       } else {
-        setShowLogin(!showLogin);
+        handleShowLogin();
       }
     } catch (error) {
       console.log("error", error);
@@ -118,8 +121,8 @@ function UserCourseDetails() {
   return (
     <div>
       <Header />
-
       <div className="flex flex-wrap bg-gray-50">
+        
         <div className="w-full md:w-2/5 md:p-8 sm:p-6 bg-gray-50">
           <VideoPlayer
             videoUrl={courseData?.demoURL || ""}
@@ -127,6 +130,8 @@ function UserCourseDetails() {
           />
 
           <div className="m-1 ">
+          <AuthModalManager/>
+
             <div className="flex m-1 items-center ">
               <p className="class text-xl font-bold">
                 ₹ {courseData?.estimatedPrice}

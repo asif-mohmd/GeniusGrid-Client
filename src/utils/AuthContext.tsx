@@ -22,6 +22,8 @@ const AuthContext = createContext<IAuthContext>({
 });
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
+
+    
   const [showSignup, setShowSignup] = useState(false);
   const [showLogin, setShowLogin] = useState(false);
   const [isLogin, setIsLogin] = useState(false);

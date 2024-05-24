@@ -11,16 +11,15 @@ import { AuthProvider } from "./utils/AuthContext.tsx";
 
 const persistor = persistStore(appStore);
 
-
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-     <AuthProvider>
     <Provider store={appStore}>
       <PersistGate persistor={persistor}>
-        <ToastContainer/>
-        <App />
+        <AuthProvider>
+          <ToastContainer />
+          <App />
+        </AuthProvider>
       </PersistGate>
     </Provider>
-    </AuthProvider>
   </React.StrictMode>
 );

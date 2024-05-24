@@ -5,6 +5,7 @@ import userEndpoints from "../../../constraints/endpoints/userEndpoints";
 import { userLogin } from "../../../redux/userSlices/authSlice";
 import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
+import { useAuth } from "../../../utils/AuthContext";
 
 interface LoginModalProps {
   onClose: () => void;
@@ -18,6 +19,8 @@ function LoginModal({ onClose,  }: LoginModalProps) {
   });
 
   const dispatch = useDispatch();
+  const { handleShowSignup } = useAuth();
+
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { id, value } = e.target;
@@ -28,6 +31,7 @@ function LoginModal({ onClose,  }: LoginModalProps) {
     e.preventDefault();
 
     try {
+      console.log(loginData,"yyyyyyyyyyyy")
       const userData = await userAxios.post(userEndpoints.login, loginData);
       if (userData.data.loginStatus) {
         dispatch(userLogin());
@@ -50,7 +54,7 @@ function LoginModal({ onClose,  }: LoginModalProps) {
 
       <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
         <div className="relative w-full max-w-md px-4 h-full md:h-auto flex items-center justify-center">
-          <div className="bg-white rounded-lg shadow relative dark:bg-gray-700 w-full mx-4 sm:mx-6 md:mx-0 md:max-w-lg lg:max-w-xl">
+          <div className="bg-white rounded-lg shadow relative  w-full mx-4 sm:mx-6 md:mx-0 md:max-w-lg lg:max-w-xl">
             <div className="flex justify-end p-2">
               <button
                 type="button"
@@ -91,7 +95,7 @@ function LoginModal({ onClose,  }: LoginModalProps) {
                   id="email"
                   value={loginData.email}
                   onChange={handleChange}
-                  className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                  className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
                   placeholder="name@gmail.com"
                   required
                 />
@@ -110,7 +114,7 @@ function LoginModal({ onClose,  }: LoginModalProps) {
                   value={loginData.password}
                   onChange={handleChange}
                   placeholder="••••••••"
-                  className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                  className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
                   required
                 />
               </div>
@@ -127,13 +131,13 @@ function LoginModal({ onClose,  }: LoginModalProps) {
               </div>
               <button
                 type="submit"
-                className="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                className="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center "
               >
                 Login to your account
               </button>
               <div className="text-sm font-medium text-gray-500 dark:text-gray-300">
                 Not registered?{" "}
-                <button className="text-blue-700 hover:underline dark:text-blue-500">
+                <button  className="text-blue-700 hover:underline dark:text-blue-500" onClick={handleShowSignup} >
                   Create account
                 </button>
               </div>
