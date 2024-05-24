@@ -11,7 +11,8 @@ export default {
     coursePurchased: "/course/get-purchased-course",
     editLessonContent : "/course/edit/lesson",
     userPurchasedCourses : "/course/user/purchased/courses",
-    addQuestion: "/course/user/add/question"
+    addQuestion: "/course/user/add/question",
+    replyQuestionAnswer: "/course/user/add/answer"
     
    
 }

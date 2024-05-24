@@ -4,18 +4,21 @@ import { userAxios } from "../../../../constraints/axiosInterceptors/userAxiosIn
 import courseEndspoints from "../../../../constraints/endpoints/courseEndspoints";
 import userEndpoints from "../../../../constraints/endpoints/userEndpoints";
 import { User } from "../../../../interfaces/UserInterfaces/IUserDetails";
+import { toast } from "react-toastify";
 
 interface PurchaseContentsProps {
   courseId: string,
   videoId: string,
   questions: any,
   onQuestionAdded: () => void,
+  userDetails: User | any
 }
 
-const Comments: React.FC<PurchaseContentsProps> = ({ courseId, videoId, questions ,onQuestionAdded}) => {
+const Comments: React.FC<PurchaseContentsProps> = ({ courseId, videoId, questions ,onQuestionAdded,userDetails}) => {
   const [question, setQuestion] = useState<string>("");
   const [userData, setUserData] = useState<User | null>(null);
   const [selectedQuestionIndex, setSelectedQuestionIndex] = useState<number | null>(null);
+  const [replyAnswer,setReplyAnswer] = useState<string>("")
 
   const handleReplayToggle = (index: number) => {
     setSelectedQuestionIndex(prevIndex => (prevIndex === index ? null : index));
@@ -47,6 +50,34 @@ const Comments: React.FC<PurchaseContentsProps> = ({ courseId, videoId, question
       console.error("Error submitting question:", error);
     }
   };
+
+  const handleReplayAnswer =  async (questionId:string) => {
+if(replyAnswer===""){
+toast.error("Please fill replay")
+}else{
+  const answerList = {
+    user: {
+      name: userDetails.name || ""
+     
+    },
+    replyAnswer,
+    createdAt: Date.now(),
+  };
+console.log(answerList,"ttttttttttt",courseId,"dddddd",videoId,"xxxxxxxxxx",questionId)
+
+  const response = await userAxios.post(courseEndspoints.replyQuestionAnswer,{answerList,courseId,videoId,questionId})
+  setReplyAnswer("");
+  onQuestionAdded();
+
+  console.log(response,"-------=======resssssssssssssssssss")
+
+
+
+
+}
+    
+
+  }
 
   useEffect(() => {
     async function fetchUserData() {
@@ -94,10 +125,16 @@ const Comments: React.FC<PurchaseContentsProps> = ({ courseId, videoId, question
               <div className="mt-2">
                 {question.questionReplies.map((reply:any, replyIndex:any) => (
                   <div key={replyIndex} className="mt-2">
-                    <p>{reply.answer}</p>
+                    <p>{reply.replyAnswer}</p>
                   </div>
+                 
                 ))}
+                <div>
+                  <input type="text" className="bg-gray-100 w-100 text-black  border-gray-100 " value={replyAnswer} onChange={(e)=>setReplyAnswer(e.target.value)} />
+                  <button className="text-blue-500 " onClick={()=>handleReplayAnswer(question._id)}>Reply</button>
+                </div>
               </div>
+              
             )}
           </div>
         ))}

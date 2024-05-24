@@ -7,6 +7,9 @@ import { CourseData } from "../../interfaces/UserInterfaces/ICourseDetails";
 import VideoPlayer from "../../components/User/Course/VideoPlayer";
 import PurchasedCoursePage from "../../components/User/Course/PurchesedCoursePage";
 import PurchaseContents from "../../components/User/Course/PurchaseContents/PurchaseContents";
+import userEndpoints from "../../constraints/endpoints/userEndpoints";
+import { userAxios } from "../../constraints/axiosInterceptors/userAxiosInterceptors";
+import { User } from "../../interfaces/UserInterfaces/IUserDetails";
 
 
 const PurchasedCourse = () => {
@@ -22,6 +25,7 @@ const PurchasedCourse = () => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [allQuestions,setAllQuestions] = useState<any>(null)
   const [questionsUpdated, setQuestionsUpdated] = useState<boolean>(false);
+  const [userData, setUserData] = useState<User | null>(null);
    console.log(selectVideoId,"ideyeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",allQuestions)
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleVideoTitleClick = (title: string,description:string,links:string[],id:string,questions:any) => {
@@ -94,9 +98,11 @@ console.log(courseData,"----------------")
         const response = await instructoraxios.get(
           `${courseEndspoints.courseDetails}/${_id}`
         );
-
+        const userDetails = await userAxios.get(userEndpoints.userDetails);
+        console.log(userDetails,"jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj")
         const courseData: CourseData = response.data.response;
         setCourseData(courseData);
+        setUserData(userDetails.data);
         setSelectedVideoTitle(courseData.lessons[0][0].videoURL);
         setSelectedVideoDescription(courseData.lessons[0][0].videoDescription)
         setSelectedVideoId(courseData.lessons[0][0]._id)
@@ -137,7 +143,7 @@ console.log(courseData,"----------------")
               </button>
             </div>
             
-            <PurchaseContents  selectedVideoDescription={selectedVideoDescription} selectedVideoLinks={selectedVideoLinks} courseId={courseData?._id} videoId={selectVideoId} courseLessons={courseData?.lessons} questions={memoizedAllQuestions} onQuestionAdded={() => setQuestionsUpdated(prev => !prev)}/>
+            <PurchaseContents userDetails={userData ?? {}}  selectedVideoDescription={selectedVideoDescription} selectedVideoLinks={selectedVideoLinks} courseId={courseData?._id} videoId={selectVideoId} courseLessons={courseData?.lessons} questions={memoizedAllQuestions} onQuestionAdded={() => setQuestionsUpdated(prev => !prev)}/>
 
           </div>
           <div></div>

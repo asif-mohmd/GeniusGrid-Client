@@ -4,6 +4,7 @@ import Resources from "./Resources";
 import Reviews from "./Reviews";
 import Comments from "./Comments";
 import { Lesson } from "../../../../interfaces/UserInterfaces/ICourseDetails";
+import { User } from "../../../../interfaces/UserInterfaces/IUserDetails";
 
 interface PurchaseContentsProps {
   selectedVideoDescription: string | null;
@@ -14,6 +15,7 @@ interface PurchaseContentsProps {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   questions :any
   onQuestionAdded: () => void,
+  userDetails: User | object
 
 
 }
@@ -24,7 +26,8 @@ const PurchaseContents: React.FC<PurchaseContentsProps> = ({
   videoId,
   courseLessons,
   questions,
-  onQuestionAdded
+  onQuestionAdded,
+  userDetails
 }) => {
   const [activeComponent, setActiveComponent] = useState<string>("Overview"); // Track active component
 
@@ -89,7 +92,7 @@ const PurchaseContents: React.FC<PurchaseContentsProps> = ({
           <Resources selectedVideoLinks={selectedVideoLinks} />
         )}
         {activeComponent === "Comments" && <Comments 
-        courseId={courseId} videoId={videoId}  questions={questions} onQuestionAdded={onQuestionAdded}
+        courseId={courseId} videoId={videoId}  questions={questions} onQuestionAdded={onQuestionAdded} userDetails={userDetails}
 
         />}
         {activeComponent === "Reviews" && <Reviews />}
