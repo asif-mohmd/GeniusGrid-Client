@@ -24,7 +24,7 @@ const UserRouters = () => {
     // i using the userEndpoints as the path here because it same as user anywhere
     // But in instructor and admin 
        <Routes>
-        <Route path={userEndpoints.home} element={<UserProtectorRoute component={Home} />} />
+        <Route path={userEndpoints.home} Component={Home} />
         <Route path={userEndpoints.login} element={<UserPublicRoute component={Login} />} />
         <Route path={userEndpoints.register} element={<UserPublicRoute component={Signup} />} />
         <Route path={userEndpoints.forgotPassword} element={<UserPublicRoute component={ForgotPassword} />}  />

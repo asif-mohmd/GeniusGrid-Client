@@ -8,10 +8,13 @@ import { clearUserData } from "../../../redux/userSlices/userDataSlice";
 import courseEndspoints from "../../../constraints/endpoints/courseEndspoints";
 import logo from "../../../assets/logoGeniusGrid.jpg";
 import { RootState } from "../../../redux/Store";
+import { useAuth } from "../../../utils/AuthContext";
 
 const Header = () => {
   // State to manage the navbar's visibility
   const [nav, setNav] = useState(false);
+
+  const { handleShowLogin } = useAuth();
 
   const userLogin = useSelector((store: RootState) => store.userAuth);
 
@@ -77,12 +80,13 @@ const Header = () => {
             </div>
           ) : (
             <div className="col-span-1 flex justify-end">
-              <img
-                className="cursor-pointer m-2 h-10 w-10 rounded-full ring-2 ring-white"
-                src="https://images.unsplash.com/photo-1491528323818-fdd1faba62cc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                alt=""
-              />
-            </div>
+            <img
+              className="cursor-pointer m-2 h-10 w-10 rounded-full ring-2 ring-white"
+              src="https://images.unsplash.com/photo-1491528323818-fdd1faba62cc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+              alt="Guest"
+              onClick={handleShowLogin} // Show login modal on click
+            />
+          </div>
           )}
 
           {/* Mobile Navigation Icon */}

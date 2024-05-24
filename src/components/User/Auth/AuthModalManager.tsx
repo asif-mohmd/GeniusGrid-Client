@@ -1,25 +1,10 @@
-import { useState } from "react";
+import React from "react";
 import SignupModal from "./SignupModal";
 import LoginModal from "./LoginModal";
+import { useAuth } from "../../../utils/AuthContext";
 
 const AuthModalManager = () => {
-  const [showSignup, setShowSignup] = useState(false);
-  const [showLogin, setShowLogin] = useState(false);
-
-  const handleShowSignup = () => {
-    setShowLogin(false);
-    setShowSignup(true);
-  };
-
-  const handleShowLogin = () => {
-    setShowSignup(false);
-    setShowLogin(true);
-  };
-
-  const handleClose = () => {
-    setShowSignup(false);
-    setShowLogin(false);
-  };
+  const { showSignup, showLogin, handleShowSignup, handleShowLogin, handleClose } = useAuth();
 
   return (
     <>
