@@ -1,5 +1,5 @@
 import Header from "../../components/User/Layout/Header";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
 import { instructoraxios } from "../../constraints/axiosInterceptors/instructorAxiosInterceptors";
 import courseEndspoints from "../../constraints/endpoints/courseEndspoints";
@@ -21,6 +21,7 @@ const PurchasedCourse = () => {
   const [selectVideoId,setSelectedVideoId] = useState<string>("")
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [allQuestions,setAllQuestions] = useState<any>(null)
+  const [questionsUpdated, setQuestionsUpdated] = useState<boolean>(false);
    console.log(selectVideoId,"ideyeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",allQuestions)
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleVideoTitleClick = (title: string,description:string,links:string[],id:string,questions:any) => {
@@ -28,12 +29,12 @@ const PurchasedCourse = () => {
     setSelectedVideoDescription(description)
     setSelectedVideoLinks(links)
     setSelectedVideoId(id)
-    console.log(questions,"------------55555555555666666666666666666666666666666666666666666666666666666666666666666666666666666666666")
+    console.log(questions,"------------55555555555666666666666666666666666666666666666666666666666666")
     setAllQuestions(questions)
   };
 
 
-
+   const memoizedAllQuestions = useMemo(() => allQuestions, [allQuestions]);
   const handleNextVideo = () => {
     // Check if there are more videos in the current lesson
     const currentLesson = courseData?.lessons[currentLessonIndex];
@@ -106,7 +107,7 @@ console.log(courseData,"----------------")
       }
     }
     fetchCourseData();
-  }, [_id]);
+  }, [_id,questionsUpdated]);
 
 
   return (
@@ -136,7 +137,7 @@ console.log(courseData,"----------------")
               </button>
             </div>
             
-            <PurchaseContents  selectedVideoDescription={selectedVideoDescription} selectedVideoLinks={selectedVideoLinks} courseId={courseData?._id} videoId={selectVideoId} courseLessons={courseData?.lessons} questions={allQuestions}/>
+            <PurchaseContents  selectedVideoDescription={selectedVideoDescription} selectedVideoLinks={selectedVideoLinks} courseId={courseData?._id} videoId={selectVideoId} courseLessons={courseData?.lessons} questions={memoizedAllQuestions} onQuestionAdded={() => setQuestionsUpdated(prev => !prev)}/>
 
           </div>
           <div></div>

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Overview from "./Overview";
 import Resources from "./Resources";
 import Reviews from "./Reviews";
@@ -13,6 +13,8 @@ interface PurchaseContentsProps {
   courseLessons:Lesson | unknown
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   questions :any
+  onQuestionAdded: () => void,
+
 
 }
 const PurchaseContents: React.FC<PurchaseContentsProps> = ({
@@ -21,7 +23,8 @@ const PurchaseContents: React.FC<PurchaseContentsProps> = ({
   courseId,
   videoId,
   courseLessons,
-  questions
+  questions,
+  onQuestionAdded
 }) => {
   const [activeComponent, setActiveComponent] = useState<string>("Overview"); // Track active component
 
@@ -31,6 +34,11 @@ const PurchaseContents: React.FC<PurchaseContentsProps> = ({
 
   console.log(courseId,"---------",courseLessons)
   console.log(videoId,"00000000000000vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv",questions)
+
+  useEffect(()=>{
+
+    
+  })
 
   
 
@@ -81,7 +89,7 @@ const PurchaseContents: React.FC<PurchaseContentsProps> = ({
           <Resources selectedVideoLinks={selectedVideoLinks} />
         )}
         {activeComponent === "Comments" && <Comments 
-        courseId={courseId} videoId={videoId}  questions={questions}
+        courseId={courseId} videoId={videoId}  questions={questions} onQuestionAdded={onQuestionAdded}
 
         />}
         {activeComponent === "Reviews" && <Reviews />}

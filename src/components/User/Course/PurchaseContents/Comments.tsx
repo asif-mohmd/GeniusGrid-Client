@@ -9,9 +9,10 @@ interface PurchaseContentsProps {
   courseId: string,
   videoId: string,
   questions: any,
+  onQuestionAdded: () => void,
 }
 
-const Comments: React.FC<PurchaseContentsProps> = ({ courseId, videoId, questions }) => {
+const Comments: React.FC<PurchaseContentsProps> = ({ courseId, videoId, questions ,onQuestionAdded}) => {
   const [question, setQuestion] = useState<string>("");
   const [userData, setUserData] = useState<User | null>(null);
   const [selectedQuestionIndex, setSelectedQuestionIndex] = useState<number | null>(null);
@@ -40,6 +41,7 @@ const Comments: React.FC<PurchaseContentsProps> = ({ courseId, videoId, question
     try {
       const response = await userAxios.post(courseEndspoints.addQuestion, questionDetails);
       setQuestion("");
+      onQuestionAdded();
       console.log(response, "----");
     } catch (error) {
       console.error("Error submitting question:", error);
