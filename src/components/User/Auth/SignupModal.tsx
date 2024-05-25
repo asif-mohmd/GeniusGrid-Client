@@ -7,8 +7,7 @@ import { useDispatch } from "react-redux";
 import { setRegisterData } from "../../../redux/registerData/registerData";
 import userEndpoints from "../../../constraints/endpoints/userEndpoints";
 import { useAuth } from "../../../utils/AuthContext";
-import OTPModal from "./OTPModal";
-import { useState } from "react";
+// import OTPModal from "./OTPModal";
  // Adjust the path as necessary
 
 interface SignupModalProps {
@@ -17,10 +16,10 @@ interface SignupModalProps {
 
 const SignupModal = ({ onClose }: SignupModalProps) => {
   const dispatch = useDispatch();
-  const { handleShowLogin } = useAuth();
-  const [isOTPModalVisible, setIsOTPModalVisible] = useState(false);
+  const { handleShowLogin , handleShowOTP} = useAuth();
+  // const [isOTPModalVisible, setIsOTPModalVisible] = useState(false);
 
-  const handleCloseOTPModal = () => setIsOTPModalVisible(false);
+  // const handleCloseOTPModal = () => setIsOTPModalVisible(false);
 
   return (
     <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
@@ -74,7 +73,7 @@ const SignupModal = ({ onClose }: SignupModalProps) => {
                   if (userData.data.status) {
                     dispatch(setRegisterData(values));
 
-                    setIsOTPModalVisible(true);
+                    handleShowOTP()
                     // onClose(); // Close the signup modal
                   } else {
                     toast.error("Email already exists");
@@ -180,7 +179,7 @@ const SignupModal = ({ onClose }: SignupModalProps) => {
       </div>
 
       {/* Render the OTPModal */}
-      <OTPModal isVisible={isOTPModalVisible} onClose={handleCloseOTPModal} />
+      {/* <OTPModal showOTP={isOTPModalVisible} onClose={handleCloseOTPModal} /> */}
     </div>
   );
 };

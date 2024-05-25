@@ -4,8 +4,10 @@ interface IAuthContext {
     showSignup: boolean;
     showLogin: boolean;
     isLogin: boolean;
+    showOTP: boolean;
     handleShowSignup: () => void;
     handleShowLogin: () => void;
+    handleShowOTP: ()=> void;
     handleClose: () => void;
     setIsLogin: (value: boolean) => void;
 }
@@ -15,8 +17,10 @@ const AuthContext = createContext<IAuthContext>({
     showSignup: false,
     showLogin: false,
     isLogin: false,
+    showOTP: false,
     handleShowSignup: () => {},
     handleShowLogin: () => {},
+    handleShowOTP: () => {},
     handleClose: () => {},
     setIsLogin: () => {},
 });
@@ -27,16 +31,15 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [showSignup, setShowSignup] = useState(false);
   const [showLogin, setShowLogin] = useState(false);
   const [isLogin, setIsLogin] = useState(false);
+  const [showOTP, setShowOTP] = useState(false);
+
 
   const handleShowSignup = () => {
     setShowLogin(false);
     setShowSignup(true);
   };
 
-//   const handleShowOtp = () =>{
-//     setShow
-//     setShowOtp(true)
-//   }
+
 
   const handleShowLogin = () => {
     setShowSignup(false);
@@ -46,7 +49,13 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const handleClose = () => {
     setShowSignup(false);
     setShowLogin(false);
+    setShowOTP(false);
   };
+
+  const handleShowOTP = () =>{
+    setShowSignup(false)
+    setShowOTP(true)
+  }
 
   return (
     <AuthContext.Provider
@@ -55,9 +64,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         showLogin,
         handleShowSignup,
         handleShowLogin,
+        handleShowOTP,
         handleClose,
         isLogin,
         setIsLogin,
+        showOTP,
       }}
     >
       {children}

@@ -11,11 +11,10 @@ import { userLogin } from "../../../redux/userSlices/authSlice";
 import { setUserId } from "../../../redux/userSlices/userDataSlice";
 
 interface OTPModalProps {
-  isVisible: boolean;
   onClose: () => void;
 }
 
-const OTPModal: React.FC<OTPModalProps> = ({ isVisible, onClose }) => {
+const OTPModal: React.FC<OTPModalProps> = ({ onClose }) => {
   const [timer, setTimer] = useState(60); // Initial timer value (in seconds)
   const [isTimerRunning, setIsTimerRunning] = useState(true);
   const [resendClicked, setResendClicked] = useState(false);
@@ -43,6 +42,7 @@ const OTPModal: React.FC<OTPModalProps> = ({ isVisible, onClose }) => {
       });
       if (response.status === 200) {
         toast.success("OTP resent successfully");
+        onClose();
       } else {
         toast.error("OTP resend failed");
       }
@@ -73,7 +73,7 @@ const OTPModal: React.FC<OTPModalProps> = ({ isVisible, onClose }) => {
     }
   };
 
-  if (!isVisible) return null;
+//   if (!showOTP) return null;
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
