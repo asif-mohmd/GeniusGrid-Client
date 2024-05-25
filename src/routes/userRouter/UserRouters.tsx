@@ -1,8 +1,6 @@
 import { Route, Routes } from "react-router-dom"
 import userEndpoints from "../../constraints/endpoints/userEndpoints"
 import Home from "../../pages/user/UserHomePage"
-import Login from "../../components/User/Auth/Login"
-import Signup from "../../components/User/Auth/Signup"
 import OTPPage from "../../components/User/Auth/OTPPage"
 import ForgotPassword from "../../components/User/Auth/ForgotPassword"
 import ForgotOTP from "../../components/User/Auth/ForgotOTP"
@@ -25,8 +23,6 @@ const UserRouters = () => {
     // But in instructor and admin 
        <Routes>
         <Route path={userEndpoints.home} Component={Home} />
-        <Route path={userEndpoints.login} element={<UserPublicRoute component={Login} />} />
-        <Route path={userEndpoints.register} element={<UserPublicRoute component={Signup} />} />
         <Route path={userEndpoints.forgotPassword} element={<UserPublicRoute component={ForgotPassword} />}  />
         <Route path={userEndpoints.otp} element={<UserPublicRoute component={OTPPage} />} />
         <Route path={userEndpoints.forgotOTP} element={<UserPublicRoute component={ForgotOTP} />} />
@@ -36,10 +32,6 @@ const UserRouters = () => {
         <Route path={userEndpoints.makePayment} element={<UserProtectorRoute component={PaymentForm}/>} />
         <Route path={userEndpoints.checkoutSuccess} element={<UserProtectorRoute component={PaymentSuccess}/>} />
         <Route path={userEndpoints.profilePage} element={<UserProtectorRoute component={ProfileLanding}/>} />
-
-
-
-
 
        </Routes>
     

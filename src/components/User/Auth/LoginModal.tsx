@@ -6,6 +6,7 @@ import { userLogin } from "../../../redux/userSlices/authSlice";
 import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../../utils/AuthContext";
+import { setUserId } from "../../../redux/userSlices/userDataSlice";
 
 interface LoginModalProps {
   onClose: () => void;
@@ -34,6 +35,8 @@ function LoginModal({ onClose,  }: LoginModalProps) {
       console.log(loginData,"yyyyyyyyyyyy")
       const userData = await userAxios.post(userEndpoints.login, loginData);
       if (userData.data.loginStatus) {
+        console.log(userData.data)
+        dispatch(setUserId(userData.data.userId))
         dispatch(userLogin());
         onClose();
         toast.success("Login Successful");

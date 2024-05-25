@@ -1,6 +1,5 @@
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import { useNavigate } from "react-router-dom";
 import { userAxios } from "../../../constraints/axiosInterceptors/userAxiosInterceptors";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -8,15 +7,20 @@ import { useDispatch } from "react-redux";
 import { setRegisterData } from "../../../redux/registerData/registerData";
 import userEndpoints from "../../../constraints/endpoints/userEndpoints";
 import { useAuth } from "../../../utils/AuthContext";
+import OTPModal from "./OTPModal";
+import { useState } from "react";
+ // Adjust the path as necessary
 
 interface SignupModalProps {
   onClose: () => void;
 }
 
 const SignupModal = ({ onClose }: SignupModalProps) => {
-  const navigate = useNavigate();
   const dispatch = useDispatch();
   const { handleShowLogin } = useAuth();
+  const [isOTPModalVisible, setIsOTPModalVisible] = useState(false);
+
+  const handleCloseOTPModal = () => setIsOTPModalVisible(false);
 
   return (
     <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
@@ -69,8 +73,9 @@ const SignupModal = ({ onClose }: SignupModalProps) => {
 
                   if (userData.data.status) {
                     dispatch(setRegisterData(values));
-                    navigate("/otp");
-                    onClose(); // Close the modal after successful registration
+
+                    setIsOTPModalVisible(true);
+                    // onClose(); // Close the signup modal
                   } else {
                     toast.error("Email already exists");
                   }
@@ -95,7 +100,7 @@ const SignupModal = ({ onClose }: SignupModalProps) => {
                       className="input-field bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                       type="text"
                       name="name"
-                      placeholder="Jhone Doe"
+                      placeholder="John Doe"
                     />
                     <ErrorMessage
                       className="text-red-500 text-sm"
@@ -173,6 +178,9 @@ const SignupModal = ({ onClose }: SignupModalProps) => {
           </div>
         </div>
       </div>
+
+      {/* Render the OTPModal */}
+      <OTPModal isVisible={isOTPModalVisible} onClose={handleCloseOTPModal} />
     </div>
   );
 };

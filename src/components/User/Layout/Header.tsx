@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import userEndpoints from "../../../constraints/endpoints/userEndpoints";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { userLogout } from "../../../redux/userSlices/authSlice";
+import { checkUserAuthentication, userLogout } from "../../../redux/userSlices/authSlice";
 import { clearUserData } from "../../../redux/userSlices/userDataSlice";
 import courseEndspoints from "../../../constraints/endpoints/courseEndspoints";
 import logo from "../../../assets/logoGeniusGrid.jpg";
@@ -14,22 +14,21 @@ const Header = () => {
   // State to manage the navbar's visibility
   const [nav, setNav] = useState(false);
 
-  const { handleShowLogin } = useAuth();
-
-  const userLogin = useSelector((store: RootState) => store.userAuth);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { handleShowLogin } = useAuth();
+  dispatch(checkUserAuthentication())
+  const userLogin = useSelector((store: RootState) => store.userAuth);
+
+  
   // Toggle function to handle the navbar's display
   const handleNav = () => {
     setNav(!nav);
   };
 
   const handleClick = () => {
-    // Handle signout logic here
-    // For example, you can clear authentication tokens, redirect user, etc.
-
-    // Redirect the user to the login page after signout
+ 
     dispatch(clearUserData());
     dispatch(userLogout());
     console.log("logiutt seee");

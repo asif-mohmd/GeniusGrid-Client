@@ -13,6 +13,7 @@ import { userAxios } from "../../../constraints/axiosInterceptors/userAxiosInter
 import { User } from "../../../interfaces/UserInterfaces/IUserDetails";
 import courseEndspoints from "../../../constraints/endpoints/courseEndspoints";
 import { IFullCourseCourseData } from "../../../interfaces/InstructorInterfaces/IEditCourse";
+import { clearUserData } from "../../../redux/userSlices/userDataSlice";
 
 function ProfileLanding() {
   const [activeComponent, setActiveComponent] =
@@ -53,6 +54,7 @@ function ProfileLanding() {
   };
   const handleClick = () => {
 
+    dispatch(clearUserData());
     dispatch(userLogout());
     console.log("logiutt seee");
     navigate(userEndpoints.home);

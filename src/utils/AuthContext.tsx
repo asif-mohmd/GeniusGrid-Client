@@ -33,6 +33,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     setShowSignup(true);
   };
 
+//   const handleShowOtp = () =>{
+//     setShow
+//     setShowOtp(true)
+//   }
+
   const handleShowLogin = () => {
     setShowSignup(false);
     setShowLogin(true);
