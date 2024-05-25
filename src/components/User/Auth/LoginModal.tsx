@@ -4,7 +4,6 @@ import { userAxios } from "../../../constraints/axiosInterceptors/userAxiosInter
 import userEndpoints from "../../../constraints/endpoints/userEndpoints";
 import { userLogin } from "../../../redux/userSlices/authSlice";
 import { toast } from "react-toastify";
-import { Link } from "react-router-dom";
 import { useAuth } from "../../../utils/AuthContext";
 import { setUserId } from "../../../redux/userSlices/userDataSlice";
 
@@ -20,7 +19,7 @@ function LoginModal({ onClose,  }: LoginModalProps) {
   });
 
   const dispatch = useDispatch();
-  const { handleShowSignup } = useAuth();
+  const { handleShowSignup,handleShowForgotPassword } = useAuth();
 
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -48,6 +47,7 @@ function LoginModal({ onClose,  }: LoginModalProps) {
     }
   };
 
+ 
   return (
     <div>
       <link
@@ -124,12 +124,12 @@ function LoginModal({ onClose,  }: LoginModalProps) {
               <div className="flex justify-between">
                 <span className="text-gray-600 text-sm">
                   Forgot your password?{" "}
-                  <Link
+                  <button
+                  onClick={handleShowForgotPassword}
                     className="text-blue-600 font-semibold"
-                    to={userEndpoints.forgotPassword}
                   >
                     Reset it here
-                  </Link>
+                  </button>
                 </span>
               </div>
               <button

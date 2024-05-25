@@ -4,7 +4,11 @@ import { userAxios } from '../../../constraints/axiosInterceptors/userAxiosInter
 import userEndpoints from '../../../constraints/endpoints/userEndpoints';
 import { toast } from 'react-toastify';
 
-const ForgotOTP: React.FC = () => {
+interface ForgotOTPModalProps {
+    onClose: () => void;
+  }
+
+const ForgotOTPModal: React.FC<ForgotOTPModalProps> = ({onClose}) => {
   const [otp, setOTP] = useState('');
 
 
@@ -14,6 +18,7 @@ const ForgotOTP: React.FC = () => {
     const userData =  await userAxios.post(userEndpoints.forgotOTP,{otp})
     if(userData.status){
       toast.success("Password changed successfully");
+      onClose()
     }else{
       toast.error("Something went wrong");
     }
@@ -21,8 +26,14 @@ const ForgotOTP: React.FC = () => {
   };
 
   return (
-    <div className="flex justify-center items-center h-screen bg-gray-100">
-      <div className="bg-white p-8 rounded shadow-md w-full max-w-sm">
+    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+      <div className="bg-white p-8 rounded shadow-md w-full max-w-sm relative">
+        <button
+          onClick={onClose}
+          className="absolute top-2 right-2 text-gray-500 hover:text-gray-700"
+        >
+          &times;
+        </button>
         <h2 className="text-2xl font-bold mb-4">Enter OTP</h2>
         <form onSubmit={handleSubmit}>
           <input
@@ -44,4 +55,4 @@ const ForgotOTP: React.FC = () => {
   );
 };
 
-export default ForgotOTP;
+export default ForgotOTPModal;

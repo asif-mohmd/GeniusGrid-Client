@@ -4,11 +4,10 @@ import * as Yup from "yup";
 import { userAxios } from "../../../constraints/axiosInterceptors/userAxiosInterceptors";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { RootState } from "../../../redux/Store";
 import userEndpoints from "../../../constraints/endpoints/userEndpoints";
-import { userLogin } from "../../../redux/userSlices/authSlice";
-import { setUserId } from "../../../redux/userSlices/userDataSlice";
+
 
 interface OTPModalProps {
   onClose: () => void;
@@ -19,8 +18,6 @@ const OTPModal: React.FC<OTPModalProps> = ({ onClose }) => {
   const [isTimerRunning, setIsTimerRunning] = useState(true);
   const [resendClicked, setResendClicked] = useState(false);
   const { formData } = useSelector((store: RootState) => store.registerData);
-  const dispatch = useDispatch();
-
   useEffect(() => {
     let interval: NodeJS.Timeout;
 
@@ -59,8 +56,7 @@ const OTPModal: React.FC<OTPModalProps> = ({ onClose }) => {
     try {
       const userData = await userAxios.post(userEndpoints.otp, { otp: values.otp });
       if (userData.status === 200) {
-        dispatch(setUserId(userData.data.userId))
-        dispatch(userLogin());
+        
         toast.success("OTP verified successfully");
         onClose(); // Close the modal after successful OTP verification
       } else {
