@@ -5,7 +5,7 @@ import EnrolledCourses from "../../../components/User/Profile/EnrolledCourses";
 import { useEffect, useState } from "react";
 import { FiUser, FiLock, FiBookOpen, FiLogOut } from "react-icons/fi";
 import { useDispatch } from "react-redux";
-import { userLogout } from "../../../redux/userSlices/authSlice";
+import {  userLogout } from "../../../redux/userSlices/authSlice";
 import userEndpoints from "../../../constraints/endpoints/userEndpoints";
 import { useNavigate } from "react-router-dom";
 import Footer from "../../../components/User/Layout/Footer";
@@ -24,6 +24,7 @@ function ProfileLanding() {
   useEffect(() => {
     async function fetchCourseData() {
       try {
+      
         const userDetails = await userAxios.get(userEndpoints.userDetails);
         console.log(userDetails)
         const courses = userDetails.data.courses
@@ -51,6 +52,7 @@ function ProfileLanding() {
     );
   };
   const handleClick = () => {
+
     dispatch(userLogout());
     console.log("logiutt seee");
     navigate(userEndpoints.home);

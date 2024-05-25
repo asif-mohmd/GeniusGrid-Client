@@ -1,3 +1,4 @@
+import cookie from "js-cookie"
 import { createSlice } from "@reduxjs/toolkit";
 
 interface AuthState {
@@ -17,10 +18,16 @@ const authSlice = createSlice({
     },
     userLogout: (state) => {
       state.isLogin = false;
-    }
+    },
+    checkUserAuthentication:(state)=>{
+      const userData = cookie.get("userData")
+      if(!userData){
+      state.isLogin = false
+      }
+    
   }
-});
+}});
 
-export const { userLogin, userLogout } = authSlice.actions;
+export const { userLogin, userLogout, checkUserAuthentication } = authSlice.actions;
 
 export default authSlice.reducer;

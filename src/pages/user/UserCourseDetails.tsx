@@ -14,7 +14,7 @@ import { User } from "../../interfaces/UserInterfaces/IUserDetails";
 import { setPurchasedCourseId } from "../../redux/userSlices/userDataSlice";
 import { useAuth } from "../../utils/AuthContext";
 import AuthModalManager from "../../components/User/Auth/AuthModalManager";
-
+import { checkUserAuthentication } from "../../redux/userSlices/authSlice";
 // interface User{
 //   id:string;
 //   name:string;
@@ -57,6 +57,7 @@ function UserCourseDetails() {
   useEffect(() => {
     async function fetchCourseData() {
       try {
+        dispatch(checkUserAuthentication())
         const response = await userAxios.get(
           `${courseEndspoints.courseDetails}/${courseId}`
         );
@@ -94,7 +95,10 @@ function UserCourseDetails() {
 
   const makePayment = async () => {
     try {
-      console.log(courseData, "ccccccccccccccccccc");
+
+
+      
+          console.log(courseData, "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc");
       if (userAuth.isLogin ) {
         console.log("XXXXXXXXXXXXxxxxxxxxxxxxxxxxxXXXXXXXXXXXXXXXXXXXXXXXX");
 
@@ -111,6 +115,7 @@ function UserCourseDetails() {
           toast.error("Payment Failed. Try Again");
         }
       } else {
+        console.log("ddddddddddddddddddddddddd")
         handleShowLogin();
       }
     } catch (error) {
