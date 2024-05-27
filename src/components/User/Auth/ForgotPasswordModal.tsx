@@ -1,7 +1,7 @@
 import React, { ChangeEvent, FormEvent, useState } from "react";
 import 'react-toastify/dist/ReactToastify.css';
+import * as Yup from "yup";
 import userEndpoints from "../../../constraints/endpoints/userEndpoints";
-import { FormDataLogin } from "../../../interfaces/AuthInterfaces/IAuthInterface";
 import { userAxios } from "../../../constraints/axiosInterceptors/userAxiosInterceptors";
 import { useAuth } from "../../../utils/AuthContext";
 import { toast } from "react-toastify";
@@ -11,12 +11,14 @@ interface ForgotPasswordProps {
 }
 
 const ForgotPasswordModal: React.FC<ForgotPasswordProps> = ({ onClose }) => {
-  const [forgotData, setForgotData] = useState<FormDataLogin>({
+  const [forgotData, setForgotData] = useState({
     email: "",
     password: "",
+    confirmPassword: "",
   });
 
-  const { handleShowForgotOTP} = useAuth();
+  const { handleShowForgotOTP } = useAuth();
+
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { id, value } = e.target;
     setForgotData({ ...forgotData, [id]: value });
@@ -24,20 +26,46 @@ const ForgotPasswordModal: React.FC<ForgotPasswordProps> = ({ onClose }) => {
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    const response = await userAxios.post(userEndpoints.forgotPassword, { forgotData });
-    console.log("am herehre forgot otp doal page",response.data)
-    if(response.data){
-      handleShowForgotOTP()
 
-    }else{
-      toast.error("Something went wrong")
+    const validationSchema = Yup.object({
+      email: Yup.string().email("Invalid email address").required("Email is required"),
+      password: Yup.string()
+        .min(8, "Password must be at least 8 characters")
+        .matches(
+          /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/,
+          "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character"
+        )
+        .required("Password is required"),
+      confirmPassword: Yup.string()
+        .oneOf([Yup.ref('password')], "Passwords must match")
+        .required("Confirm password is required"),
+    });
+
+    try {
+      await validationSchema.validate(forgotData, { abortEarly: false });
+
+      const response = await userAxios.post(userEndpoints.forgotPassword, { forgotData });
+      if (response.data) {
+        handleShowForgotOTP();
+      } else {
+        toast.error("Something went wrong");
+      }
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      error.inner.forEach((err: any) => toast.error(err.message));
     }
   };
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-      <div className="relative w-full max-w-md px-4 h-full md:h-auto flex items-center justify-center">
-        <div className="bg-white p-14 rounded-xl shadow-lg w-full mx-4 sm:mx-6 md:mx-0 md:max-w-lg lg:max-w-xl">
+    <div>
+      <link
+        rel="stylesheet"
+        href="https://unpkg.com/@themesberg/flowbite@1.2.0/dist/flowbite.min.css"
+      />
+      <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
+        <div className="relative w-full max-w-md px-4 h-full md:h-auto flex items-center justify-center">
+          <div className="bg-white rounded-lg shadow relative w-full mx-4 sm:mx-6 md:mx-0 md:max-w-lg lg:max-w-xl">
           <div className="flex justify-end p-2">
             <button
               type="button"
@@ -58,46 +86,75 @@ const ForgotPasswordModal: React.FC<ForgotPasswordProps> = ({ onClose }) => {
               </svg>
             </button>
           </div>
-          <h6 className="text-xl font-medium m-7">Reset your password here</h6>
-          <form className="w-full max-w-md" onSubmit={handleSubmit}>
-            <div className="mb-6">
-              <label
-                className="block text-gray-600 font-semibold mb-2"
-                htmlFor="email"
+            <form
+              className="space-y-6 px-6 lg:px-8 pb-4 sm:pb-6 xl:pb-8"
+              onSubmit={handleSubmit}
+            >
+              <h3 className="text-xl font-medium text-gray-900">
+                Reset your password here
+              </h3>
+              <div>
+                <label
+                  htmlFor="email"
+                  className="text-sm font-medium text-gray-900 block mb-2"
+                >
+                  Enter your email
+                </label>
+                <input
+                  type="text"
+                  id="email"
+                  value={forgotData.email}
+                  onChange={handleChange}
+                  className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                  required
+                />
+              </div>
+              <div>
+                <label
+                  htmlFor="password"
+                  className="text-sm font-medium text-gray-900 block mb-2"
+                >
+                  New Password
+                </label>
+                <input
+                  type="password"
+                  id="password"
+                  value={forgotData.password}
+                  onChange={handleChange}
+                  className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                  required
+                />
+              </div>
+              <div>
+                <label
+                  htmlFor="confirmPassword"
+                  className="text-sm font-medium text-gray-900 block mb-2"
+                >
+                  Confirm New Password
+                </label>
+                <input
+                  type="password"
+                  id="confirmPassword"
+                  value={forgotData.confirmPassword}
+                  onChange={handleChange}
+                  className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                  required
+                />
+              </div>
+              <div className="mb-3">
+                <p className="text-xs font-light">Uppercase Letters (A-Z)</p>
+                <p className="text-xs font-light">Lowercase Letters (a-z)</p>
+                <p className="text-xs font-light">Number (0-9)</p>
+                <p className="text-xs font-light">Special Character (@$!%*?&)</p>
+              </div>
+              <button
+                type="submit"
+                className="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
               >
-                Enter your email
-              </label>
-              <input
-                className="bg-white appearance-none border-2 border-gray-100 rounded-lg w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-300"
-                id="email"
-                type="text"
-                value={forgotData.email}
-                onChange={handleChange}
-                placeholder=""
-              />
-            </div>
-            <div className="mb-6">
-              <label
-                className="block text-gray-600 font-semibold mb-2"
-                htmlFor="password"
-              >
-                New Password
-              </label>
-              <input
-                className="bg-white appearance-none border-2 border-gray-100 rounded-lg w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-300"
-                id="password"
-                value={forgotData.password}
-                onChange={handleChange}
-                type="password"
-                placeholder=""
-              />
-            </div>
-            <div className="flex flex-col items-center justify-center mb-4">
-              <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md mb-2">
                 Reset password
               </button>
-            </div>
-          </form>
+            </form>
+          </div>
         </div>
       </div>
     </div>

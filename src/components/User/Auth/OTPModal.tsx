@@ -1,13 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { Formik, Form, Field, ErrorMessage } from "formik";
-import * as Yup from "yup";
+import { Formik, Form, Field } from "formik";
 import { userAxios } from "../../../constraints/axiosInterceptors/userAxiosInterceptors";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../redux/Store";
 import userEndpoints from "../../../constraints/endpoints/userEndpoints";
-
 
 interface OTPModalProps {
   onClose: () => void;
@@ -16,8 +14,9 @@ interface OTPModalProps {
 const OTPModal: React.FC<OTPModalProps> = ({ onClose }) => {
   const [timer, setTimer] = useState(60); // Initial timer value (in seconds)
   const [isTimerRunning, setIsTimerRunning] = useState(true);
-  const [resendClicked, setResendClicked] = useState(false);
+  const [showErrors, setShowErrors] = useState(false);
   const { formData } = useSelector((store: RootState) => store.registerData);
+
   useEffect(() => {
     let interval: NodeJS.Timeout;
 
@@ -27,36 +26,38 @@ const OTPModal: React.FC<OTPModalProps> = ({ onClose }) => {
       }, 1000);
     } else {
       setIsTimerRunning(false);
-    }
+    } 
 
     return () => clearInterval(interval);
   }, [isTimerRunning, timer]);
 
   const handleResendOTP = async () => {
     try {
-      const response = await userAxios.post(userEndpoints.register, {
-        formData,
-      });
+      const response = await userAxios.post(userEndpoints.register,  formData,);
       if (response.status === 200) {
         toast.success("OTP resent successfully");
-        onClose();
+        setTimer(60); // Reset timer
+        setIsTimerRunning(true);
       } else {
         toast.error("OTP resend failed");
       }
-      setTimer(60); // Reset timer
-      setIsTimerRunning(true);
-      setResendClicked(true);
     } catch (error) {
       toast.error("Failed to resend OTP. Please try again.");
     }
   };
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const handleSubmit = async (values: { otp: string }, { setSubmitting }: any) => {
+  const handleSubmit = async (values: { otp: string }, { setSubmitting, setErrors }: any) => {
+    if (values.otp.length !== 4) {
+      setErrors({ otp: "All OTP fields are required" });
+      setShowErrors(true);
+      setSubmitting(false);
+      return;
+    }
+
     try {
       const userData = await userAxios.post(userEndpoints.otp, { otp: values.otp });
       if (userData.status === 200) {
-        
         toast.success("OTP verified successfully");
         onClose(); // Close the modal after successful OTP verification
       } else {
@@ -69,7 +70,15 @@ const OTPModal: React.FC<OTPModalProps> = ({ onClose }) => {
     }
   };
 
-//   if (!showOTP) return null;
+  const validateOTP = (values: { otp: string[] }) => {
+    const errors: { otp?: string } = {};
+
+    if (values.otp.some((digit) => !digit)) {
+      errors.otp = "All OTP fields are required";
+    }
+
+    return errors;
+  };
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
@@ -96,61 +105,87 @@ const OTPModal: React.FC<OTPModalProps> = ({ onClose }) => {
             </button>
           </div>
 
-          <div className="p-8">
-            <h5 className="text-2xl font-medium mb-7 text-center">Enter your OTP</h5>
+          <div className="max-w-md mx-auto text-center bg-white px-4 sm:px-8 py-8 rounded-xl shadow">
+            <header className="mb-4">
+              <h1 className="text-2xl font-bold mb-1">Email Verification</h1>
+              <p className="text-[15px] text-slate-500">
+                Enter the 4-digit verification code that was sent to your Email.
+              </p>
+            </header>
             <Formik
-              initialValues={{ otp: "" }}
-              validationSchema={Yup.object({
-                otp: Yup.string()
-                  .length(4, "OTP must be 6 digits")
-                  .required("OTP is required"),
-              })}
-              onSubmit={handleSubmit}
+              initialValues={{ otp: ["", "", "", ""] }}
+              validate={validateOTP}
+              onSubmit={(values, actions) => {
+                setShowErrors(true);
+                handleSubmit({ otp: values.otp.join("") }, actions);
+              }}
             >
-              {({ isSubmitting }) => (
-                <Form>
-                  <div className="mb-4">
-                    <label className="block font-semibold mb-2" htmlFor="otp">
-                      OTP
-                    </label>
-                    <Field
-                      className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                      type="text"
-                      name="otp"
-                      placeholder="Enter OTP"
-                    />
-                    <ErrorMessage
-                      className="text-red-500 text-sm"
-                      name="otp"
-                      component="div"
-                    />
+              {({ isSubmitting, values, handleChange, errors, handleSubmit }) => (
+                <Form id="otp-form" onSubmit={handleSubmit}>
+                  <div className="flex items-center justify-center gap-3">
+                    {values.otp.map((_, index) => (
+                      <Field
+                        key={index}
+                        name={`otp[${index}]`}
+                        type="text"
+                        className="w-14 h-14 text-center text-2xl font-extrabold text-slate-900 bg-slate-100 border border-transparent hover:border-slate-200 appearance-none rounded p-4 outline-none focus:bg-white focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100"
+                        maxLength="1"
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                          const { value } = e.target;
+                          if (/^\d*$/.test(value)) {
+                            handleChange(e);
+                            if (value.length === 1 && index < 3) {
+                              const nextInput = document.querySelector<HTMLInputElement>(
+                                `input[name="otp[${index + 1}]"]`
+                              );
+                              if (nextInput) {
+                                nextInput.focus();
+                              }
+                            }
+                          }
+                        }}
+                        onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
+                          if (e.key === "Backspace" && !values.otp[index] && index > 0) {
+                            const prevInput = document.querySelector<HTMLInputElement>(
+                              `input[name="otp[${index - 1}]"]`
+                            );
+                            if (prevInput) {
+                              prevInput.focus();
+                            }
+                          }
+                        }}
+                      />
+                    ))}
                   </div>
-                  <div className="flex flex-col items-center justify-center mb-4">
+                  {showErrors && errors.otp && (
+                    <div className="text-red-500 text-sm mt-2">{errors.otp}</div>
+                  )}
+                  <div className="max-w-[260px] mx-auto mt-4">
                     <button
-                      className="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
                       type="submit"
+                      className="w-full inline-flex justify-center whitespace-nowrap rounded-lg bg-indigo-500 px-3.5 py-2.5 text-sm font-medium text-white shadow-sm shadow-indigo-950/10 hover:bg-indigo-600 focus:outline-none focus:ring focus:ring-indigo-300 focus-visible:outline-none focus-visible:ring focus-visible:ring-indigo-300 transition-colors duration-150"
                       disabled={isSubmitting}
                     >
-                      {isSubmitting ? "Verifying..." : "Verify"}
+                      {isSubmitting ? "Verifying..." : "Verify Account"}
                     </button>
                   </div>
                 </Form>
               )}
             </Formik>
-            <div className="flex justify-between items-center mt-4 text-gray-600 text-sm">
-              {!resendClicked && (
-                <p>
-                  Didn't receive OTP?{" "}
-                  <span
-                    className="text-blue-600 font-semibold cursor-pointer hover:underline"
-                    onClick={handleResendOTP}
-                  >
-                    Resend OTP
-                  </span>
-                </p>
-              )}
-              {resendClicked && <p>Resend OTP in {timer} seconds</p>}
-            </div>
+            <div className="text-sm text-slate-500 mt-4">
+  Didn't receive code?{" "}
+  {timer === 0 ? (
+    <span
+      className="font-medium text-indigo-500 hover:text-indigo-600 cursor-pointer"
+      onClick={handleResendOTP}
+    >
+      Resend
+    </span>
+  ) : (
+    <span>Resend OTP in {timer} seconds</span>
+  )}
+</div>
+
           </div>
         </div>
       </div>

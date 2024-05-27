@@ -69,7 +69,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     setShowForgotPassword(false);
     setShowForgotOTP(true);
   };
-
+ 
 
   const handleClose = () => {
     setShowSignup(false);

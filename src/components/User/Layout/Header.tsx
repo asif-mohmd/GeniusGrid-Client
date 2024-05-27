@@ -48,19 +48,19 @@ const Header = () => {
             <ul className="hidden md:flex">
               <Link
                 to={userEndpoints.home}
-                className="p-3 hover:font-medium font-semibold text-xl m-1 cursor-pointer hover:text-black"
+                className="p-3 hover:font-medium  font-poppins  m-1 cursor-pointer hover:text-black"
               >
                 Home
               </Link>
               <Link
                 to={courseEndspoints.allUserCourses}
-                className="p-3 hover:font-medium text-xl font-semibold m-1 cursor-pointer hover:text-black"
+                className="p-3  hover:font-medium  font-roboto m-1 cursor-pointer hover:text-black"
               >
                 Courses
               </Link>
               <Link
                 to={courseEndspoints.allUserCourses}
-                className="p-3 hover:font-medium text-xl font-semibold m-1 cursor-pointer hover:text-black"
+                className="p-3  hover:font-medium  font-roboto m-1 cursor-pointer hover:text-black"
               >
                 About
               </Link>

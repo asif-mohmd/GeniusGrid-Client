@@ -1,11 +1,8 @@
 import { Route, Routes } from "react-router-dom"
 import userEndpoints from "../../constraints/endpoints/userEndpoints"
 import Home from "../../pages/user/UserHomePage"
-import OTPPage from "../../components/User/Auth/OTPPage"
-import ForgotPassword from "../../components/User/Auth/ForgotPassword"
-import ForgotOTP from "../../components/User/Auth/ForgotOTP"
+
 import  UserProtectorRoute  from "./UserProtectorRoute"
-import UserPublicRoute from "./UserPublicRoute"
 import UserCourseDetails from "../../pages/user/UserCourseDetails"
 import UserCourseListPage from "../../pages/user/UserCourseListPage"
 import courseEndspoints from "../../constraints/endpoints/courseEndspoints"
@@ -23,9 +20,6 @@ const UserRouters = () => {
     // But in instructor and admin 
        <Routes>
         <Route path={userEndpoints.home} Component={Home} />
-        <Route path={userEndpoints.forgotPassword} element={<UserPublicRoute component={ForgotPassword} />}  />
-        <Route path={userEndpoints.otp} element={<UserPublicRoute component={OTPPage} />} />
-        <Route path={userEndpoints.forgotOTP} element={<UserPublicRoute component={ForgotOTP} />} />
         <Route path={userEndpoints.courseDetails} Component={UserCourseDetails}  />
         <Route path={courseEndspoints.allUserCourses} Component={UserCourseListPage} />
         <Route path={userEndpoints.purchasedCoures} element={<UserProtectorRoute component={PurchasedCourse}/>} />
