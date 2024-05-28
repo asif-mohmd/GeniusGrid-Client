@@ -33,14 +33,23 @@ function LoginModal({ onClose,  }: LoginModalProps) {
     try {
       console.log(loginData,"yyyyyyyyyyyy")
       const userData = await userAxios.post(userEndpoints.login, loginData);
-      if (userData.data.loginStatus) {
+      console.log(userData.data)
+      if (userData.data.status == 200) {
         console.log(userData.data)
         dispatch(setUserId(userData.data.userId))
         dispatch(userLogin());
         onClose();
         toast.success("Login Successful");
-      } else {
-        toast.error("Invalid email or password");
+      } else if(userData.data.status == 401){
+        toast.error("User not found");
+      }
+      else if(userData.data.status == 402){
+        toast.error("Invalid password");
+      }
+      else if(userData.data.status == 403){
+        toast.error("User blocked");
+      }else{
+        toast.error("Something went wrong")
       }
     } catch (error) {
       console.error("Login Error:", error);

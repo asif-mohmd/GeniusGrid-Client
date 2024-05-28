@@ -41,6 +41,10 @@ function DashboardTranscodeVideo() {
     }
   };
 
+  const handleUploading = () =>{
+    toast.error("Please wait to finish current uploading")
+  }
+
   const handleSubmit = async () => {
     if (selectedFile) {
       confirmAlert({
@@ -129,12 +133,20 @@ function DashboardTranscodeVideo() {
             </button>
           </div>
         )}
+
+        {loading ?  <button
+          className="mt-4 bg-gray-300 text-white px-4 py-2 rounded cursor-not-allowed "
+          onClick={handleUploading}
+        >
+          Submit
+        </button> : 
         <button
-          className="mt-4 bg-blue-500 text-white px-4 py-2 rounded"
+          className="mt-4 bg-blue-500 text-white px-4 py-2 rounded "
           onClick={handleSubmit}
         >
           Submit
         </button>
+        }
       </div>
     </div>
   );

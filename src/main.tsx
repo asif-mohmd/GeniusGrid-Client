@@ -15,8 +15,8 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <Provider store={appStore}>
       <PersistGate persistor={persistor}>
+      <ToastContainer />
         <AuthProvider>
-          <ToastContainer />
           <App />
         </AuthProvider>
       </PersistGate>

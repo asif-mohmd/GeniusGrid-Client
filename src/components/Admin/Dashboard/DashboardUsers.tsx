@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import ReactPaginate from "react-paginate";
 import { adminAxios } from "../../../constraints/axiosInterceptors/adminAxiosInterceptors";
 import adminEndpoints from "../../../constraints/endpoints/adminEndpoints";
 
@@ -11,22 +12,27 @@ interface User {
 
 const DashboardUsers: React.FC = () => {
   const [usersList, setUsersList] = useState<User[]>([]);
+  const [searchText, setSearchText] = useState("");
+  const [filteredList, setFilteredList] = useState<User[]>([]);
+  const [currentPage, setCurrentPage] = useState(0);
+  const usersPerPage = 8;
 
   useEffect(() => {
     console.log("Fetching all users from admin");
     async function fetchUsers() {
       try {
         const response = await adminAxios.get<{ users: User[] }>(adminEndpoints.getAllUsers);
-        setUsersList(response.data.users); // Adjusted to set usersList directly from response data
+        setUsersList(response.data.users);
+        setFilteredList(response.data.users);
         console.log(response.data);
       } catch (error) {
         console.error("Error fetching users:", error);
       }
     }
-  
+
     fetchUsers();
-  }, []); // Removed usersList from dependencies array to prevent infinite loop
-  
+  }, []);
+
   const handleBlockUnblock = async (id: string, isVerified: boolean) => {
     try {
       const userBlockUnblock = {
@@ -34,36 +40,84 @@ const DashboardUsers: React.FC = () => {
         isVerified: isVerified
       };
       console.log(userBlockUnblock, "--------------");
-  
-      // Make the PATCH request with the id and isVerified
+
       const response = await adminAxios.post(adminEndpoints.userBlockUnblock, userBlockUnblock);
       console.log(response, "response block");
-  
-      // Fetch updated user list after successful block/unblock
+
       const updatedResponse = await adminAxios.get<{ users: User[] }>(adminEndpoints.getAllUsers);
-      setUsersList(updatedResponse.data.users); // Update usersList with the updated data
-  
+      setUsersList(updatedResponse.data.users);
+      setFilteredList(updatedResponse.data.users);
+
     } catch (error) {
       console.error("Error blocking/unblocking user:", error);
     }
   };
-  
+
+  const handleSearch = () => {
+    const filteredList = usersList.filter((user) =>
+      user.email.toLowerCase().includes(searchText.toLowerCase())
+    );
+    setFilteredList(filteredList);
+    setCurrentPage(0);
+  };
+
+  const handleCancelSearch = () => {
+    setSearchText("");
+    setFilteredList(usersList);
+    setCurrentPage(0);
+  };
+
+  const handlePageClick = (selectedItem: { selected: number }) => {
+    setCurrentPage(selectedItem.selected);
+  };
+
+  const displayUsers = filteredList.slice(
+    currentPage * usersPerPage,
+    (currentPage + 1) * usersPerPage
+  );
 
   return (
     <>
-      <div className="text-gray-900 bg-slate-50 h-screen w-full">
+      <div className="text-gray-900 bg-slate-50 h-screen  w-full">
         <div className="p-4 flex">
-          <h1 className="text-3xl">Users</h1>
+          <h1 className="text-3xl font-semibold">Users</h1>
+        </div>
+        <div className="search m-2 p-4 flex">
+          <input
+            type="text"
+            className="border border-solid border-black rounded-lg w-2/5 p-2"
+            value={searchText}
+            onChange={(e) => {
+              setSearchText(e.target.value);
+            }}
+            placeholder="Search by email"
+          />
+          <button
+            className="px-3 py-1 bg-blue-600 m-1 rounded-lg text-white hover:bg-blue-700"
+            onClick={handleSearch}
+          >
+            Search
+          </button>
+          {searchText && (
+            <button
+              className="px-3 py-1 bg-gray-400 m-1 rounded-lg text-white hover:bg-gray-500"
+              onClick={handleCancelSearch}
+            >
+              Cancel
+            </button>
+          )}
         </div>
         <div className="px-3 py-4 flex justify-center">
           <table className="w-full text-md bg-white shadow-md rounded mb-4">
-            <tbody>
+            <thead>
               <tr className="border-b">
                 <th className="text-left p-3 px-5">Name</th>
                 <th className="text-left p-3 px-5">Email</th>
                 <th className="text-left p-3 px-5">Actions</th>
               </tr>
-              {usersList.map((user) => (
+            </thead>
+            <tbody>
+              {displayUsers.map((user) => (
                 <tr key={user.id} className="border-b hover:bg-orange-100 bg-white">
                   <td className="p-3 px-5">
                     <input type="text" value={user.name} className="bg-transparent" readOnly />
@@ -76,7 +130,7 @@ const DashboardUsers: React.FC = () => {
                       <button
                         type="button"
                         onClick={() => handleBlockUnblock(user.id, false)}
-                        className="mr-3 text-sm bg-red-500 hover:bg-blue-700 text-white py-1 px-2 rounded focus:outline-none focus:shadow-outline"
+                        className="mr-3 text-sm bg-red-500 hover:bg-red-700 text-white py-1 px-2 rounded focus:outline-none focus:shadow-outline"
                       >
                         Block
                       </button>
@@ -89,12 +143,29 @@ const DashboardUsers: React.FC = () => {
                         Unblock
                       </button>
                     )}
-                
                   </td>
                 </tr>
               ))}
             </tbody>
           </table>
+        </div>
+        <div className="flex justify-center mt-4">
+          <ReactPaginate
+            previousLabel={"Previous"}
+            nextLabel={"Next"}
+            pageCount={Math.ceil(filteredList.length / usersPerPage)}
+            onPageChange={handlePageClick}
+            containerClassName={"pagination flex justify-center space-x-2"}
+            activeClassName={"bg-blue-600 text-white"}
+            pageClassName={"page-item bg-gray-200 px-3 py-1 rounded cursor-pointer"}
+            pageLinkClassName={"page-link"}
+            previousClassName={"page-item bg-gray-300 rounded-md hover:bg-gray-600 hover:text-white px-3 py-1 rounded cursor-pointer"}
+            previousLinkClassName={"page-link"}
+            nextClassName={"page-item bg-gray-300 rounded-md hover:bg-gray-600 hover:text-white px-3 py-1 rounded cursor-pointer"}
+            nextLinkClassName={"page-link"}
+            breakClassName={"page-item bg-gray-200 px-3 py-1 rounded cursor-pointer"}
+            breakLinkClassName={"page-link"}
+          />
         </div>
       </div>
     </>

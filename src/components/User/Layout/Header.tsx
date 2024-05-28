@@ -90,7 +90,7 @@ const Header = () => {
            <div className="col-span-1 flex justify-end pr-6">
            <Link to={userEndpoints.profilePage} className="w-10">
              <img
-               className="cursor-pointer m-2 h-10 w-10 rounded-full ring-2 ring-white"
+               className="cursor-pointer m-2 h-12 w-10 rounded-full ring-2 ring-white border border-gray-300 "
                src={userData?.avatar || "https://cdn-icons-png.flaticon.com/512/149/149071.png"}
                alt="User Avatar"
              />

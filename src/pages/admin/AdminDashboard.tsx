@@ -10,9 +10,9 @@ function AdminDashboard() {
 
 
   return (
-    <div className="flex">
+    <div className="flex bg-[#171f3c]">
       <DashboardSidebar />
-      <div className="h-screen flex-1">
+      <div className=" flex-1">
         <DashboardHeader />
         <DashboardGraph />
       </div>

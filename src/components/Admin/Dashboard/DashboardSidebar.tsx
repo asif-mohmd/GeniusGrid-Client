@@ -16,48 +16,48 @@ const DashboardSidebar = () => {
    
       <div
         className={` ${
-          open ? "w-72" : "w-20 "
-        } bg-white h-screen p-5  pt-8 relative duration-300`}
+          open ? "w-72 " : "w-20 "
+        } bg-[#171f3c]  p-5 h-screen pt-8 relative duration-300`}
       >
         <img
           src={controlPNG}
-          className={`absolute cursor-pointer -right-3 top-11 w-7 border-dark-purple
+          className={`absolute cursor-pointer -right-3 top-4 w-8 border-dark-purple
            border-2 rounded-full  ${!open && "rotate-180"}`}
           onClick={() => setOpen(!open)}
         />
-        <div className="flex gap-x-4 items-center">
+        <div className="flex gap-x-3 items-center">
           <img
             src={logoPNG}
-            className={`cursor-pointer duration-500 ${
+            className={`cursor-pointer duration-500  ${
               open && "rotate-[360deg]"
             }`}
           />
-          <h1
-            className={` text-black origin-left font-medium text-xl duration-200 ${
+          <h3
+            className={` text-white origin-left font-bold font-roboto text-xl duration-200 ${
               !open && "scale-0"
             }`}
           >
             Genius Grid Admin
-          </h1>
+          </h3>
         </div>
         <ul
   className={`transition-all ${
     !open ? "opacity-0 scale-0" : "opacity-100 scale-100"
-  } origin-left duration-200 transform`}
+  } origin-left duration-200 transform `}
 >
-  <li>
+  <li >
     <Link
       to="/admin"
-      className="flex items-center px-4 mt-10 py-2 text-gray-800 rounded-md hover:bg-[#00df9a] hover:text-black cursor-pointer"
+      className="flex items-center px-4 mt-10 py-2 text-white rounded-md hover:bg-gray-600 hover:text-white cursor-pointer"
     >
-      <AiOutlineDashboard className="mr-2" />
+      <AiOutlineDashboard className="mr-2 " />
       Dashboard
     </Link>
   </li>
   <li>
     <Link
       to="/admin/users"
-      className="flex items-center px-4 py-2 text-gray-800 rounded-md hover:bg-[#00df9a] hover:text-black cursor-pointer"
+      className="flex items-center px-4 py-2 text-white rounded-md hover:bg-gray-600 hover:text-white cursor-pointer"
     >
       <LuUsers className="mr-2" />
       Users
@@ -66,7 +66,7 @@ const DashboardSidebar = () => {
   <li>
     <Link
       to="/admin/instructors"
-      className="flex items-center px-4 py-2 text-gray-800 rounded-md hover:bg-[#00df9a] hover:text-black cursor-pointer"
+      className="flex items-center px-4 py-2 text-white rounded-md hover:bg-gray-600 hover:text-white cursor-pointer"
     >
       <FontAwesomeIcon icon={faChalkboardTeacher} className="mr-2" />
       Instructors
@@ -75,7 +75,7 @@ const DashboardSidebar = () => {
   <li>
     <Link
       to={adminEndpoints.addCategory}
-      className="flex items-center px-4 py-2 text-gray-800 rounded-md hover:bg-[#00df9a] hover:text-black cursor-pointer"
+      className="flex items-center px-4 py-2 text-white rounded-md hover:bg-gray-600 hover:text-white cursor-pointer"
     >
       <BiBookAdd  className="mr-2" />
       Add Category
@@ -84,7 +84,7 @@ const DashboardSidebar = () => {
   <li>
     <Link
       to={adminEndpoints.viewCategory}
-      className="flex items-center px-4 py-2 text-gray-800 rounded-md hover:bg-[#00df9a] hover:text-black cursor-pointer"
+      className="flex items-center px-4 py-2 text-white rounded-md hover:bg-gray-600 hover:text-white cursor-pointer"
     >
       <TbCategory className="mr-2" />
       View Category

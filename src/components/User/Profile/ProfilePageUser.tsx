@@ -58,20 +58,17 @@ const ProfilePageUser: React.FC<ProfilePageUserProps> = ({ name, email, avatar }
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-md p-6">
-      <h2 className="text-2xl font-semibold mb-4">User Profile</h2>
+    <div className="bg-white rounded-lg shadow-md p-5">
+      <div className='bg-gray-50 rounded-md p-2 shadow-sm '>
+      <h2 className="text-xl font-semibold  text-center font-roboto">User Profile</h2>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div>
-          <p className="text-sm text-gray-600 mb-1">Name:</p>
-          <p className="text-lg font-semibold">{name || 'N/A'}</p>
-        </div>
-        <div>
-          <p className="text-sm text-gray-600 mb-1">Email:</p>
-          <p className="text-lg font-semibold">{email || 'N/A'}</p>
-        </div>
+      </div>
+    
+      <div className="grid grid-cols-2 md:grid-cols-2 gap-6 mt-6">
+    
+        
         <div className='flex'>
-        {avatar && (
+        {avatar && !selectedImage && (
           <div className="col-span-2 flex flex-col items-center">
             <img className="rounded  w-3/5" src={avatar} alt="User Avatar" />
             <div className="flex items-center mt-4">
@@ -111,7 +108,7 @@ const ProfilePageUser: React.FC<ProfilePageUserProps> = ({ name, email, avatar }
            
             </div>
             
-            <img src={URL.createObjectURL(selectedImage)} alt="Selected" className="rounded w-4/5" />
+            <img src={URL.createObjectURL(selectedImage)} alt="Selected" className="rounded w-2/5 " />
             <div className='flex '>
             <button
               onClick={handleUploadImage}
@@ -133,6 +130,17 @@ const ProfilePageUser: React.FC<ProfilePageUserProps> = ({ name, email, avatar }
             
           </div>
         )}
+        </div>
+
+        <div className=' font-semibold font-poppins' >
+        <div className='flex font-semibold font-poppins'>
+          <p className="text-md  mb-1">Name:</p>
+          <p className="text-md  pl-3">{name || 'N/A'}</p>
+        </div>
+        <div className='flex mt-2'>
+          <p className="text-md  mb-1">Email:</p>
+          <p className="text-md pl-4">{email || 'N/A'}</p>
+        </div>
         </div>
        
       </div>
