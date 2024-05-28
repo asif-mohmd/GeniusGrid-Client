@@ -1,7 +1,7 @@
 import { AiOutlineClose, AiOutlineMenu } from "react-icons/ai";
 import { Link, useNavigate } from "react-router-dom";
 import userEndpoints from "../../../constraints/endpoints/userEndpoints";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { checkUserAuthentication, userLogout } from "../../../redux/userSlices/authSlice";
 import { clearUserData } from "../../../redux/userSlices/userDataSlice";
@@ -9,11 +9,30 @@ import courseEndspoints from "../../../constraints/endpoints/courseEndspoints";
 import logo from "../../../assets/logoGeniusGrid.jpg";
 import { RootState } from "../../../redux/Store";
 import { useAuth } from "../../../utils/AuthContext";
+import { User } from "../../../interfaces/UserInterfaces/IUserDetails";
+import { userAxios } from "../../../constraints/axiosInterceptors/userAxiosInterceptors";
 
 const Header = () => {
   // State to manage the navbar's visibility
   const [nav, setNav] = useState(false);
+  const [userData, setUserData] = useState<User | null>(null);
 
+
+  useEffect(() => {
+    async function fetchCourseData() {
+      try {
+      
+        const userDetails = await userAxios.get(userEndpoints.userDetails);
+        console.log(userDetails)
+       
+        setUserData(userDetails.data);
+      } catch (error) {
+        console.error("Error fetching course data:", error);
+      }
+    }
+    fetchCourseData();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -68,20 +87,21 @@ const Header = () => {
           </div>
 
           {userLogin.isLogin ? (
-            <div className="col-span-1 flex justify-end">
-              <Link to={userEndpoints.profilePage} className="w-10">
-                <img
-                  className="cursor-pointer m-2 h-10 w-10 rounded-full ring-2 ring-white"
-                  src="https://images.unsplash.com/photo-1491528323818-fdd1faba62cc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                  alt=""
-                />
-              </Link>
-            </div>
+           <div className="col-span-1 flex justify-end pr-6">
+           <Link to={userEndpoints.profilePage} className="w-10">
+             <img
+               className="cursor-pointer m-2 h-10 w-10 rounded-full ring-2 ring-white"
+               src={userData?.avatar || "https://cdn-icons-png.flaticon.com/512/149/149071.png"}
+               alt="User Avatar"
+             />
+           </Link>
+         </div>
+         
           ) : (
-            <div className="col-span-1 flex justify-end">
+            <div className="col-span-1 flex justify-end pr-3">
             <img
               className="cursor-pointer m-2 h-10 w-10 rounded-full ring-2 ring-white"
-              src="https://images.unsplash.com/photo-1491528323818-fdd1faba62cc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+              src="https://cdn-icons-png.flaticon.com/512/149/149071.png"
               alt="Guest"
               onClick={handleShowLogin} // Show login modal on click
             />

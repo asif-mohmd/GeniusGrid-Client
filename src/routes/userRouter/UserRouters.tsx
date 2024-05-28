@@ -8,7 +8,6 @@ import UserCourseListPage from "../../pages/user/UserCourseListPage"
 import courseEndspoints from "../../constraints/endpoints/courseEndspoints"
 import PurchasedCourse from "../../pages/user/PurchasedCourse"
 // import StripeForm from "../../components/User/Course/PaymentComponents/StripeForm"
-import PaymentForm from "../../components/User/Course/PaymentComponents/PaymentForm"
 import PaymentSuccess from "../../components/User/Course/PurchaseContents/PaymentSuccess"
 import ProfileLanding from "../../pages/user/UserProfile/ProfileLanding"
 
@@ -23,7 +22,6 @@ const UserRouters = () => {
         <Route path={userEndpoints.courseDetails} Component={UserCourseDetails}  />
         <Route path={courseEndspoints.allUserCourses} Component={UserCourseListPage} />
         <Route path={userEndpoints.purchasedCoures} element={<UserProtectorRoute component={PurchasedCourse}/>} />
-        <Route path={userEndpoints.makePayment} element={<UserProtectorRoute component={PaymentForm}/>} />
         <Route path={userEndpoints.checkoutSuccess} element={<UserProtectorRoute component={PaymentSuccess}/>} />
         <Route path={userEndpoints.profilePage} element={<UserProtectorRoute component={ProfileLanding}/>} />
 

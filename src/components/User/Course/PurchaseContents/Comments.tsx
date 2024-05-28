@@ -14,11 +14,11 @@ interface PurchaseContentsProps {
   userDetails: User | any
 }
 
-const Comments: React.FC<PurchaseContentsProps> = ({ courseId, videoId, questions ,onQuestionAdded,userDetails}) => {
+const Comments: React.FC<PurchaseContentsProps> = ({ courseId, videoId, questions, onQuestionAdded, userDetails }) => {
   const [question, setQuestion] = useState<string>("");
   const [userData, setUserData] = useState<User | null>(null);
   const [selectedQuestionIndex, setSelectedQuestionIndex] = useState<number | null>(null);
-  const [replyAnswer,setReplyAnswer] = useState<string>("")
+  const [replyAnswer, setReplyAnswer] = useState<string>("")
 
   const handleReplayToggle = (index: number) => {
     setSelectedQuestionIndex(prevIndex => (prevIndex === index ? null : index));
@@ -51,31 +51,29 @@ const Comments: React.FC<PurchaseContentsProps> = ({ courseId, videoId, question
     }
   };
 
-  const handleReplayAnswer =  async (questionId:string) => {
-if(replyAnswer===""){
-toast.error("Please fill replay")
-}else{
-  const answerList = {
-    user: {
-      name: userDetails.name || ""
-     
-    },
-    replyAnswer,
-    createdAt: Date.now(),
-  };
-console.log(answerList,"ttttttttttt",courseId,"dddddd",videoId,"xxxxxxxxxx",questionId)
+  const handleReplayAnswer = async (questionId: string) => {
+    if (replyAnswer === "") {
+      toast.error("Please fill replay")
+    } else {
+      const answerList = {
+        user: {
+          name: userDetails.name || ""
+        },
+        replyAnswer,
+        createdAt: Date.now(),
+      };
 
-  const response = await userAxios.post(courseEndspoints.replyQuestionAnswer,{answerList,courseId,videoId,questionId})
-  setReplyAnswer("");
-  onQuestionAdded();
+      const response = await userAxios.post(courseEndspoints.replyQuestionAnswer, { answerList, courseId, videoId, questionId })
+      setReplyAnswer("");
+      onQuestionAdded();
 
-  console.log(response,"-------=======resssssssssssssssssss")
+      console.log(response, "-------=======resssssssssssssssssss")
 
 
 
 
-}
-    
+    }
+
 
   }
 
@@ -91,7 +89,7 @@ console.log(answerList,"ttttttttttt",courseId,"dddddd",videoId,"xxxxxxxxxx",ques
 
     fetchUserData();
   }, []);
-
+ 
   return (
     <div className="mt-4">
       <textarea
@@ -110,7 +108,7 @@ console.log(answerList,"ttttttttttt",courseId,"dddddd",videoId,"xxxxxxxxxx",ques
       </button>
 
       <div className="mt-4">
-        {questions.map((question:any, index:any) => (
+        {questions.map((question: any, index: any) => (
           <div key={index} className="border-b border-gray-300 py-4">
             <div className="flex justify-between items-center">
               <p className="text-lg font-semibold">{question.question}</p>
@@ -123,18 +121,18 @@ console.log(answerList,"ttttttttttt",courseId,"dddddd",videoId,"xxxxxxxxxx",ques
             </div>
             {selectedQuestionIndex === index && (
               <div className="mt-2">
-                {question.questionReplies.map((reply:any, replyIndex:any) => (
+                {question.questionReplies.map((reply: any, replyIndex: any) => (
                   <div key={replyIndex} className="mt-2">
                     <p>{reply.replyAnswer}</p>
                   </div>
-                 
+
                 ))}
                 <div>
-                  <input type="text" className="bg-gray-100 w-100 text-black  border-gray-100 " value={replyAnswer} onChange={(e)=>setReplyAnswer(e.target.value)} />
-                  <button className="text-blue-500 " onClick={()=>handleReplayAnswer(question._id)}>Reply</button>
+                  <input type="text" className="bg-gray-100 w-100 text-black  border-gray-100 " value={replyAnswer} onChange={(e) => setReplyAnswer(e.target.value)} />
+                  <button className="text-blue-500 " onClick={() => handleReplayAnswer(question._id)}>Reply</button>
                 </div>
               </div>
-              
+
             )}
           </div>
         ))}

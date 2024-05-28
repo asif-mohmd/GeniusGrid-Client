@@ -24,13 +24,13 @@ function HomeCourse() {
 
   const scrollLeft = () => {
     if (containerRef.current) {
-      containerRef.current.scrollLeft -= 400; // Adjust the value as needed
+      containerRef.current.scrollLeft -= 300; // Adjust the value as needed
     }
   };
 
   const scrollRight = () => {
     if (containerRef.current) {
-      containerRef.current.scrollLeft += 400; // Adjust the value as needed
+      containerRef.current.scrollLeft += 300; // Adjust the value as needed
     }
   };
 
