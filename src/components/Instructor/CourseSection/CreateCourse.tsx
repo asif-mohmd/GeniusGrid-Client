@@ -13,7 +13,7 @@ import { ICreateCourse1 } from "../../../interfaces/InstructorInterfaces/ICreate
 import { FaUpload } from "react-icons/fa";
 import { adminAxios } from "../../../constraints/axiosInterceptors/adminAxiosInterceptors";
 import adminEndpoints from "../../../constraints/endpoints/adminEndpoints";
-
+import { CiSquarePlus } from "react-icons/ci";
 
 interface videoData {
   fileName: string;
@@ -25,6 +25,7 @@ const CreateCourse1 = () => {
   const [prerequisites, setPrerequisites] = useState<string[]>([""]);
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const [videoDetails, setvideoDetails] = useState<videoData[]>([]);
+  const [categories, setCategories] = useState<string[]>([""])
 
   const courseLevel = {
     Beginner: "Beginner",
@@ -35,7 +36,7 @@ const CreateCourse1 = () => {
   const createCourseDetails = useSelector(
     (store: RootState) => store.createCourseData.createCourse
   );
-
+console.log("categories",categories)
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -44,6 +45,7 @@ const CreateCourse1 = () => {
       // dispatch(setCourseData1Empty())
       setBenefits(createCourseDetails.benefits || []);
       setPrerequisites(createCourseDetails.prerequisites || []);
+
      
 
     }
@@ -51,6 +53,7 @@ const CreateCourse1 = () => {
       try {
         const response = await adminAxios.get(adminEndpoints.getCategories)
         console.log(response)
+        setCategories(response.data.categoryName)
       } catch (error) {
         toast.error("something went wrong")
       }
@@ -204,9 +207,7 @@ const CreateCourse1 = () => {
         >
           {({ errors, touched, isSubmitting }) => (
             <Form className="sm:w-3/4 bg-white p-4 rounded-xl mt-7">
-              <div className="pb-3 pt-2 flex">
-                <h1 className="text-2xl font-semibold">Create course</h1>
-              </div>
+
               <div className="flex flex-wrap -mx-3 mb-5">
 
 
@@ -353,7 +354,7 @@ const CreateCourse1 = () => {
                     Course categories
                   </label>
                   <Field
-                    type="text"
+                    as="select"
                     id="courseCategory"
                     name="courseCategory"
                     className={`appearance-none block w-full bg-slate-50 text-gray-700 border ${errors.courseCategory && touched.courseCategory && !isSubmitting
@@ -361,13 +362,23 @@ const CreateCourse1 = () => {
                       : "border-gray-200"
                       } rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white`}
                     placeholder="Enter course tags"
-                  />
+                  >
+                     <option value="">Select a category</option>
+                    {categories.map((category, index) => (
+                      <option key={index} value={category}>
+                        {category}
+                      </option>
+                    ))}
+                  </Field>
                   {errors.courseCategory && touched.courseCategory && !isSubmitting && (
                     <div className="text-red-500 border-red-500 text-xs italic">
                       {errors.courseCategory}
                     </div>
                   )}
                 </div>
+
+
+
 
                 <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                   <label
@@ -494,9 +505,9 @@ const CreateCourse1 = () => {
                   <button
                     type="button"
                     onClick={addBenefitInput}
-                    className="m-2 bg-green-500 text-white py-1 px-2 rounded"
+                    className="  text-3xl  text-green-700 py-1 px-2 rounded"
                   >
-                    Add new
+                    <CiSquarePlus />
                   </button>
                 </div>
 
@@ -537,9 +548,9 @@ const CreateCourse1 = () => {
                   <button
                     type="button"
                     onClick={addPrerequisiteInput}
-                    className="m-2 bg-green-500 text-white py-1 px-2 rounded"
+                    className="  text-3xl  text-green-700 py-1 px-2 rounded"
                   >
-                    Add new
+                   <CiSquarePlus />
                   </button>
                 </div>
 
@@ -548,9 +559,9 @@ const CreateCourse1 = () => {
               <div className="flex justify-center">
                 <button
                   type="submit"
-                  className="bg-blue-500 hover:bg-blue-700 text-white font-mono font-bold py-3 px-6 rounded-md "
+                  className="bg-[#007efb] hover:bg-blue-700 text-white font-roboto font-bold py-2 px-4 rounded-md "
                 >
-                  Next
+                  Next 
                 </button>
               </div>
             </Form>

@@ -105,16 +105,15 @@ const ListCourses = () => {
     <div className="overflow-x-auto">
       <ToastContainer />
       <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
-        <p className="text-2xl font-medium my-7">My Courses</p>
-        <div className="search m-2 p-4 flex">
+        <div className="search m-2 p-4 flex justify-center">
           <input
             type="text"
-            className="border border-solid border-black rounded-lg w-2/5"
+            className="border border-gray-200 rounded-lg w-2/5"
             value={searchText}
             onChange={(e) => setSearchText(e.target.value)}
           />
           <button
-            className="px-3 py-1 bg-gray-500 m-1 rounded-lg text-white"
+            className="px-3 py-1 bg-[#007efb] m-1 rounded-lg text-white"
             onClick={handleSearch}
           >
             Search
@@ -128,43 +127,43 @@ const ListCourses = () => {
             </button>
           )}
         </div>
-        <div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
-          <table className="min-w-full divide-y divide-gray-200">
-            <thead className="bg-gray-50">
+        <div className="shadow-lg overflow-hidden border-b border-gray-200 sm:rounded-lg">
+          <table className="min-w-full divide-y divide-gray-200 font-roboto">
+            <thead className="bg-gray-200 px-3 py-2 sm:px-6 sm:py-3 text-left text-xs sm:text-sm uppercase tracking-wider ">
               <tr>
                 <th
                   scope="col"
-                  className="px-3 py-2 sm:px-6 sm:py-3 text-left text-xs sm:text-sm font-medium text-gray-500 uppercase tracking-wider"
+                  className="px-3 py-2 sm:px-6 sm:py-3"
                 >
                   Course Name
                 </th>
                 <th
                   scope="col"
-                  className="px-3 py-2 sm:px-6 sm:py-3 text-left text-xs sm:text-sm font-medium text-gray-500 uppercase tracking-wider"
+                  className=""
                 >
                   Price
                 </th>
                 <th
                   scope="col"
-                  className="px-3 py-2 sm:px-6 sm:py-3 text-left text-xs sm:text-sm font-medium text-gray-500 uppercase tracking-wider"
+                  className=""
                 >
                   Level
                 </th>
                 <th
                   scope="col"
-                  className="px-3 py-2 sm:px-6 sm:py-3 text-left text-xs sm:text-sm font-medium text-gray-500 uppercase tracking-wider"
+                  className=""
                 >
                   Total Videos
                 </th>
                 <th
                   scope="col"
-                  className="px-3 py-2 sm:px-6 sm:py-3 text-right text-xs sm:text-sm font-medium text-gray-500 uppercase tracking-wider"
+                  className=""
                 >
                   Actions
                 </th>
               </tr>
             </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
+            <tbody className=" divide-y divide-gray-200 text-sm">
               {displayCourses.map(course => (
                 <tr key={course.id}>
                   <td className="px-3 py-3 sm:px-6 sm:py-4 whitespace-nowrap">
@@ -179,7 +178,7 @@ const ListCourses = () => {
                   <td className="px-3 py-3 sm:px-6 sm:py-4 whitespace-nowrap">
                     {course.totalVideos}
                   </td>
-                  <td className="px-3 py-3 sm:px-6 sm:py-4 whitespace-nowrap text-right text-sm font-medium flex justify-end">
+                  <td className="px-3 py-3 sm:px-1 sm:py-4 whitespace-nowrap  text-sm font-medium">
                     <button
                       type="button"
                       onClick={() => handleEdit(course.id)}
@@ -210,9 +209,9 @@ const ListCourses = () => {
             activeClassName={"bg-blue-600 text-white"}
             pageClassName={"page-item bg-gray-200 px-3 py-1 rounded cursor-pointer"}
             pageLinkClassName={"page-link"}
-            previousClassName={"page-item bg-gray-200 px-3 py-1 rounded cursor-pointer"}
+            previousClassName={"page-item bg-[#007efb] px-3 py-1 rounded-lg cursor-pointer text-white"}
             previousLinkClassName={"page-link"}
-            nextClassName={"page-item bg-gray-200 px-3 py-1 rounded cursor-pointer"}
+            nextClassName={"page-item bg-[#007efb] px-3 py-1 rounded-lg cursor-pointer text-white"}
             nextLinkClassName={"page-link"}
             breakClassName={"page-item bg-gray-200 px-3 py-1 rounded cursor-pointer"}
             breakLinkClassName={"page-link"}

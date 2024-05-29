@@ -6,9 +6,9 @@ import EditLessonComponent from "../../../components/Instructor/CourseSection/Ed
 function EditLessonManagement() {
 
   return (
-    <div className="flex">
+    <div className="flex min-h-screen h-screen">
       <DashboardSidebar />
-      <div className="h-screen flex-1 bg-slate-50 w-3/4">
+      <div className="flex-1 overflow-auto bg-gray-50">
         <DashboardHeader />
         <EditLessonComponent />
       </div>

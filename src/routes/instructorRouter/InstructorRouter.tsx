@@ -11,8 +11,7 @@ import InstructorProtectorRoute from "./InstructorProtectorRoute";
 import InstructorPublicRoute from "./InstructorPublicRoute";
 import InstructorListCourse from "../../pages/instructor/Course/InstructorListCourses";
 import InstructorProfilePage from "../../pages/instructor/Dashboard/InstructorProfilePage";
-import InstructorUserAnalysis from "../../pages/instructor/Dashboard/InstructorUserAnalysis";
-import InstructorOrderAnalysis from "../../pages/instructor/Dashboard/InstructorOrderAnalysis";
+
 import AddLessonManagement from "../../pages/instructor/Course/AddLessonManagement"
 import InstructorTranscodeVideo from "../../pages/instructor/Dashboard/InstructorTranscodeVideo";
 import InstructorEditCourse from "../../pages/instructor/Course/InstructorEditCourse";
@@ -32,16 +31,8 @@ export const InstructorRouter = () => {
       <Route path="/edit/course" element={<InstructorProtectorRoute component={InstructorEditCourse} />}></Route>
       <Route path="/add/lesson/page" element={<InstructorProtectorRoute component={AddLessonManagement} />}></Route>
       <Route path="/edit/lesson/page" element={<InstructorProtectorRoute component={EditLessonManagement} />}></Route>
-
-
-
       <Route path="/profile/page" element={<InstructorProtectorRoute component={InstructorProfilePage} />}></Route>
-      <Route path="/user/analysis" element={<InstructorProtectorRoute component={InstructorUserAnalysis} />}></Route>
-      <Route path="/order/analysis" element={<InstructorProtectorRoute component={InstructorOrderAnalysis} />}></Route>
       <Route path="/transcode/video" element={<InstructorProtectorRoute component={InstructorTranscodeVideo}/>}></Route>
-
-
-
 
     </Routes>
   );

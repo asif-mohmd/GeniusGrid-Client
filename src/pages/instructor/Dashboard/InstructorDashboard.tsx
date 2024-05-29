@@ -8,9 +8,9 @@ function InstructorDashboard() {
 
 
   return (
-    <div className="flex">
+    <div className="flex min-h-screen h-screen">
       <DashboardSidebar />
-      <div className="h-screen flex-1">
+      <div className="flex-1 overflow-auto bg-gray-50">
         <DashboardHeader />
         <DashboardGraph />
       </div>

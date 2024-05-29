@@ -103,7 +103,6 @@ function DashboardTranscodeVideo() {
   return (
     <div className="container mx-auto py-8">
        <ToastContainer />
-      <h2 className="text-2xl font-semibold mb-4">Upload Video</h2>
       <div className="border border-dashed border-gray-400 rounded-lg p-8">
         <label
           htmlFor="videoinput"
@@ -141,7 +140,7 @@ function DashboardTranscodeVideo() {
           Submit
         </button> : 
         <button
-          className="mt-4 bg-blue-500 text-white px-4 py-2 rounded "
+          className="mt-4 page-item bg-[#007efb] px-3 py-1 rounded-lg cursor-pointer text-white "
           onClick={handleSubmit}
         >
           Submit

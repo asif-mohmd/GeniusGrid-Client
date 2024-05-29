@@ -12,6 +12,7 @@ import { FaUpload } from "react-icons/fa";
 import { IEditCourse } from "../../../interfaces/InstructorInterfaces/IEditCourse";
 import { setEditCourseData, setFullCourseData } from "../../../redux/instructorSlices/couseSlice/editCourseData";
 import { IoMdArrowRoundBack } from "react-icons/io";
+import { CiSquarePlus } from "react-icons/ci";
 
 const EditCourse = () => {
   const [benefits, setBenefits] = useState<string[]>([""]);
@@ -192,8 +193,7 @@ const EditCourse = () => {
             <Form className="sm:w-3/4 bg-white p-4 rounded-xl">
           
 
-              <div className="pb-7 pt-2 flex items-center justify-between">
-                <h1 className="text-2xl font-semibold">Edit course</h1>
+              <div className="pb-7 pt-2 flex items-center justify-end">
                 <div>
                   <h1 className="cursor-pointer">
                     <IoMdArrowRoundBack
@@ -478,12 +478,12 @@ const EditCourse = () => {
                     component="div"
                     className="text-red-500"
                   />
-                  <button
+                 <button
                     type="button"
                     onClick={addBenefitInput}
-                    className="m-2 bg-green-500 text-white py-1 px-2 rounded"
+                    className="  text-3xl  text-green-700 py-1 px-2 rounded"
                   >
-                    Add new
+                    <CiSquarePlus />
                   </button>
                 </div>
 
@@ -524,20 +524,20 @@ const EditCourse = () => {
                   <button
                     type="button"
                     onClick={addPrerequisiteInput}
-                    className="m-2 bg-green-500 text-white py-1 px-2 rounded"
+                    className="  text-3xl  text-green-700 py-1 px-2 rounded"
                   >
-                    Add new
+                   <CiSquarePlus />
                   </button>
                 </div>
 
                 {/* Add similar Field components for other inputs */}
               </div>
               <div className="flex justify-center">
-                <button
+              <button
                   type="submit"
-                  className="bg-blue-500 hover:bg-blue-700 text-white font-mono font-bold py-3 px-6 rounded-md "
+                  className="bg-[#007efb] hover:bg-blue-700 text-white font-roboto font-bold py-2 px-4 rounded-md "
                 >
-                  Next
+                  Next 
                 </button>
               </div>
             </Form>

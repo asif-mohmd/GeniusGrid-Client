@@ -21,7 +21,9 @@ const DashboardInstructors: React.FC = () => {
     console.log("Fetching all instructors from admin");
     async function fetchInstructors() {
       try {
-        const response = await adminAxios.get<{ instructors: Instructor[] }>(adminEndpoints.getAllInstructors);
+        const response = await adminAxios.get<{ instructors: Instructor[] }>(
+          adminEndpoints.getAllInstructors
+        );
         setInstructorsList(response.data.instructors);
         setFilteredList(response.data.instructors);
         console.log(response.data);
@@ -40,13 +42,17 @@ const DashboardInstructors: React.FC = () => {
         isVerified: isVerified,
       };
 
-      const response = await adminAxios.post(adminEndpoints.instructorBlockUnblock, instructorBlockUnblock);
+      const response = await adminAxios.post(
+        adminEndpoints.instructorBlockUnblock,
+        instructorBlockUnblock
+      );
       console.log(response, "response block");
 
-      const updatedResponse = await adminAxios.get<{ instructors: Instructor[] }>(adminEndpoints.getAllInstructors);
+      const updatedResponse = await adminAxios.get<{
+        instructors: Instructor[];
+      }>(adminEndpoints.getAllInstructors);
       setInstructorsList(updatedResponse.data.instructors);
       setFilteredList(updatedResponse.data.instructors);
-
     } catch (error) {
       console.error("Error blocking/unblocking instructor:", error);
     }
@@ -77,19 +83,17 @@ const DashboardInstructors: React.FC = () => {
 
   return (
     <>
-      <div className="text-gray-900 bg-slate-50 h-screen w-full">
-        <div className="p-4 flex ">
-          <h1 className="text-3xl font-semibold">Instructors</h1>
-        </div>
-        <div className="search m-2 p-4 flex">
-          <input
-            type="text"
-            className="border border-solid border-black rounded-lg w-2/5 p-2"
+     <div className="overflow-x-auto">
+          <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+          <div className="search m-2 p-4 flex justify-center">
+        <input
+          type="text"
+          className="border border-gray-200 rounded-lg w-2/5"
             value={searchText}
             onChange={(e) => {
               setSearchText(e.target.value);
             }}
-            placeholder="Search by email"
+            placeholder=" Search by email"
           />
           <button
             className="px-3 py-1 bg-blue-600 m-1 rounded-lg text-white hover:bg-blue-700"
@@ -106,9 +110,9 @@ const DashboardInstructors: React.FC = () => {
             </button>
           )}
         </div>
-        <div className="px-3 py-4 flex justify-center">
-          <table className="w-full text-md bg-white shadow-md rounded mb-4">
-            <thead>
+        <div className="shadow-lg overflow-hidden border-b border-gray-200 sm:rounded-lg">
+          <table className="min-w-full divide-y divide-gray-200 font-roboto">
+            <thead className="bg-gray-200 text-left text-xs uppercase tracking-wider">
               <tr className="border-b">
                 <th className="text-left p-3 px-5">Name</th>
                 <th className="text-left p-3 px-5">Email</th>
@@ -117,22 +121,27 @@ const DashboardInstructors: React.FC = () => {
             </thead>
             <tbody>
               {displayInstructors.map((instructor) => (
-                <tr key={instructor.id} className="border-b hover:bg-orange-100 bg-white">
-                  <td className="p-3 px-5">
-                    <input type="text" value={instructor.name} className="bg-transparent" readOnly />
+                
+                <tr
+                  key={instructor.id}
+                  className="border-b hover:bg-orange-100 bg-white"
+                >
+                    <td className="px-3 py-3 sm:px-6 sm:py-4 whitespace-nowrap">
+                    {instructor.name}
                   </td>
-                  <td className="p-3 px-5">
-                    <input type="text" value={instructor.email} className="bg-transparent" readOnly />
+                  <td className="px-3 py-3 sm:px-6 sm:py-4 whitespace-nowrap">
+                    {instructor.email}
                   </td>
-                  <td className="p-3 px-5 flex justify-end">
-                    {instructor.isVerified ? (
-                      <button
-                        type="button"
-                        onClick={() => handleBlockUnblock(instructor.id, false)}
-                        className="mr-3 text-sm bg-red-500 hover:bg-red-700 text-white py-1 px-2 rounded focus:outline-none focus:shadow-outline"
-                      >
-                        Block
-                      </button>
+                 
+                  <td className="px-3 py-3 sm:px-1 sm:py-4 whitespace-nowrap  text-sm font-medium">
+                      {instructor.isVerified ? (
+                         <button
+                         type="button"
+                         onClick={() => handleBlockUnblock(instructor.id, false)}                         
+                         className="mr-2 text-sm  bg-red-500 hover:bg-red-700 text-white py-1 px-2 rounded focus:outline-none focus:shadow-outline"
+                       >
+                          Block
+                        </button>
                     ) : (
                       <button
                         type="button"
@@ -155,16 +164,25 @@ const DashboardInstructors: React.FC = () => {
             pageCount={Math.ceil(filteredList.length / instructorsPerPage)}
             onPageChange={handlePageClick}
             containerClassName={"pagination flex justify-center space-x-2"}
-            activeClassName={"bg-blue-600 text-white"}
-            pageClassName={"page-item bg-gray-200 px-3 py-1 rounded cursor-pointer"}
+            activeClassName={"bg-gray-400 shadow-lg text-white"}
+            pageClassName={
+              "page-item bg-gray-200 px-3 py-1 rounded cursor-pointer"
+            }
             pageLinkClassName={"page-link"}
-            previousClassName={"page-item bg-gray-200 px-3 py-1 rounded cursor-pointer"}
+            previousClassName={
+              "page-item bg-[#007efb] px-3 py-1 rounded-lg cursor-pointer text-white"
+            }
             previousLinkClassName={"page-link"}
-            nextClassName={"page-item bg-gray-200 px-3 py-1 rounded cursor-pointer"}
+            nextClassName={
+              "page-item bg-[#007efb] px-3 py-1 rounded-lg cursor-pointer text-white"
+            }
             nextLinkClassName={"page-link"}
-            breakClassName={"page-item bg-gray-200 px-3 py-1 rounded cursor-pointer"}
+            breakClassName={
+              "page-item bg-gray-200 px-3 py-1 rounded cursor-pointer"
+            }
             breakLinkClassName={"page-link"}
           />
+        </div>
         </div>
       </div>
     </>

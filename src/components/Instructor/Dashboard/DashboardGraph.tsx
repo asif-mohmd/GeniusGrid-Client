@@ -11,8 +11,8 @@ defaults.plugins.title.color = "black";
 export const DashboardGraph = () => {
   return (
     <>
-      <div className="h-screen w-full flex flex-col items-center  bg-slate-50 p-7">
-        <div className="bg-white rounded-lg shadow-lg p-4 w-3/5 h-80">
+      <div className="h-screen w-full flex flex-col items-center pt-8 bg-slate-50">
+        <div className="bg-white rounded-lg shadow-lg p-4 w-full sm:w-4/5  h-80">
           <Line
             data={{
               labels: revenueData.map((data) => data.label),

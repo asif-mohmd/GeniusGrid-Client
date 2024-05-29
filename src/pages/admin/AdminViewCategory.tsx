@@ -5,9 +5,9 @@ import DashboardSidebar from '../../components/Admin/Dashboard/DashboardSidebar'
 function AdminViewCategory() {
     return (
 
-        <div className="flex bg-[#171f3c]">
+      <div className="flex min-h-screen h-screen">
         <DashboardSidebar />
-        <div className=" flex-1">
+        <div className="flex-1 overflow-auto bg-gray-50">
           <DashboardHeader />
         <DashboardViewCategory/>
         </div>

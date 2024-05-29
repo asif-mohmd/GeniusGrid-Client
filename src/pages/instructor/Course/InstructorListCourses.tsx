@@ -8,10 +8,10 @@ function InstructorUserPage() {
 
 
   return (
-    <div className="flex">
+    <div className="flex min-h-screen h-screen">
       <DashboardSidebar />
-      <div className="h-screen flex-1">
-        <DashboardHeader />
+      <div className="flex-1 overflow-auto bg-gray-50">
+        <DashboardHeader/>
         <ListCourses />
       </div>
     </div>

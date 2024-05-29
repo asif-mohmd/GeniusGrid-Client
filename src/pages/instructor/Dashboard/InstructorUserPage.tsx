@@ -1,20 +1,17 @@
-import DashboardHeader from "../../../components/Instructor/layout/DashBoardHeader";
 import DashboardSidebar from "../../../components/Instructor/layout/DashboardSidebar";
-
 import DashboardUsers from "../../../components/Instructor/Dashboard/DashboardUsers";
+import DashboardHeader from "../../../components/Admin/Dashboard/DashBoardHeader";
 
 function InstructorUserPage() {
-
-
-
   return (
-    <div className="flex">
+    <div className="flex min-h-screen h-screen">
       <DashboardSidebar />
-      <div className="h-screen flex-1">
-        <DashboardHeader />
-        <DashboardUsers />
+      <div className="flex-1 overflow-auto bg-gray-50">
+        <DashboardHeader/>
+          <DashboardUsers />
+        </div>
       </div>
-    </div>
+   
   );
 }
 
