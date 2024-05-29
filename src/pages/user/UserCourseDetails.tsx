@@ -122,17 +122,17 @@ function UserCourseDetails() {
       <Header />
       <div className="flex flex-wrap bg-gray-50">
         
-        <div className="w-full md:w-2/5 md:p-8 sm:p-6 bg-gray-50">
+        <div className="w-full m-2 md:m-0 md:w-2/5 md:p-8 bg-gray-50">
           <VideoPlayer
             videoUrl={courseData?.demoURL || ""}
             subtitleUrl="dfsdafasd"
           />
 
-          <div className="m-1 ">
+          <div className="md:m-0 ml-6 ">
           <AuthModalManager/>
 
-            <div className="flex m-1 items-center ">
-              <p className="class text-xl font-bold">
+            <div className="flex m-1 items-center pt-2">
+              <p className="class text-xl font-bold pl-2 ">
                 ₹ {courseData?.estimatedPrice}
               </p>
               <p className="pl-3 line-through text-sm">
@@ -153,7 +153,7 @@ function UserCourseDetails() {
               </p>{" "}
             </div>
             {enrolled ? (
-              <div className="m-3">
+              <div className="md:m-3 m-2">
                 <Link to={`/purchased/course/${courseData?._id}`}>
                   <button className="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-full text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700">
                     Enroll now
@@ -171,7 +171,7 @@ function UserCourseDetails() {
               </div>
             )}
 
-            <ul className="list-disc text-[#6a6f73] text-xs p-1 ">
+            <ul className="list-disc text-[#6a6f73] text-xs p-1 ml-6 ">
               <li className="pb-1">30-Day Money-Back Guarantee</li>
               <li className="pb-1">Full Lifetime Access</li>
               <li className="pb-1">Source Code Available</li>

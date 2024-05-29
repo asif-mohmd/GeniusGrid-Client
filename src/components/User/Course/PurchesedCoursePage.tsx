@@ -16,7 +16,7 @@ function PurchasedCoursePage({ courseData, onVideoTitleClick, onSelectedVideo, o
     };
 
     return (
-        <div className="mt-5 mb-3">
+        <div className="md:mt-5 mb-3">
             <div className="p-3 bg-gray-100 rounded-lg md:w-5/6">
                 {lessons.map((lesson, lessonIndex) => (
                     <div key={lessonIndex} className="mb-4 border-b pb-3 border-gray-200">
@@ -35,7 +35,7 @@ function PurchasedCoursePage({ courseData, onVideoTitleClick, onSelectedVideo, o
                         {openLessonIndex === lessonIndex && (
                             <div className="mt-2">
                                 {lesson.map((video, videoIndex) => (
-                                    <div key={videoIndex} className={`flex items-center mb-2 p-1 cursor-pointer ${video.videoURL.toLowerCase() === onSelectedVideo?.toLowerCase() ? "bg-gray-800 text-white" : ""}`} onClick={() => onVideoTitleClick(video.videoURL,video.videoDescription,video.links,video._id,video.questions)}>
+                                    <div key={videoIndex} className={`flex items-center mb-2 p-1 cursor-pointer ${video.videoURL.toLowerCase() === onSelectedVideo?.toLowerCase() ? "bg-gray-800 rounded-md text-white" : ""}`} onClick={() => onVideoTitleClick(video.videoURL,video.videoDescription,video.links,video._id,video.questions)}>
                                         <LuMonitorPlay size={18} className="text mr-4 text-[#1cdada]" />
                                         
                                         <span className="flex-1">{video.videoTitle}</span>

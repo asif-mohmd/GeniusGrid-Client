@@ -10,10 +10,13 @@ import PurchaseContents from "../../components/User/Course/PurchaseContents/Purc
 import userEndpoints from "../../constraints/endpoints/userEndpoints";
 import { userAxios } from "../../constraints/axiosInterceptors/userAxiosInterceptors";
 import { User } from "../../interfaces/UserInterfaces/IUserDetails";
-
+import { useMediaQuery } from 'react-responsive';
+import { GiNextButton } from "react-icons/gi";
+import { GiPreviousButton } from "react-icons/gi";
 
 const PurchasedCourse = () => {
   const { _id } = useParams<{ _id: string }>();
+  const isMobile = useMediaQuery({ query: '(max-width: 768px)' });
 
   const [courseData, setCourseData] = useState<CourseData | null>(null);
   const [selectedVideoTitle, setSelectedVideoTitle] = useState<string | null>(null);
@@ -116,7 +119,7 @@ const PurchasedCourse = () => {
     <div>
       <Header />
       <div className="flex flex-wrap bg-gray-50">
-        <div className="w-full md:w-3/5 p-6 bg-gray-50">
+        <div className="w-full md:w-3/5 md:p-6 p-3 bg-gray-50">
           <div className="">
             <VideoPlayer
               videoUrl={selectedVideoTitle || ""}
@@ -126,25 +129,25 @@ const PurchasedCourse = () => {
               <button
                 type="button"
                 onClick={handlePreviousVideo}
-                className="flex justify-start text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700"
+                className="flex justify-start text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text:xs md:text-sm px-2 md:px-5  md:py-2.5 p-1  mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700"
               >
-                Previous
+              <GiPreviousButton />
               </button>
               <button
                 type="button"
                 onClick={handleNextVideo}
-                className="justify-end text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700"
+                className="justify-end text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text:xs md:text-sm px-2 md:px-5  md:py-2.5 p-1  mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700"
               >
-                Next 
+               <GiNextButton />
               </button>
             </div>
             
-            <PurchaseContents userDetails={userData ?? {}}  selectedVideoDescription={selectedVideoDescription} selectedVideoLinks={selectedVideoLinks} courseId={courseData?._id} videoId={selectVideoId} courseLessons={courseData?.lessons} questions={memoizedAllQuestions} onQuestionAdded={() => setQuestionsUpdated(prev => !prev)}/>
+           {!isMobile&& (<PurchaseContents userDetails={userData ?? {}}  selectedVideoDescription={selectedVideoDescription} selectedVideoLinks={selectedVideoLinks} courseId={courseData?._id} videoId={selectVideoId} courseLessons={courseData?.lessons} questions={memoizedAllQuestions} onQuestionAdded={() => setQuestionsUpdated(prev => !prev)}/>)}
 
           </div>
           <div></div>
         </div>
-        <div className="w-full md:w-2/5 p-6">
+        <div className="w-full md:w-2/5 md:p-6 p-3">
           {courseData && (
             <PurchasedCoursePage
               courseData={courseData}
@@ -155,6 +158,21 @@ const PurchasedCourse = () => {
             />
           )}
         </div>
+        {isMobile && ( <div className="w-full md:w-3/5 px-3 bg-gray-50">
+       
+            <PurchaseContents
+              userDetails={userData ?? {}}
+              selectedVideoDescription={selectedVideoDescription}
+              selectedVideoLinks={selectedVideoLinks}
+              courseId={courseData?._id}
+              videoId={selectVideoId}
+              courseLessons={courseData?.lessons}
+              questions={memoizedAllQuestions}
+              onQuestionAdded={() => setQuestionsUpdated(prev => !prev)}
+            />
+      
+          </div>
+              )}
       </div>
     </div>
   );
