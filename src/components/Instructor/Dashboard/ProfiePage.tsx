@@ -16,7 +16,6 @@ function ProfilePage() {
         async function fetchInstructorData() {
             try {
                 const response = await instructoraxios.get(instructorEndpoints.profile);
-                console.log(response.data);
                 setInstructorData(response.data);
             } catch (error) {
                 console.error('Error fetching instructor data:', error);

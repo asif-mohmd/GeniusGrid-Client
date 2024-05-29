@@ -13,7 +13,9 @@ export default{
     checkoutSuccess : "/payment/success",
     profilePage : "/profile/page",
     createUserOrder : "/create/user/order",
-    uploadAvatar: "/upload/avatar"
+    uploadAvatar: "/upload/avatar",
+    aboutUs: "/about/us",
+    errorPage: "/error"
     
     
 }

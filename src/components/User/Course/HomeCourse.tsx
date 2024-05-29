@@ -4,6 +4,7 @@ import { FiChevronLeft, FiChevronRight } from 'react-icons/fi'; // Importing ico
 import courseEndspoints from '../../../constraints/endpoints/courseEndspoints';
 import { userAxios } from '../../../constraints/axiosInterceptors/userAxiosInterceptors';
 import { AllCourse } from '../../../interfaces/UserInterfaces/ICourseDetails';
+import sectionImg from "../../../assets/Section.jpg"
 
 function HomeCourse() {
   const [courses, setCourses] = useState<AllCourse[]>([]);
@@ -22,30 +23,42 @@ function HomeCourse() {
     listCourses();
   }, []);
 
+
   const scrollLeft = () => {
     if (containerRef.current) {
-      containerRef.current.scrollLeft -= 300; // Adjust the value as needed
+      if (window.innerWidth < 768) {
+        containerRef.current.scrollLeft -= 100; // Adjust the value as needed
+
+      }else{
+        containerRef.current.scrollLeft -= 300; // Adjust the value as needed
+
+      }
     }
   };
 
   const scrollRight = () => {
     if (containerRef.current) {
+      if (window.innerWidth < 768) {
+        containerRef.current.scrollLeft += 100; // Adjust the value as needed
+
+      }else{
       containerRef.current.scrollLeft += 300; // Adjust the value as needed
+      }
     }
   };
 
   return (
-    <div className="container mx-auto px-4 py-9 md:px-60 relative bg-slate-100">
+    <div className="container mx-auto px-2 py-9 md:px-60 relative" style={{ backgroundImage: `url(${sectionImg})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
       <div className="flex items-center justify-between">
         <button onClick={scrollLeft} className="bg-gray-200 px-3 py-3 m-2 rounded-full hover:bg-gray-200 focus:outline-none">
           <FiChevronLeft /> {/* Icon for left scroll */}
         </button>
-        <div className="overflow-x-auto flex-grow" ref={containerRef} style={{ scrollBehavior: 'smooth', overflowX: 'hidden' ,overflowY: "hidden"}}>
-          <div className="flex space-x-6 p-3">
+        <div className="overflow-x-auto flex-grow " ref={containerRef} style={{ scrollBehavior: 'smooth', overflowX: 'hidden' ,overflowY: "hidden"}}>
+          <div className="flex space-x-3 md:space-x-6 md:p-3 ">
             {/* Map through courses */}
             {courses.map(course => (
               <Link to={`/course-details/${course._id}`} key={course._id} className="block">
-                <div className="bg-white rounded-lg overflow-hidden h- w-64 transition duration-300 ease-in-out transform hover:scale-105">
+                <div className="bg-white rounded-lg overflow-hidden  md:w-64 transition duration-300 ease-in-out transform hover:scale-105">
                   <img
                     className="w-full h-40 object-cover rounded-t-lg"
                     src={course.thumbnail}

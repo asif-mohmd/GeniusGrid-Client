@@ -36,7 +36,6 @@ const CreateCourse1 = () => {
   const createCourseDetails = useSelector(
     (store: RootState) => store.createCourseData.createCourse
   );
-console.log("categories",categories)
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -52,7 +51,6 @@ console.log("categories",categories)
     async function fetchCategories(){
       try {
         const response = await adminAxios.get(adminEndpoints.getCategories)
-        console.log(response)
         setCategories(response.data.categoryName)
       } catch (error) {
         toast.error("something went wrong")

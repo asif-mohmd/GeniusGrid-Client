@@ -43,9 +43,13 @@ const Comments: React.FC<PurchaseContentsProps> = ({ courseId, videoId, question
 
     try {
       const response = await userAxios.post(courseEndspoints.addQuestion, questionDetails);
-      setQuestion("");
-      onQuestionAdded();
-      console.log(response, "----");
+      if(response){
+        setQuestion("");
+        onQuestionAdded();
+      }else{
+        toast.error("Something went wrong")
+      }
+     
     } catch (error) {
       console.error("Error submitting question:", error);
     }
@@ -64,11 +68,12 @@ const Comments: React.FC<PurchaseContentsProps> = ({ courseId, videoId, question
       };
 
       const response = await userAxios.post(courseEndspoints.replyQuestionAnswer, { answerList, courseId, videoId, questionId })
-      setReplyAnswer("");
-      onQuestionAdded();
-
-      console.log(response, "-------=======resssssssssssssssssss")
-
+      if(response){
+        setQuestion("");
+        onQuestionAdded();
+      }else{
+        toast.error("Something went wrong")
+      }
 
 
 

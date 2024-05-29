@@ -1,11 +1,11 @@
 import { AiOutlineClose, AiOutlineMenu } from "react-icons/ai";
-import { Link, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import userEndpoints from "../../../constraints/endpoints/userEndpoints";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { checkUserAuthentication, userLogout } from "../../../redux/userSlices/authSlice";
 import { clearUserData } from "../../../redux/userSlices/userDataSlice";
-import courseEndspoints from "../../../constraints/endpoints/courseEndspoints";
+import courseEndpoints from "../../../constraints/endpoints/courseEndspoints";
 import logo from "../../../assets/logoGeniusGrid.jpg";
 import { RootState } from "../../../redux/Store";
 import { useAuth } from "../../../utils/AuthContext";
@@ -13,44 +13,35 @@ import { User } from "../../../interfaces/UserInterfaces/IUserDetails";
 import { userAxios } from "../../../constraints/axiosInterceptors/userAxiosInterceptors";
 
 const Header = () => {
-  // State to manage the navbar's visibility
-  const [nav, setNav] = useState(false);
+  const [nav, setNav] = useState(true);
   const [userData, setUserData] = useState<User | null>(null);
 
-
   useEffect(() => {
-    async function fetchCourseData() {
+    async function fetchUserData() {
       try {
-      
         const userDetails = await userAxios.get(userEndpoints.userDetails);
-        console.log(userDetails)
-       
         setUserData(userDetails.data);
       } catch (error) {
-        console.error("Error fetching course data:", error);
+        console.error("Error fetching user data:", error);
       }
     }
-    fetchCourseData();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    fetchUserData();
+    setNav(!nav)
   }, []);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { handleShowLogin } = useAuth();
-  dispatch(checkUserAuthentication())
+  dispatch(checkUserAuthentication());
   const userLogin = useSelector((store: RootState) => store.userAuth);
 
-  
-  // Toggle function to handle the navbar's display
   const handleNav = () => {
     setNav(!nav);
   };
 
-  const handleClick = () => {
- 
+  const handleLogout = () => {
     dispatch(clearUserData());
     dispatch(userLogout());
-    console.log("logiutt seee");
     navigate(userEndpoints.home);
   };
 
@@ -59,84 +50,134 @@ const Header = () => {
       <div className="items-center w-full mx-auto p-3 px-5 shadow-sm">
         <div className="grid grid-cols-3">
           <div className="col-span-1">
-            <img src={logo} className="w-20" alt="" />
+            <img src={logo} className="w-20" alt="GeniusGrid Logo" />
           </div>
 
           <div className="col-span-1 flex justify-center items-center font-mono">
             {/* Desktop Navigation */}
+
             <ul className="hidden md:flex">
-              <Link
+              <NavLink
                 to={userEndpoints.home}
-                className="p-3 hover:font-medium  font-poppins  m-1 cursor-pointer hover:text-black"
+                className={({ isActive }) =>
+                  `p-3 hover:font-medium font-poppins m-1 cursor-pointer hover:text-black ${isActive ? 'text-blue-500 font-bold' : ''}`
+                }
               >
                 Home
-              </Link>
-              <Link
-                to={courseEndspoints.allUserCourses}
-                className="p-3  hover:font-medium  font-roboto m-1 cursor-pointer hover:text-black"
+              </NavLink>
+              <NavLink
+                to={courseEndpoints.allUserCourses}
+                className={({ isActive }) =>
+                  `p-3 hover:font-medium font-roboto m-1 cursor-pointer hover:text-black ${isActive ? 'text-blue-500 font-bold' : ''}`
+                }
               >
                 Courses
-              </Link>
-              <Link
-                to={courseEndspoints.allUserCourses}
-                className="p-3  hover:font-medium  font-roboto m-1 cursor-pointer hover:text-black"
+              </NavLink>
+              <NavLink
+                to={userEndpoints.aboutUs}
+                className={({ isActive }) =>
+                  `p-3 hover:font-medium font-roboto m-1 cursor-pointer hover:text-black ${isActive ? 'text-blue-500 font-bold' : ''}`
+                }
               >
                 About
-              </Link>
+              </NavLink>
             </ul>
           </div>
-
-          {userLogin.isLogin ? (
-           <div className="col-span-1 flex justify-end pr-6">
-           <Link to={userEndpoints.profilePage} className="w-10">
-             <img
-               className="cursor-pointer m-2 h-12 w-10 rounded-full ring-2 ring-white border border-gray-300 "
-               src={userData?.avatar || "https://cdn-icons-png.flaticon.com/512/149/149071.png"}
-               alt="User Avatar"
-             />
-           </Link>
-         </div>
-         
-          ) : (
-            <div className="col-span-1 flex justify-end pr-3">
-            <img
-              className="cursor-pointer m-2 h-10 w-10 rounded-full ring-2 ring-white"
-              src="https://cdn-icons-png.flaticon.com/512/149/149071.png"
-              alt="Guest"
-              onClick={handleShowLogin} // Show login modal on click
-            />
+          <div className="col-span-1 justify-end pr-6 hidden md:flex">
+            {userLogin.isLogin ? (
+              <NavLink to={userEndpoints.profilePage} className="w-10">
+                <img
+                  className="cursor-pointer m-2 h-12 w-10 rounded-full ring-2 ring-white border border-gray-300 hidden md:flex"
+                  src={userData?.avatar || "https://cdn-icons-png.flaticon.com/512/149/149071.png"}
+                  alt="User Avatar"
+                />
+              </NavLink>
+            ) : (
+              <img
+                className="cursor-pointer m-2 h-10 w-10 rounded-full ring-2 ring-white"
+                src="https://cdn-icons-png.flaticon.com/512/149/149071.png"
+                alt="Guest"
+                onClick={handleShowLogin}
+              />
+            )}
           </div>
-          )}
 
           {/* Mobile Navigation Icon */}
-          <div onClick={handleNav} className="block md:hidden">
+
+          <div onClick={handleNav} className="block md:hidden ml-auto mt-5">
             {nav ? <AiOutlineClose size={20} /> : <AiOutlineMenu size={20} />}
           </div>
         </div>
 
         {/* Mobile Navigation Menu */}
         <ul
-          className={
-            nav
-              ? "fixed md:hidden left-0 top-0 w-[60%] h-full border-r border-r-gray-#9ca3af bg-white ease-in-out duration-500"
-              : "ease-in-out w-[60%] duration-500 fixed top-0 bottom-0 left-[-100%]"
-          }
+          className={`fixed z-10 md:hidden left-0 top-0 w-[60%] h-full border-r border-r-gray-300 bg-white ease-in-out duration-500 ${
+            nav ? "translate-x-0" : "-translate-x-full"
+          }`}
         >
-          {/* Mobile Logo */}
-          <h1 className="w-full text-3xl font-bold text-[#00df9a] m-4">
-            GeniusGrid
-          </h1>
+          <div className="flex justify-between items-center p-4 border-b">
+            <img src={logo} className="w-20" alt="GeniusGrid Logo" />
+          </div>
 
-          {/* Mobile Navigation Items */}
-          <li className="p-4 border-b rounded-xl duration-300 hover:text-black cursor-pointer ">
-            Home
+          <li className="p-4 border-b">
+            <NavLink
+              to={userEndpoints.home}
+              className={({ isActive }) =>
+                `block hover:font-medium font-poppins m-1 cursor-pointer hover:text-black ${isActive ? 'text-blue-500 font-bold' : ''}`
+              }
+              onClick={handleNav}
+            >
+              Home
+            </NavLink>
           </li>
-          <li className="p-4 border-b k cursor-pointer ">Courses</li>
-          <li className="p-4 border-b  cursor-pointer">About</li>
-          <li className="p-4 rounded-xl  cursor-pointer ">Contact</li>
-          <li className="p-4 rounded-xl " onClick={handleClick}>
-            Signout
+          <li className="p-4 border-b">
+            <NavLink
+              to={courseEndpoints.allUserCourses}
+              className={({ isActive }) =>
+                `block hover:font-medium font-poppins m-1 cursor-pointer hover:text-black ${isActive ? 'text-blue-500 font-bold' : ''}`
+              }
+              onClick={handleNav}
+            >
+              Courses
+            </NavLink>
           </li>
+          <li className="p-4 border-b">
+            <NavLink
+             to={userEndpoints.aboutUs}
+              className={({ isActive }) =>
+                `block hover:font-medium font-poppins m-1 cursor-pointer hover:text-black ${isActive ? 'text-blue-500 font-bold' : ''}`
+              }
+              onClick={handleNav}
+            >
+              About
+            </NavLink>
+          </li>
+          <li className="p-3">
+            {userLogin.isLogin ? (
+              <NavLink to={userEndpoints.profilePage} className="w-10">
+                <img
+                  className="cursor-pointer m-2 h-12 w-10 rounded-full ring-2 ring-white border border-gray-300 hidden md:flex"
+                  src={userData?.avatar || "https://cdn-icons-png.flaticon.com/512/149/149071.png"}
+                  alt="User Avatar"
+                />
+              </NavLink>
+            ) : (
+              <img
+                className="cursor-pointer m-2 h-10 w-10 rounded-full ring-2 ring-white"
+                src="https://cdn-icons-png.flaticon.com/512/149/149071.png"
+                alt="Guest"
+                onClick={handleShowLogin}
+              />
+            )}
+          </li>
+
+          {userLogin.isLogin && (
+            <li className="p-4 border-b">
+              <button onClick={handleLogout} className="w-full text-left">
+                Signout
+              </button>
+            </li>
+          )}
         </ul>
       </div>
     </>

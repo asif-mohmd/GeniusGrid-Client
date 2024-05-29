@@ -3,7 +3,7 @@ import VideoPlayer from "../../components/User/Course/VideoPlayer";
 import Header from "../../components/User/Layout/Header";
 import { useEffect, useState } from "react";
 import courseEndspoints from "../../constraints/endpoints/courseEndspoints";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { CourseData } from "../../interfaces/UserInterfaces/ICourseDetails";
 import { userAxios } from "../../constraints/axiosInterceptors/userAxiosInterceptors";
 import userEndpoints from "../../constraints/endpoints/userEndpoints";
@@ -29,6 +29,8 @@ function UserCourseDetails() {
   const [userDetails, setUserDetails] = useState<User | null>(null);
 
   const userAuth = useSelector((store: RootState) => store.userAuth);
+
+  const navigate = useNavigate()
 
   const { handleShowLogin } = useAuth();
   const dispatch = useDispatch();
@@ -61,21 +63,18 @@ function UserCourseDetails() {
         const response = await userAxios.get(
           `${courseEndspoints.courseDetails}/${courseId}`
         );
-        console.log(response, "-----------", userAuth);
         const courseData: CourseData = response.data.response;
         setCourseData(courseData);
 
         if (userAuth.isLogin) {
           const userData = await userAxios.get(userEndpoints.userDetails);
           const courses = userData.data.courses;
-          console.log(courses, "hhhhhhhhhhhhhhhhhhhhhh", userData.data);
 
           // Assuming courseData._id contains the ID of the course you are checking for
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           const enrolled = courses.find(
             (courseId: string) => courseId === courseData._id
           );
-          console.log(enrolled, "000000000000");
 
           setUserDetails(userData.data);
           if (enrolled) {
@@ -83,7 +82,6 @@ function UserCourseDetails() {
           }
         }
 
-        console.log(courseData, "jyjyjyjyjyjy");
       } catch (error) {
         console.error("Error fetching course data:", error);
       }
@@ -98,15 +96,12 @@ function UserCourseDetails() {
 
 
       
-          console.log(courseData, "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc");
       if (userAuth.isLogin ) {
-        console.log("XXXXXXXXXXXXxxxxxxxxxxxxxxxxxXXXXXXXXXXXXXXXXXXXXXXXX");
 
         const enroll = await userAxios.post(userEndpoints.makePayment, {
           courseData,
           userDetails,
         });
-        console.log(enroll);
         if (enroll.status === 200) {
           dispatch(setPurchasedCourseId(courseData?._id));
           window.location.href = enroll.data.response.url;
@@ -115,11 +110,10 @@ function UserCourseDetails() {
           toast.error("Payment Failed. Try Again");
         }
       } else {
-        console.log("ddddddddddddddddddddddddd")
         handleShowLogin();
       }
     } catch (error) {
-      console.log("error", error);
+      navigate(userEndpoints.errorPage)
     }
   };
 

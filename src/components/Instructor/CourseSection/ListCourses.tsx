@@ -102,7 +102,7 @@ const ListCourses = () => {
   );
 
   return (
-    <div className="overflow-x-auto">
+    <div className="">
       <ToastContainer />
       <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
         <div className="search m-2 p-4 flex justify-center">

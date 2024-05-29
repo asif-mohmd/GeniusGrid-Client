@@ -18,7 +18,6 @@ const registerDataSlice = createSlice({
       state.formData = action.payload;
     },
     clearRegisterData: (state) => {
-      console.log("clear called");
       state.formData = null;
     },
 

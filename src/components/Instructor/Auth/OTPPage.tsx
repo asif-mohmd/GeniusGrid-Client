@@ -56,10 +56,8 @@ const InstructorOTPPage: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     // Handle OTP submission logic here
-    console.log('OTP submitted:', otp);
     try {
       const instructorData = await instructoraxios.post(instructorEndpoints.otp, { otp });
-      console.log('after axios', instructorData);
       if (instructorData.status === 200) {
         dispatch(clearRegisterData());
         navigate(instructorEndpoints.login);

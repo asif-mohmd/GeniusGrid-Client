@@ -68,7 +68,6 @@ function DashboardTranscodeVideo() {
                   }
                 );
 
-                console.log("Response:", response);
                 if (response.status === 200) {
                   setErrorMessage(null);
                   clearFile();

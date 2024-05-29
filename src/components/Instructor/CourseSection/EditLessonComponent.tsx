@@ -64,7 +64,6 @@ const EditLessonComponent: React.FC = () => {
           const urls = response.data
           setvideoDetails(urls); // Set video URLs in state
         }
-        console.log(formattedLessons, "formaaaateeeeddddddddddddd")
         setLessons(formattedLessons);
       } catch (error) {
         console.error("Error fetching course details:", error);
@@ -114,7 +113,6 @@ const EditLessonComponent: React.FC = () => {
             onClick: async () => {
               let response
 
-              console.log(lessons, "lessonsssssssssssssssss")
               const formData = new FormData();
 
               if (editCourseDetails && lessons) {
@@ -161,11 +159,7 @@ const EditLessonComponent: React.FC = () => {
                 await formDataPromise;
 
                 // Once all data is appended, make the API call
-                for (const key of formData.entries()) {
-                  console.log(key[0] + ', ' + key[1]);
-                }
-
-                console.log()
+   
                 response = await instructoraxios.post(courseEndspoints.createOrEditCourse, formData, {
                   headers: {
                     'Content-Type': 'multipart/form-data',

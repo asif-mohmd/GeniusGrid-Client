@@ -10,6 +10,8 @@ import PurchasedCourse from "../../pages/user/PurchasedCourse"
 // import StripeForm from "../../components/User/Course/PaymentComponents/StripeForm"
 import PaymentSuccess from "../../components/User/Course/PurchaseContents/PaymentSuccess"
 import ProfileLanding from "../../pages/user/UserProfile/ProfileLanding"
+import UserAboutUS from "../../pages/user/UserAboutUS"
+import ErrorPage from "../../utils/ErrorPage"
 
 
 
@@ -19,11 +21,13 @@ const UserRouters = () => {
     // But in instructor and admin 
        <Routes>
         <Route path={userEndpoints.home} Component={Home} />
+        <Route path={userEndpoints.aboutUs} Component={UserAboutUS} />
         <Route path={userEndpoints.courseDetails} Component={UserCourseDetails}  />
         <Route path={courseEndspoints.allUserCourses} Component={UserCourseListPage} />
         <Route path={userEndpoints.purchasedCoures} element={<UserProtectorRoute component={PurchasedCourse}/>} />
         <Route path={userEndpoints.checkoutSuccess} element={<UserProtectorRoute component={PaymentSuccess}/>} />
         <Route path={userEndpoints.profilePage} element={<UserProtectorRoute component={ProfileLanding}/>} />
+        <Route path={userEndpoints.errorPage} Component={ErrorPage} />
 
        </Routes>
     

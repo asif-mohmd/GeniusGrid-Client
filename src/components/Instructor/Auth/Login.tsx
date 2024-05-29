@@ -29,14 +29,12 @@ const Login: React.FC = () => {
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-console.log(instructorLoginData,"-------------")
     const instructorData = await instructoraxios.post(
       instructorEndpoints.login,
       { instructorLoginData }
     );
 
     if (instructorData.data.status == 201) {
-      console.log(instructorData.data,"[[[[[[[[[[[[[[[[[[[[[[[")
       
       dispatch(setInstructorData(instructorData.data));
       dispatch(instructorLogin());

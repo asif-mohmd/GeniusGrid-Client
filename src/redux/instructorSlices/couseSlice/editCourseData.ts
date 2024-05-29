@@ -35,7 +35,6 @@ const editCourseData = createSlice({
         },
 
         setPrivateId:(state,action)=>{
-            console.log(action.payload,"-----redux",typeof(action.payload))
             state.privateIdStore = action.payload
         },
 

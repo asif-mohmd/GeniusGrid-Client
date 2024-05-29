@@ -27,14 +27,10 @@ function ProfileLanding() {
       try {
       
         const userDetails = await userAxios.get(userEndpoints.userDetails);
-        console.log(userDetails)
         const courses = userDetails.data.courses
-        console.log(courses,"77777777777777777777777777777777777777")
         const purchasedCourses = await userAxios.post(courseEndspoints.userPurchasedCourses,courses)
 
-        console.log(purchasedCourses,"prrrrrrrrrrrrrrrrrr")
         setPurchasedCourses(purchasedCourses.data)
-        console.log(userData, "datattattatat");
         setUserData(userDetails.data);
       } catch (error) {
         console.error("Error fetching course data:", error);
@@ -56,7 +52,6 @@ function ProfileLanding() {
 
     dispatch(clearUserData());
     dispatch(userLogout());
-    console.log("logiutt seee");
     navigate(userEndpoints.home);
   };
   return (

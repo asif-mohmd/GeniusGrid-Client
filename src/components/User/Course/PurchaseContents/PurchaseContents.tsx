@@ -24,7 +24,6 @@ const PurchaseContents: React.FC<PurchaseContentsProps> = ({
   selectedVideoLinks,
   courseId,
   videoId,
-  courseLessons,
   questions,
   onQuestionAdded,
   userDetails
@@ -35,12 +34,8 @@ const PurchaseContents: React.FC<PurchaseContentsProps> = ({
     setActiveComponent(componentName === activeComponent ? "" : componentName);
   };
 
-  console.log(courseId,"---------",courseLessons)
-  console.log(videoId,"00000000000000vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv",questions)
-
   useEffect(()=>{
 
-    
   })
 
   

@@ -4,7 +4,7 @@ import adminEndpoints from '../../../constraints/endpoints/adminEndpoints';
 import { ToastContainer, toast } from 'react-toastify';
 
 
-interface Props {}
+interface Props { }
 
 const DashboardAddCategory: React.FC<Props> = () => {
   const [categoryName, setCategoryName] = useState<string>('');
@@ -13,17 +13,15 @@ const DashboardAddCategory: React.FC<Props> = () => {
     setCategoryName(event.target.value);
   };
 
-  const handleSubmit =  async (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     // Here you can add your logic to submit the category name
-    console.log('Category Name:', categoryName);
-    const response = await adminAxios.post(adminEndpoints.addCategory,{categoryName})
+    const response = await adminAxios.post(adminEndpoints.addCategory, { categoryName })
 
-    console.log(response)
-    if(response.status == 200){
-        toast.success("Category successfully created")
-    }else{
-        toast.error("Something went wrong")
+    if (response.status == 200) {
+      toast.success("Category successfully created")
+    } else {
+      toast.error("Something went wrong")
     }
     // Clear the input field after submission
     setCategoryName('');
@@ -31,7 +29,7 @@ const DashboardAddCategory: React.FC<Props> = () => {
 
   return (
     <div className="flex justify-center items-center h-screen bg-gray-50">
-        <ToastContainer/>
+      <ToastContainer />
       <form onSubmit={handleSubmit} className="w-full max-w-md bg-white rounded-lg shadow-lg p-8 mb-24">
         <div className="mb-6">
           <label htmlFor="category-name" className="block text-sm font-medium text-gray-700">

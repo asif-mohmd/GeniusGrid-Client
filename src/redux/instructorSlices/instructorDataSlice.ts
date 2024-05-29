@@ -17,12 +17,9 @@ const instructorDataSlice = createSlice({
   initialState,
   reducers: {
     setInstructorData: (state, action: PayloadAction<IInstructorData>) => {
-    console.log("-------------")
-      console.log(action.payload,"------------")
       state.instructorData = action.payload;
     },
     clearInstructorData: (state) => {
-      console.log("clear called");
       state.instructorData = null;
     },
     // updatePicture: (state, action: PayloadAction<string>) => {

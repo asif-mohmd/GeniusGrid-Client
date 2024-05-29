@@ -46,7 +46,6 @@ const ProfilePageUser: React.FC<ProfilePageUserProps> = ({ name, email, avatar }
       });
       if (response.status === 200) {
         setUploadStatus('Upload successful');
-        console.log(response.data);
         setSelectedImage(null);
       } else {
         setUploadStatus('Something went wrong');

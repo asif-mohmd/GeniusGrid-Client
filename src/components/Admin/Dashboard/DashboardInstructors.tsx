@@ -18,7 +18,6 @@ const DashboardInstructors: React.FC = () => {
   const instructorsPerPage = 10;
 
   useEffect(() => {
-    console.log("Fetching all instructors from admin");
     async function fetchInstructors() {
       try {
         const response = await adminAxios.get<{ instructors: Instructor[] }>(
@@ -26,7 +25,6 @@ const DashboardInstructors: React.FC = () => {
         );
         setInstructorsList(response.data.instructors);
         setFilteredList(response.data.instructors);
-        console.log(response.data);
       } catch (error) {
         console.error("Error fetching instructors:", error);
       }
@@ -46,7 +44,6 @@ const DashboardInstructors: React.FC = () => {
         adminEndpoints.instructorBlockUnblock,
         instructorBlockUnblock
       );
-      console.log(response, "response block");
 
       const updatedResponse = await adminAxios.get<{
         instructors: Instructor[];

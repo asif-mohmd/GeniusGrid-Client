@@ -18,7 +18,6 @@ const DashboardUsers: React.FC = () => {
   const usersPerPage = 8;
 
   useEffect(() => {
-    console.log("Fetching all users from admin");
     async function fetchUsers() {
       try {
         const response = await adminAxios.get<{ users: User[] }>(
@@ -26,7 +25,6 @@ const DashboardUsers: React.FC = () => {
         );
         setUsersList(response.data.users);
         setFilteredList(response.data.users);
-        console.log(response.data);
       } catch (error) {
         console.error("Error fetching users:", error);
       }
@@ -41,7 +39,6 @@ const DashboardUsers: React.FC = () => {
         id: id,
         isVerified: isVerified,
       };
-      console.log(userBlockUnblock, "--------------");
 
       const response = await adminAxios.post(
         adminEndpoints.userBlockUnblock,

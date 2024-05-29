@@ -50,10 +50,9 @@ const EditCourse = () => {
 
   const navigate = useNavigate();
 
-  // console.log(courseDetails.courseName,"haiiiiiiiiiiii")
 
   const initialValues = {
-    _id: courseId, // Replace with actual ID or a placeholder
+    _id: courseId, 
     thumbnail: courseDetails?.thumbnail || "",
     courseName: courseDetails?.courseName || "",
     courseDescription: courseDetails?.courseDescription || "",
@@ -134,20 +133,12 @@ const EditCourse = () => {
 
       if (!selectedImage) {
         // toast.error("Upload Thumbnail")
-        console.log(values,"0000000000000")
         dispatch(setEditCourseData(values))
         navigate(instructorEndpoints.editLessonPage);
       } else { 
-        console.log(values, "--------------------");
-        console.log("ivde aaane");
-
-       values.thumbnail = selectedImage
-
-
+        values.thumbnail = selectedImage
         dispatch(setEditCourseData(values))
-
         navigate(instructorEndpoints.editLessonPage);
-
       }
     } catch (error) {
       console.error("Error:", error);
@@ -157,7 +148,6 @@ const EditCourse = () => {
   };
 
    const handleBack = () => {
-    console.log("workin gbackkk");
     navigate(instructorEndpoints.myCourses);
   };
 

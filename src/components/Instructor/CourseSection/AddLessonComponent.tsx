@@ -132,12 +132,7 @@ const LessonContentManagement: React.FC = () => {
 
                 // Wait for the promise to be resolved
                 await formDataPromise;
-
-                // Once all data is appended, make the API call
-                for (const key of formData.entries()) {
-                  console.log(key[0] + ', ' + key[1]);
-                }
-
+              
                 response = await instructoraxios.post(courseEndspoints.createOrEditCourse, formData, {
                   headers: {
                     'Content-Type': 'multipart/form-data',

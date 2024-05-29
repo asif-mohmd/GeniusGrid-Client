@@ -8,39 +8,36 @@ import { adminAxios } from "../../../constraints/axiosInterceptors/adminAxiosInt
 
 const AdminLogin: React.FC = () => {
 
-  const [adminLoginData,setAdminLoginData] = useState<FormDataLogin>({
-    email:"",
-    password:""
+  const [adminLoginData, setAdminLoginData] = useState<FormDataLogin>({
+    email: "",
+    password: ""
   })
 
 
   const navigate = useNavigate()
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    console.log(e,"targettttttttttttttttttttttttt")
     const { id, value } = e.target;
     setAdminLoginData({ ...adminLoginData, [id]: value });
   };
 
-  
-  const handleSubmit = async(e:FormEvent) =>{
+
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
 
-    console.log(adminLoginData,"login data")
-    const adminData = await adminAxios.post(adminEndpoints.login,{adminLoginData})
-console.log(adminData.data.loginStatus,"kkkkk")
-    if(adminData.data.loginStatus){
+    const adminData = await adminAxios.post(adminEndpoints.login, { adminLoginData })
+    if (adminData.data.loginStatus) {
       navigate(adminEndpoints.dashboard)
-      
-    }else{
-        toast.error('Invalid email or password');
+
+    } else {
+      toast.error('Invalid email or password');
     }
   }
 
 
   return (
     <div className="flex flex-col min-h-screen justify-center items-center bg-gray-100">
-    <ToastContainer/>
+      <ToastContainer />
       <div className="bg-white p-14 rounded-xl shadow-lg">
         <h6 className="text-xl font-medium text-center m-7">Admin Login</h6>
         <form className="w-full max-w-md" onSubmit={handleSubmit}>
@@ -83,7 +80,7 @@ console.log(adminData.data.loginStatus,"kkkkk")
               Login now
             </button>
             <div className="m-3">
-        
+
             </div>
           </div>
         </form>

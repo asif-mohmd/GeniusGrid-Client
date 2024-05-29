@@ -26,7 +26,6 @@ const userDetails = createSlice({
       state.userId = action.payload;
     },
     clearUserData: (state) => {
-      console.log("clear called");
       state.userId = null;
     },
     updatePicture: (state, action: PayloadAction<string>) => {

@@ -26,14 +26,12 @@ const PurchasedCourse = () => {
   const [allQuestions,setAllQuestions] = useState<any>(null)
   const [questionsUpdated, setQuestionsUpdated] = useState<boolean>(false);
   const [userData, setUserData] = useState<User | null>(null);
-   console.log(selectVideoId,"ideyeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",allQuestions)
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleVideoTitleClick = (title: string,description:string,links:string[],id:string,questions:any) => {
     setSelectedVideoTitle(title);
     setSelectedVideoDescription(description)
     setSelectedVideoLinks(links)
     setSelectedVideoId(id)
-    console.log(questions,"------------55555555555666666666666666666666666666666666666666666666666666")
     setAllQuestions(questions)
   };
 
@@ -90,7 +88,6 @@ const PurchasedCourse = () => {
       }
     }
   };
-console.log(courseData,"----------------")
 
   useEffect(() => {
     async function fetchCourseData() {
@@ -99,7 +96,6 @@ console.log(courseData,"----------------")
           `${courseEndspoints.courseDetails}/${_id}`
         );
         const userDetails = await userAxios.get(userEndpoints.userDetails);
-        console.log(userDetails,"jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj")
         const courseData: CourseData = response.data.response;
         setCourseData(courseData);
         setUserData(userDetails.data);

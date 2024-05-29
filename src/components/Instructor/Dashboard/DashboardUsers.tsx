@@ -25,7 +25,6 @@ const DashboardUsers: React.FC = () => {
         const response = await instructoraxios.get(
           instructorEndpoints.getPurchasedUsers
         );
-        console.log(response.data);
         const mappedUsers: User[] = response.data.response.map(
           (orderData: any) => ({
             userName: orderData.userName,

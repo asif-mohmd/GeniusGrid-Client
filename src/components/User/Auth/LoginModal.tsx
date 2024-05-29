@@ -31,11 +31,8 @@ function LoginModal({ onClose,  }: LoginModalProps) {
     e.preventDefault();
 
     try {
-      console.log(loginData,"yyyyyyyyyyyy")
       const userData = await userAxios.post(userEndpoints.login, loginData);
-      console.log(userData.data)
       if (userData.data.status == 200) {
-        console.log(userData.data)
         dispatch(setUserId(userData.data.userId))
         dispatch(userLogin());
         onClose();
