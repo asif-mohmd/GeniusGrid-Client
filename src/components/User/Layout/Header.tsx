@@ -156,7 +156,7 @@ const Header = () => {
             {userLogin.isLogin ? (
               <NavLink to={userEndpoints.profilePage} className="w-10">
                 <img
-                  className="cursor-pointer m-2 h-12 w-10 rounded-full ring-2 ring-white border border-gray-300 hidden md:flex"
+                  className="cursor-pointer m-2 h-12 w-10 rounded-full ring-2 ring-white border border-gray-300 "
                   src={userData?.avatar || "https://cdn-icons-png.flaticon.com/512/149/149071.png"}
                   alt="User Avatar"
                 />
@@ -171,13 +171,6 @@ const Header = () => {
             )}
           </li>
 
-          {userLogin.isLogin && (
-            <li className="p-4 border-b">
-              <button onClick={handleLogout} className="w-full text-left">
-                Signout
-              </button>
-            </li>
-          )}
         </ul>
       </div>
     </>

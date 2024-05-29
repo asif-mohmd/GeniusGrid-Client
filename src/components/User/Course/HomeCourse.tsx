@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { FiChevronLeft, FiChevronRight } from 'react-icons/fi'; // Importing icons from react-icons
+import { FiChevronLeft, FiChevronRight } from 'react-icons/fi'; 
 import courseEndspoints from '../../../constraints/endpoints/courseEndspoints';
 import { userAxios } from '../../../constraints/axiosInterceptors/userAxiosInterceptors';
 import { AllCourse } from '../../../interfaces/UserInterfaces/ICourseDetails';
@@ -23,15 +23,12 @@ function HomeCourse() {
     listCourses();
   }, []);
 
-
   const scrollLeft = () => {
     if (containerRef.current) {
       if (window.innerWidth < 768) {
-        containerRef.current.scrollLeft -= 100; // Adjust the value as needed
-
-      }else{
-        containerRef.current.scrollLeft -= 300; // Adjust the value as needed
-
+        containerRef.current.scrollLeft -= 230; 
+      } else {
+        containerRef.current.scrollLeft -= 300; 
       }
     }
   };
@@ -39,10 +36,9 @@ function HomeCourse() {
   const scrollRight = () => {
     if (containerRef.current) {
       if (window.innerWidth < 768) {
-        containerRef.current.scrollLeft += 100; // Adjust the value as needed
-
-      }else{
-      containerRef.current.scrollLeft += 300; // Adjust the value as needed
+        containerRef.current.scrollLeft += 230; 
+      } else {
+        containerRef.current.scrollLeft += 300; 
       }
     }
   };
@@ -51,14 +47,13 @@ function HomeCourse() {
     <div className="container mx-auto px-2 py-9 md:px-60 relative" style={{ backgroundImage: `url(${sectionImg})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
       <div className="flex items-center justify-between">
         <button onClick={scrollLeft} className="bg-gray-200 px-3 py-3 m-2 rounded-full hover:bg-gray-200 focus:outline-none">
-          <FiChevronLeft /> {/* Icon for left scroll */}
+          <FiChevronLeft /> 
         </button>
         <div className="overflow-x-auto flex-grow " ref={containerRef} style={{ scrollBehavior: 'smooth', overflowX: 'hidden' ,overflowY: "hidden"}}>
           <div className="flex space-x-3 md:space-x-6 md:p-3 ">
-            {/* Map through courses */}
             {courses.map(course => (
               <Link to={`/course-details/${course._id}`} key={course._id} className="block">
-                <div className="bg-white rounded-lg overflow-hidden  md:w-64 transition duration-300 ease-in-out transform hover:scale-105">
+                <div className={`bg-white rounded-lg overflow-hidden  ${window.innerWidth < 768 ? 'w-56 ' : 'md:w-64'} md:transition md:duration-300 ease-in-out md:transform md:hover:scale-105`}>
                   <img
                     className="w-full h-40 object-cover rounded-t-lg"
                     src={course.thumbnail}
@@ -69,14 +64,13 @@ function HomeCourse() {
                       {course.courseName}
                     </h5>
                     <div className='flex justify-between font-roboto text-sm'>
-                    <p className="mb-2 text-gray-700 ">
-                      {course.courseLevel}
-                    </p>
-                    <p className="mb-2 text-gray-700">
-                      ₹ {course.coursePrice}
-                    </p>
+                      <p className="mb-2 text-gray-700 ">
+                        {course.courseLevel}
+                      </p>
+                      <p className="mb-2 text-gray-700">
+                        ₹ {course.coursePrice}
+                      </p>
                     </div>
-               
                     <div className="flex items-center">
                       <svg
                         className="w-4 h-4 text-yellow-500 mr-1"
@@ -101,7 +95,7 @@ function HomeCourse() {
           </div>
         </div>
         <button onClick={scrollRight} className="bg-gray-200 px-3 py-3 m-2 rounded-full hover:bg-gray-200 focus:outline-none">
-          <FiChevronRight /> {/* Icon for right scroll */}
+          <FiChevronRight /> 
         </button>
       </div>
     </div>

@@ -59,21 +59,34 @@ const ProfilePageUser: React.FC<ProfilePageUserProps> = ({ name, email, avatar }
   return (
     <div className="bg-white rounded-lg shadow-md p-5">
       <div className='bg-gray-50 rounded-md p-2 shadow-sm '>
-      <h2 className="text-xl font-semibold  text-center font-roboto">User Profile</h2>
-
+        <h2 className="text-xl font-semibold text-center font-roboto">User Profile</h2>
       </div>
-    
-      <div className="grid grid-cols-2 md:grid-cols-2 gap-6 mt-6">
-    
-        
-        <div className='flex'>
-        {avatar && !selectedImage && (
-          <div className="col-span-2 flex flex-col items-center">
-            <img className="rounded  w-3/5" src={avatar} alt="User Avatar" />
-            <div className="flex items-center mt-4">
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+        <div className='flex flex-col items-center'>
+          {avatar && !selectedImage && (
+            <div className="col-span-2 flex flex-col items-center">
+              <img className="rounded w-3/5" src={avatar} alt="User Avatar" />
+              <div className="flex items-center mt-4">
+                <label htmlFor="imageUpload" className="flex items-center cursor-pointer">
+                  <FaUpload className="text-gray-500 mr-2" />
+                  <span className="text-gray-600">Upload New Image</span>
+                </label>
+                <input
+                  id="imageUpload"
+                  type="file"
+                  accept="image/*"
+                  className="hidden"
+                  onChange={handleImageUpload}
+                />
+              </div>
+            </div>
+          )}
+          {!avatar && (
+            <div className="col-span-2 flex items-center">
               <label htmlFor="imageUpload" className="flex items-center cursor-pointer">
                 <FaUpload className="text-gray-500 mr-2" />
-                <span className="text-gray-600">Upload New Image</span>
+                <span className="text-gray-600">Upload Image</span>
               </label>
               <input
                 id="imageUpload"
@@ -83,65 +96,42 @@ const ProfilePageUser: React.FC<ProfilePageUserProps> = ({ name, email, avatar }
                 onChange={handleImageUpload}
               />
             </div>
-          </div>
-        )}
-        {!avatar && (
-          <div className="col-span-2 flex items-center">
-            <label htmlFor="imageUpload" className="flex items-center cursor-pointer">
-              <FaUpload className="text-gray-500 mr-2" />
-              <span className="text-gray-600">Upload Image</span>
-            </label>
-            <input
-              id="imageUpload"
-              type="file"
-              accept="image/*"
-              className="hidden"
-              onChange={handleImageUpload}
-            />
-          </div>
-        )}
-        {selectedImage && (
-          <div className="col-span-2 flex flex-col items-center">
-            
-            <div className="flex items-center mb-4">
-           
+          )}
+          {selectedImage && (
+            <div className="col-span-2 flex flex-col items-center">
+              <img src={URL.createObjectURL(selectedImage)} alt="Selected" className="rounded w-2/5" />
+              <div className='flex mt-2'>
+                <button
+                  onClick={handleUploadImage}
+                  className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-3 py-1.5 text-center mt-2"
+                >
+                  Submit
+                </button>
+                <button className=" text-gray-600 hover:text-red-600 text-xl pl-6" onClick={handleRemoveImage}>
+                  <FaTimes />
+                </button>
+              </div>
+              {uploadStatus && (
+                <p className={`mt-2 ${uploadStatus === 'Upload successful' ? 'text-green-600' : 'text-red-600'}`}>
+                  {uploadStatus}
+                </p>
+              )}
             </div>
-            
-            <img src={URL.createObjectURL(selectedImage)} alt="Selected" className="rounded w-2/5 " />
-            <div className='flex '>
-            <button
-              onClick={handleUploadImage}
-              className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-3 py-1.5 text-center mt-2"
-            >
-              Submit
-            </button>
-            <button className=" text-gray-600 hover:text-red-600 text-xl pl-6" onClick={handleRemoveImage}>
-                <FaTimes />
-              </button>
+          )}
+        </div>
+        
+        <div className='md:col-span-1'>
+          <div className='font-semibold font-poppins'>
+            <div className='flex font-semibold font-poppins'>
+              <p className="text-xs md:text-md mb-1">Name:</p>
+              <p className="text-xs md:text-md md:pl-3">{name || 'N/A'}</p>
             </div>
-           
-      
-            {uploadStatus && (
-              <p className={`mt-2 ${uploadStatus === 'Upload successful' ? 'text-green-600' : 'text-red-600'}`}>
-                {uploadStatus}
-              </p>
-            )}
-            
+            <div className='flex mt-2'>
+              <p className="text-xs md:text-md mb-1">Email:</p>
+              <p className="text-xs md:text-md md:pl-3">{email || 'N/A'}</p>
+            </div>
           </div>
-        )}
         </div>
-
-        <div className=' font-semibold font-poppins' >
-        <div className='flex font-semibold font-poppins'>
-          <p className="text-md  mb-1">Name:</p>
-          <p className="text-md  pl-3">{name || 'N/A'}</p>
-        </div>
-        <div className='flex mt-2'>
-          <p className="text-md  mb-1">Email:</p>
-          <p className="text-md pl-4">{email || 'N/A'}</p>
-        </div>
-        </div>
-       
       </div>
     </div>
   );

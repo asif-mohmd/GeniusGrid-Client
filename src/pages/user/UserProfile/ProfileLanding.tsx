@@ -57,7 +57,7 @@ function ProfileLanding() {
   return (
     <>
       <Header />
-      <div className="grid grid-cols-12 w-3/4 mx-auto bg-slate-50 ">
+      <div className="grid grid-cols-12 md:w-3/4 mx-auto bg-slate-50 ">
         <div className=" mt-5 col-span-3 border-r">
           <div className="container mx-auto px-4 sm:px-8 py-8">
             <div className="grid gap-6 ">
@@ -69,7 +69,9 @@ function ProfileLanding() {
                     : "text-gray-600 hover:text-blue-600"
                 }`}
               >
-                <FiUser className="mr-2" /> <span>My Account</span>
+                <FiUser className="mr-2" />
+                {/* Show text only for larger screens */}
+                <span className="hidden md:inline">My Account</span>
               </div>
               <div
                 onClick={() => handleComponentClick("ChangePassword")}
@@ -79,7 +81,9 @@ function ProfileLanding() {
                     : "text-gray-600 hover:text-blue-600"
                 }`}
               >
-                <FiLock className="mr-2" /> <span>Change Password</span>
+                <FiLock className="mr-2" />
+                {/* Show text only for larger screens */}
+                <span className="hidden md:inline">Change Password</span>
               </div>
               <div
                 onClick={() => handleComponentClick("EnrolledCourses")}
@@ -89,25 +93,31 @@ function ProfileLanding() {
                     : "text-gray-600 hover:text-blue-600"
                 }`}
               >
-                <FiBookOpen className="mr-2" /> <span>Enrolled Courses</span>
+                <FiBookOpen className="mr-2" />
+                {/* Show text only for larger screens */}
+                <span className="hidden md:inline">Enrolled Courses</span>
               </div>
               <div
                 onClick={() => handleClick()}
                 className="cursor-pointer flex items-center justify-center bg-white rounded-lg p-4 shadow-md transition duration-300 ease-in-out text-gray-600 hover:text-red-600 font-semibold"
               >
-                <FiLogOut className="mr-2" /> <span>Logout</span>
+                <FiLogOut className="mr-2" />
+                {/* Show text only for larger screens */}
+                <span className="hidden md:inline">Logout</span>
               </div>
             </div>
           </div>
         </div>
-
+  
         <div className="col-span-9 p-3">
           <div className="mt-8">
             {activeComponent === "ProfilePageUser" && (
               <ProfilePageUser {...userData} />
             )}
             {activeComponent === "ChangePassword" && <ChangePassword />}
-            {activeComponent === "EnrolledCourses" && <EnrolledCourses {...purchasedCourses} />}
+            {activeComponent === "EnrolledCourses" && (
+              <EnrolledCourses {...purchasedCourses} />
+            )}
             {/* Add your Logout component here */}
           </div>
         </div>
@@ -115,6 +125,7 @@ function ProfileLanding() {
       <Footer />
     </>
   );
+  
 }
 
 export default ProfileLanding;

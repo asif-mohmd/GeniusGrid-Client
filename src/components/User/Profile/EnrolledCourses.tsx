@@ -14,29 +14,36 @@ const EnrolledCourses: React.FC<any> = ({ response: courses }) => {
     const containerRef = useRef<HTMLDivElement>(null);
 
     const scrollLeft = () => {
-        if (containerRef.current) {
-          containerRef.current.scrollLeft -= 100; // Adjust the value as needed
+      if (containerRef.current) {
+        if (window.innerWidth < 768) {
+          containerRef.current.scrollLeft -= 280; 
+        } else {
+          containerRef.current.scrollLeft -= 300; 
         }
-      };
-    
-      const scrollRight = () => {
-        if (containerRef.current) {
-          containerRef.current.scrollLeft += 100; // Adjust the value as needed
+      }
+    };
+  
+    const scrollRight = () => {
+      if (containerRef.current) {
+        if (window.innerWidth < 768) {
+          containerRef.current.scrollLeft += 250; 
+        } else {
+          containerRef.current.scrollLeft += 300; 
         }
-      };
-
+      }
+    };
 
     return (
-        <div className="relative w-full flex justify-center items-center p-6">
-           <button onClick={scrollLeft} className="bg-gray-200 px-3 py-3 m-2 rounded-full hover:bg-gray-200 focus:outline-none">
+        <div className="relative w-full flex justify-center items-center ">
+           <button onClick={scrollLeft} className="bg-gray-200 px-1 py-1 mr-1 rounded-full hover:bg-gray-200 focus:outline-none">
           <FiChevronLeft /> {/* Icon for left scroll */}
         </button>
         <div className="overflow-x-auto flex-grow" ref={containerRef} style={{ scrollBehavior: 'smooth', overflowX: 'hidden' ,overflowY: "hidden"}}>
-          <div className="flex space-x-6 p-3">
+          <div className="flex space-x-6 m-5">
             {/* Map through courses */}
             {courses.map((course: EnrolledCourse) => (
               <Link to={`/course-details/${course._id}`} key={course._id} className="block">
-                <div className="bg-white rounded-lg overflow-hidden h- w-64 transition duration-300 ease-in-out transform hover:scale-105">
+                <div className={`bg-white rounded-lg overflow-hidden   ${window.innerWidth < 768 ? 'object-cover  w-56' : 'md:w-64'} transition duration-300 ease-in-out transform hover:scale-105`}>
                   <img
                     className="w-full h-40 object-cover rounded-t-lg"
                     src={course.thumbnail}
@@ -54,7 +61,7 @@ const EnrolledCourses: React.FC<any> = ({ response: courses }) => {
             ))}
           </div>
         </div>
-        <button onClick={scrollRight} className="bg-gray-200 px-3 py-3 m-2 rounded-full hover:bg-gray-200 focus:outline-none">
+        <button onClick={scrollRight} className="bg-gray-200 px-1 py-1 ml-1 rounded-full hover:bg-gray-200 focus:outline-none">
           <FiChevronRight /> {/* Icon for right scroll */}
         </button>
         </div>
