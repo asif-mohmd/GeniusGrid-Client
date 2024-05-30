@@ -48,7 +48,8 @@ export default {
     extend: {
       fontFamily:{
         poppins: ["Poppins"],
-        roboto: ["Roboto"]
+        roboto: ["Roboto"],
+        Dancing: ["Dancing"]
       }
     },
     

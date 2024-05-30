@@ -4,6 +4,7 @@ import HomeCourse from "../../components/User/Course/HomeCourse";
 import InstructorBanner from "../../components/User/Home/InstructorBanner";
 import Footer from "../../components/User/Layout/Footer";
 import AuthModalManager from "../../components/User/Auth/AuthModalManager";
+import FAQ from "../../components/User/Layout/FAQ";
 
 const UserHomePage = () => {
 
@@ -14,6 +15,7 @@ const UserHomePage = () => {
       <HomePage />
       <HomeCourse />
       <InstructorBanner />
+      <FAQ/>
       <Footer />
       <AuthModalManager/>
 
