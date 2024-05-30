@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
 import { confirmAlert } from "react-confirm-alert";
@@ -167,7 +167,10 @@ const ListCourses = () => {
               {displayCourses.map(course => (
                 <tr key={course.id}>
                   <td className="px-3 py-3 sm:px-6 sm:py-4 whitespace-nowrap">
+                    <Link to={`/instructor/course/details/${course?.id}`} >
                     {course.courseName}
+
+                    </Link>
                   </td>
                   <td className="px-3 py-3 sm:px-6 sm:py-4 whitespace-nowrap">
                     {course.coursePrice}

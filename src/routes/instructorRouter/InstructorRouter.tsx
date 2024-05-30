@@ -16,6 +16,7 @@ import AddLessonManagement from "../../pages/instructor/Course/AddLessonManageme
 import InstructorTranscodeVideo from "../../pages/instructor/Dashboard/InstructorTranscodeVideo";
 import InstructorEditCourse from "../../pages/instructor/Course/InstructorEditCourse";
 import EditLessonManagement from "../../pages/instructor/Course/EditLessonManagement";
+import InstructorCourseDetails from "../../pages/instructor/Course/InstructorCourseDetails";
 
 export const InstructorRouter = () => {
   return (
@@ -33,6 +34,7 @@ export const InstructorRouter = () => {
       <Route path="/edit/lesson/page" element={<InstructorProtectorRoute component={EditLessonManagement} />}></Route>
       <Route path="/profile/page" element={<InstructorProtectorRoute component={InstructorProfilePage} />}></Route>
       <Route path="/transcode/video" element={<InstructorProtectorRoute component={InstructorTranscodeVideo}/>}></Route>
+      <Route path="/course/details/:_id" element={<InstructorProtectorRoute component={InstructorCourseDetails} />}></Route>
 
     </Routes>
   );
