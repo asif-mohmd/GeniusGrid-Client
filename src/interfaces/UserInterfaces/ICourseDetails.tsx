@@ -16,6 +16,7 @@ export interface Course {
     coursePrice: number;
     courseLevel: string;
     totalVideos: number;
+    courseCategory:number;
   }
 
   interface questionReplyDetails{

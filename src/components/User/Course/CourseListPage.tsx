@@ -1,26 +1,17 @@
-import { useEffect, useState } from "react";
-import { userAxios } from "../../../constraints/axiosInterceptors/userAxiosInterceptors";
+
 import { Link } from "react-router-dom";
 import { AllCourse } from "../../../interfaces/UserInterfaces/ICourseDetails";
-import courseEndspoints from "../../../constraints/endpoints/courseEndspoints";
 
-function CourseListPage() {
-    const [courses, setCourses] = useState<AllCourse[]>([]);
-
-    useEffect(() => {
-        async function fetchAllCourses() {
-            const response = await userAxios.get(courseEndspoints.allUserCourses);
-            const allCourses = response.data.response;
-            setCourses(allCourses);
-        }
-
-        fetchAllCourses();
-    }, []);
+interface CourseListPageProps {
+    courses: AllCourse[];
+  }
+  
+  const CourseListPage: React.FC<CourseListPageProps> = ({ courses }) => {
 
     return (
         <div className="container mx-auto px-4 py-8">
             <div className="md:mx-24 grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-4 gap-6">
-                {courses.map(course => (
+            {courses.map((course: AllCourse) => (
                     <Link to={`/course-details/${course._id}`} key={course._id} className="w-full">
                         <div className="bg-white overflow-hidden h-full shadow-md rounded-md transition duration-300 ease-in-out transform hover:scale-105 hover:shadow-xl">
                             <img
