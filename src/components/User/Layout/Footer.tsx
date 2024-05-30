@@ -3,7 +3,7 @@ function Footer() {
   return (
    
 <footer className="bg-gray-100 mt-16 pl-5">
-  <div className="max-w-screen-xl px-4 py-16 mx-auto sm:px-6 lg:px-8 font-sans">
+  <div className="max-w-screen-xl px-4 py-14 mx-auto sm:px-6 lg:px-8 font-sans">
     <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
       <div>
       {/* <img src={geniusGridLogo} className="mr-5 h-16 sm:h-24 sm:w-24" alt="logo"></img> */}

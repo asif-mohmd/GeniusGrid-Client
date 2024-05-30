@@ -6,6 +6,8 @@ interface EnrolledCourse {
   _id: string;
   thumbnail: string;
   courseName: string;
+  courseLevel:string;
+  coursePrice: string;
 }
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const EnrolledCourses: React.FC<any> = ({ response: courses }) => {
@@ -68,7 +70,7 @@ const EnrolledCourses: React.FC<any> = ({ response: courses }) => {
               >
                 <div
                   className={`bg-white rounded-sm overflow-hidden md:h-60 h-52   ${
-                    window.innerWidth < 768 ? "object-cover  w-60" : "md:w-64"
+                    window.innerWidth < 768 ? "object-cover h-full w-60" : "md:w-64"
                   } md:transition md:duration-300 md:ease-in-out md:transform md:hover:scale-105`}
                 >
                   <img
@@ -76,12 +78,19 @@ const EnrolledCourses: React.FC<any> = ({ response: courses }) => {
                     src={course.thumbnail}
                     alt=""
                   />
-                  <div className="p-4 flex ">
-                    <p className="  text-md font-semibold text-gray-800 font-roboto">
+                  <div className="p-4  ">
+                    <p className="  text-md font-bold text-gray-800 font-roboto truncate">
                       {course.courseName}
                     </p>
-
-                    {/* hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh */}
+                   <div className="flex justify-between pt-2">
+                   <p className="  text-md font-semibold text-gray-800 truncate">
+                    {course.courseLevel}
+                    </p>
+                    <p className="  text-md font-semibold text-gray-800 truncate">
+                    ₹ {course.coursePrice}
+                    </p>
+                   </div>
+                   
                   </div>
                 </div>
               </Link>

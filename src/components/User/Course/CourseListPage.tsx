@@ -19,10 +19,10 @@ function CourseListPage() {
 
     return (
         <div className="container mx-auto px-4 py-8">
-            <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-6">
+            <div className="md:mx-24 grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-4 gap-6">
                 {courses.map(course => (
                     <Link to={`/course-details/${course._id}`} key={course._id} className="w-full">
-                        <div className="bg-white overflow-hidden h-full shadow-lg transition duration-300 ease-in-out transform hover:scale-105 hover:shadow-xl">
+                        <div className="bg-white overflow-hidden h-full shadow-md rounded-md transition duration-300 ease-in-out transform hover:scale-105 hover:shadow-xl">
                             <img
                                 className="w-full max-w-xs md:max-w-xs lg:max-w-xs object-cover h-3/6"
                                 src={course.thumbnail}
@@ -36,9 +36,9 @@ function CourseListPage() {
                                     <p className="mb-2 text-gray-700">
                                         {course.courseLevel}
                                     </p>
-                                    {/* <p className="mb-2 text-gray-700">
+                                    <p className="mb-2 text-gray-700">
                                         ₹ {course.coursePrice}
-                                    </p> */}
+                                    </p>
                                 </div>
                                 {/* <div className="flex items-center">
                                     <svg
