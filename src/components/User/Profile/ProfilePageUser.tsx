@@ -121,14 +121,14 @@ const ProfilePageUser: React.FC<ProfilePageUserProps> = ({ name, email, avatar }
         </div>
         
         <div className='md:col-span-1'>
-          <div className='font-semibold font-poppins'>
-            <div className='flex font-semibold font-poppins'>
-              <p className="text-xs md:text-md mb-1">Name:</p>
-              <p className="text-xs md:text-md md:pl-3">{name || 'N/A'}</p>
+          <div className='font-semibold font-poppins text-xs md:text-base '>
+            <div className='flex font-semibold font-poppins '>
+              <p className=" mb-1">Name:</p>
+              <p className=" pl-2">{name || 'N/A'}</p>
             </div>
             <div className='flex mt-2'>
-              <p className="text-xs md:text-md mb-1">Email:</p>
-              <p className="text-xs md:text-md md:pl-3">{email || 'N/A'}</p>
+              <p className="mb-1">Email:</p>
+              <p className="pl-2">{email || 'N/A'}</p>
             </div>
           </div>
         </div>

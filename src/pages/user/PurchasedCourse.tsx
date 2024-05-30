@@ -161,6 +161,7 @@ const PurchasedCourse = () => {
         {isMobile && ( <div className="w-full md:w-3/5 px-3 bg-gray-50">
        
             <PurchaseContents
+          
               userDetails={userData ?? {}}
               selectedVideoDescription={selectedVideoDescription}
               selectedVideoLinks={selectedVideoLinks}

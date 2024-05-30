@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { FiChevronLeft, FiChevronRight } from 'react-icons/fi'; 
+import { FiChevronLeft, FiChevronRight } from 'react-icons/fi';
 import courseEndspoints from '../../../constraints/endpoints/courseEndspoints';
 import { userAxios } from '../../../constraints/axiosInterceptors/userAxiosInterceptors';
 import { AllCourse } from '../../../interfaces/UserInterfaces/ICourseDetails';
@@ -26,9 +26,9 @@ function HomeCourse() {
   const scrollLeft = () => {
     if (containerRef.current) {
       if (window.innerWidth < 768) {
-        containerRef.current.scrollLeft -= 230; 
+        containerRef.current.scrollLeft -= 230;
       } else {
-        containerRef.current.scrollLeft -= 300; 
+        containerRef.current.scrollLeft -= 300;
       }
     }
   };
@@ -36,9 +36,9 @@ function HomeCourse() {
   const scrollRight = () => {
     if (containerRef.current) {
       if (window.innerWidth < 768) {
-        containerRef.current.scrollLeft += 230; 
+        containerRef.current.scrollLeft += 230;
       } else {
-        containerRef.current.scrollLeft += 300; 
+        containerRef.current.scrollLeft += 300;
       }
     }
   };
@@ -47,23 +47,22 @@ function HomeCourse() {
     <div className="container mx-auto px-2 py-9 md:px-60 relative" style={{ backgroundImage: `url(${sectionImg})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
       <div className="flex items-center justify-between">
         <button onClick={scrollLeft} className="bg-gray-200 px-3 py-3 m-2 rounded-full hover:bg-gray-200 focus:outline-none">
-          <FiChevronLeft /> 
+          <FiChevronLeft />
         </button>
-        <div className="overflow-x-auto flex-grow " ref={containerRef} style={{ scrollBehavior: 'smooth', overflowX: 'hidden' ,overflowY: "hidden"}}>
+        <div className="overflow-x-auto flex-grow " ref={containerRef} style={{ scrollBehavior: 'smooth', overflowX: 'hidden', overflowY: "hidden" }}>
           <div className="flex space-x-3 md:space-x-6 md:p-3 ">
             {courses.map(course => (
               <Link to={`/course-details/${course._id}`} key={course._id} className="block">
-<div
-                  className={`bg-white rounded-md overflow-hidden md:h-60 h-72   ${
-                    window.innerWidth < 768 ? "object-cover  w-60" : "md:w-64"
-                  } md:transition md:duration-300 md:ease-in-out md:transform md:hover:scale-105`}
+                <div
+                  className={`bg-white rounded-md overflow-hidden md:h-64 h-72   ${window.innerWidth < 768 ? "object-cover  w-60" : "md:w-64"
+                    } md:transition md:duration-300 md:ease-in-out md:transform md:hover:scale-105`}
                 >                  <img
                     className="w-full max-w-xs md:max-w-xs lg:max-w-xs object-cover h-3/6"
                     src={course.thumbnail}
                     alt=""
                   />
                   <div className="p-4">
-                    <h5 className="mb-2 text-md font-semibold text-gray-800 font-roboto">
+                    <h5 className="mb-2 text-md font-semibold text-gray-800 font-roboto truncate">
                       {course.courseName}
                     </h5>
                     <div className='flex justify-between font-roboto text-sm'>
@@ -98,7 +97,7 @@ function HomeCourse() {
           </div>
         </div>
         <button onClick={scrollRight} className="bg-gray-200 px-3 py-3 m-2 rounded-full hover:bg-gray-200 focus:outline-none">
-          <FiChevronRight /> 
+          <FiChevronRight />
         </button>
       </div>
     </div>

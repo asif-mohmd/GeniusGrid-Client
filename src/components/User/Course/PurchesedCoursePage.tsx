@@ -16,7 +16,8 @@ function PurchasedCoursePage({ courseData, onVideoTitleClick, onSelectedVideo, o
     };
 
     return (
-        <div className="md:mt-5 mb-3">
+        <div className="md:mt-2 mb-3">
+            <p className="uppercase font-roboto font-semibold text-xl tracking-wide mt-3 mb-4 ml-2">{courseData.courseName}</p>
             <div className="p-3 bg-gray-100 rounded-lg md:w-5/6">
                 {lessons.map((lesson, lessonIndex) => (
                     <div key={lessonIndex} className="mb-4 border-b pb-3 border-gray-200">
