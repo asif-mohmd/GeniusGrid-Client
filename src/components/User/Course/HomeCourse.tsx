@@ -53,9 +53,12 @@ function HomeCourse() {
           <div className="flex space-x-3 md:space-x-6 md:p-3 ">
             {courses.map(course => (
               <Link to={`/course-details/${course._id}`} key={course._id} className="block">
-                <div className={`bg-white rounded-lg overflow-hidden  ${window.innerWidth < 768 ? 'w-56 ' : 'md:w-64'} md:transition md:duration-300 ease-in-out md:transform md:hover:scale-105`}>
-                  <img
-                    className="w-full h-40 object-cover rounded-t-lg"
+<div
+                  className={`bg-white rounded-md overflow-hidden md:h-60 h-72   ${
+                    window.innerWidth < 768 ? "object-cover  w-60" : "md:w-64"
+                  } md:transition md:duration-300 md:ease-in-out md:transform md:hover:scale-105`}
+                >                  <img
+                    className="w-full max-w-xs md:max-w-xs lg:max-w-xs object-cover h-3/6"
                     src={course.thumbnail}
                     alt=""
                   />

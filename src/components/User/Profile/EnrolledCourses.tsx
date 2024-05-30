@@ -58,7 +58,7 @@ const EnrolledCourses: React.FC<any> = ({ response: courses }) => {
             overflowY: "hidden",
           }}
         >
-          <div className="flex space-x-6 m-5">
+          <div className="flex space-x-6 m-2">
             {/* Map through courses */}
             {courses.map((course: EnrolledCourse) => (
               <Link
@@ -67,9 +67,9 @@ const EnrolledCourses: React.FC<any> = ({ response: courses }) => {
                 className="block"
               >
                 <div
-                  className={`bg-white rounded-lg overflow-hidden h-60   ${
-                    window.innerWidth < 768 ? "object-cover  w-56" : "md:w-64"
-                  } transition duration-300 ease-in-out transform hover:scale-105`}
+                  className={`bg-white rounded-sm overflow-hidden md:h-60 h-52   ${
+                    window.innerWidth < 768 ? "object-cover  w-60" : "md:w-64"
+                  } md:transition md:duration-300 md:ease-in-out md:transform md:hover:scale-105`}
                 >
                   <img
                     className="w-full max-w-xs md:max-w-xs lg:max-w-xs object-cover h-3/6"
@@ -77,7 +77,7 @@ const EnrolledCourses: React.FC<any> = ({ response: courses }) => {
                     alt=""
                   />
                   <div className="p-4 flex ">
-                    <p className="mb-2  text-md font-semibold text-gray-800 font-roboto">
+                    <p className="  text-md font-semibold text-gray-800 font-roboto">
                       {course.courseName}
                     </p>
 
