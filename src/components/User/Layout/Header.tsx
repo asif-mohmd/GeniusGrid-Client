@@ -1,10 +1,9 @@
 import { AiOutlineClose, AiOutlineMenu } from "react-icons/ai";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import userEndpoints from "../../../constraints/endpoints/userEndpoints";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { checkUserAuthentication, userLogout } from "../../../redux/userSlices/authSlice";
-import { clearUserData } from "../../../redux/userSlices/userDataSlice";
+import { checkUserAuthentication } from "../../../redux/userSlices/authSlice";
 import courseEndpoints from "../../../constraints/endpoints/courseEndspoints";
 import logo from "../../../assets/logoGeniusGrid.jpg";
 import { RootState } from "../../../redux/Store";
@@ -30,7 +29,6 @@ const Header = () => {
   }, []);
 
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const { handleShowLogin } = useAuth();
   dispatch(checkUserAuthentication());
   const userLogin = useSelector((store: RootState) => store.userAuth);
@@ -39,11 +37,7 @@ const Header = () => {
     setNav(!nav);
   };
 
-  const handleLogout = () => {
-    dispatch(clearUserData());
-    dispatch(userLogout());
-    navigate(userEndpoints.home);
-  };
+
 
   return (
     <>

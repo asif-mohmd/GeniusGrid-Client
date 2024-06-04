@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import ReactPaginate from "react-paginate";
 import { adminAxios } from "../../../constraints/axiosInterceptors/adminAxiosInterceptors";
 import adminEndpoints from "../../../constraints/endpoints/adminEndpoints";
+import { ToastContainer, toast } from "react-toastify";
 
 interface Instructor {
   id: string;
@@ -45,6 +46,10 @@ const DashboardInstructors: React.FC = () => {
         instructorBlockUnblock
       );
 
+      if(response){
+        toast.success("Sucsses")
+      }
+
       const updatedResponse = await adminAxios.get<{
         instructors: Instructor[];
       }>(adminEndpoints.getAllInstructors);
@@ -81,6 +86,7 @@ const DashboardInstructors: React.FC = () => {
   return (
     <>
      <div className="overflow-x-auto">
+      <ToastContainer/>
           <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
           <div className="search m-2 p-4 flex justify-center">
         <input

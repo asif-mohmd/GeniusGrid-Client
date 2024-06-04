@@ -26,8 +26,8 @@ function CourseDetailsPage(courseData: CourseData) {
 
 
   return (
-    <div className="container mx-auto py-1 bg-gray-50">
-      <div className="max-w-2xl mx-auto bg-gray-50 rounded-lg overflow-hidden">
+    <div className="container mx-auto py-1 bg-gray-50 ">
+      <div className="max-w-2xl mx-auto bg-gray-50 rounded-lg overflow-hidden p-3">
         <div className="px-6 py-4">
           <div className="mb-4">
             <div className="text-[24px] font-Poppins font-[600] text-black ">

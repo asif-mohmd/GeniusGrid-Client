@@ -9,6 +9,7 @@ import { userAxios } from "../../constraints/axiosInterceptors/userAxiosIntercep
 import courseEndspoints from "../../constraints/endpoints/courseEndspoints";
 import { adminAxios } from "../../constraints/axiosInterceptors/adminAxiosInterceptors";
 import adminEndpoints from "../../constraints/endpoints/adminEndpoints";
+import ShimmerCards from "../../utils/shimmerUI/ShimmerCards";
 
 const UserCourseListPage = () => {
   const [courses, setCourses] = useState<AllCourse[]>([]);
@@ -27,6 +28,13 @@ const UserCourseListPage = () => {
     }
     fetchAllCourses();
   }, []);
+
+  if (courses.length === 0) {
+    return <ShimmerCards />;
+}
+
+
+
 
   return (
     <>

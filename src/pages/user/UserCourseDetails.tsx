@@ -120,7 +120,7 @@ function UserCourseDetails() {
   return (
     <div>
       <Header />
-      <div className="flex flex-wrap bg-gray-50">
+      <div className="flex flex-wrap h-screen bg-gray-50">
         
         <div className="w-full m-2 md:m-0 md:w-2/5 md:p-8 bg-gray-50">
           <VideoPlayer
@@ -180,7 +180,7 @@ function UserCourseDetails() {
           </div>
         </div>
 
-        <div className="w-full md:w-3/5 p-3">
+        <div className="w-full md:w-3/5 ">
           {courseData && <CourseDetailsPage {...courseData} />}
         </div>
       </div>

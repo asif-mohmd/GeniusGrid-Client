@@ -166,7 +166,7 @@ const ListCourses = () => {
             <tbody className=" divide-y divide-gray-200 text-sm">
               {displayCourses.map(course => (
                 <tr key={course.id}>
-                  <td className="px-3 py-3 sm:px-6 sm:py-4 whitespace-nowrap">
+                  <td className="px-3 py-3 sm:px-6 sm:py-4 whitespace-nowrap font-semibold text-blue-500">
                     <Link to={`/instructor/course/details/${course?.id}`} >
                     {course.courseName}
 

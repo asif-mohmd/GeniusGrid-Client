@@ -1,4 +1,3 @@
-import { useState } from "react";
 
 import controlPNG from "../../../assets/DashboardIcons/control.png";
 import logoPNG from "../../../assets/DashboardIcons/logo.png";

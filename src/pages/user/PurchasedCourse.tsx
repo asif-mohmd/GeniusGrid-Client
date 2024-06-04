@@ -118,7 +118,7 @@ const PurchasedCourse = () => {
   return (
     <div>
       <Header />
-      <div className="flex flex-wrap bg-gray-50">
+      <div className="flex flex-wrap  h-screen bg-gray-50">
         <div className="w-full md:w-3/5 md:p-6 p-3 bg-gray-50">
           <div className="">
             <VideoPlayer

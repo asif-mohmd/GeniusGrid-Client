@@ -52,6 +52,7 @@ const SignupModal = ({ onClose }: SignupModalProps) => {
                 name: "",
                 email: "",
                 password: "",
+                
               }}
               validationSchema={Yup.object({
                 name: Yup.string().required("Name is required"),

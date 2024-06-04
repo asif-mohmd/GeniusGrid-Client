@@ -6,6 +6,8 @@ import { userAxios } from '../../../constraints/axiosInterceptors/userAxiosInter
 import { AllCourse } from '../../../interfaces/UserInterfaces/ICourseDetails';
 import sectionImg from "../../../assets/Section.jpg"
 
+
+
 function HomeCourse() {
   const [courses, setCourses] = useState<AllCourse[]>([]);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -13,7 +15,9 @@ function HomeCourse() {
   useEffect(() => {
     async function listCourses() {
       try {
+        console.log("ooooooooHome courseoooooooooo")
         const listCoursesResponse = await userAxios.get(courseEndspoints.allUserCourses);
+        console.log(listCoursesResponse,"0000000999999999999999999999999999999999999999999999999999")
         const coursesData = listCoursesResponse.data.response;
         setCourses(coursesData);
       } catch (error) {
