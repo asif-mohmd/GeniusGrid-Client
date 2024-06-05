@@ -62,7 +62,7 @@ const CreateCourse1 = () => {
     async function fetchCourseData() {
       try {
         const response = await instructoraxios.get(
-          "http://localhost:4000/transcode/videoURL"
+          "http://localhost:8087/transcode/videoURL"
         );
 
         if (response && response.data) {
