@@ -6,16 +6,18 @@ import AdminDashboard from '../../pages/admin/AdminDashboard'
 import AdminDashboardInstructors from '../../pages/admin/AdminInstructors'
 import AdminAddCategory from '../../pages/admin/AdminAddCategory'
 import AdminViewCategory from '../../pages/admin/AdminViewCategory'
+import AdminPublicRoute from './AdminPublicRoute'
+import AdminProtectorRoute from './AdminProtectorRoute'
 
 const AdminRouters = () => {
   return (
    <Routes>
-      <Route Component={AdminLoginPage} path="/login" />
-      <Route Component={AdminDashboard} path="/"></Route>
-      <Route Component={AdminDashboardUsers} path="users"></Route>
-      <Route Component={AdminDashboardInstructors} path="/instructors"></Route>
-      <Route Component={AdminAddCategory} path='/add/category'></Route>
-      <Route Component={AdminViewCategory} path='/view/category'></Route>
+      <Route  path="/login" element={<AdminPublicRoute component={AdminLoginPage} />} />
+      <Route  path="/" element={<AdminProtectorRoute component={AdminDashboard} /> } />
+      <Route  path="users" element={<AdminProtectorRoute component={AdminDashboardUsers} /> } />
+      <Route  path="/instructors" element={<AdminProtectorRoute component={AdminDashboardInstructors} /> } />
+      <Route  path='/add/category' element={<AdminProtectorRoute component={AdminAddCategory} /> } />
+      <Route  path='/view/category' element={<AdminProtectorRoute component={AdminViewCategory} /> } />
 
 
 

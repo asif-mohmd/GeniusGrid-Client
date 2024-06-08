@@ -12,6 +12,7 @@ import instructorDataReducer from './instructorSlices/instructorDataSlice'; // I
 import createCourseData from "./instructorSlices/couseSlice/createCourseData";
 import editCourseData from "./instructorSlices/couseSlice/editCourseData";
 import userDataSlice from "./userSlices/userDataSlice";
+import adminAuth from ".//adminSlice/adminSlice"
 
 const persistConfig = {
   key: "root",
@@ -28,7 +29,8 @@ const rootReducer = combineReducers({
   instructorData: instructorDataReducer, 
   createCourseData : createCourseData,
   editCourseData : editCourseData,
-  userDetails : userDataSlice
+  userDetails : userDataSlice,
+  adminAuth: adminAuth
 
 });
 

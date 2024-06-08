@@ -4,6 +4,8 @@ import adminEndpoints from "../../../constraints/endpoints/adminEndpoints";
 import { useNavigate } from "react-router";
 import { ToastContainer, toast } from "react-toastify";
 import { adminAxios } from "../../../constraints/axiosInterceptors/adminAxiosInterceptors";
+import { useDispatch } from "react-redux";
+import { adminLogin } from "../../../redux/adminSlice/adminSlice";
 
 
 const AdminLogin: React.FC = () => {
@@ -15,6 +17,7 @@ const AdminLogin: React.FC = () => {
 
 
   const navigate = useNavigate()
+  const dispatch = useDispatch()
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { id, value } = e.target;
@@ -27,7 +30,9 @@ const AdminLogin: React.FC = () => {
 
     const adminData = await adminAxios.post(adminEndpoints.login, { adminLoginData })
     if (adminData.data.loginStatus) {
+      dispatch(adminLogin())
       navigate(adminEndpoints.dashboard)
+
 
     } else {
       toast.error('Invalid email or password');
