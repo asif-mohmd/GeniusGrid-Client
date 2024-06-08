@@ -1,7 +1,7 @@
 import DashboardSidebar from "../../../components/Instructor/layout/DashboardSidebar";
 
 import EditCourse from "../../../components/Instructor/CourseSection/EditCourse";
-import DashboardHeader from "../../../components/Admin/Dashboard/DashBoardHeader";
+import DashboardHeader from "../../../components/Instructor/layout/DashBoardHeader";
 
 function InstructorEditCourse() {
 

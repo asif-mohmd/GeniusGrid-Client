@@ -29,13 +29,14 @@ const Login: React.FC = () => {
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
+    
     const instructorData = await instructoraxios.post(
       instructorEndpoints.login,
       { instructorLoginData }
     );
 
     if (instructorData.data.status == 201) {
-      
+
       dispatch(setInstructorData(instructorData.data));
       dispatch(instructorLogin());
       navigate(instructorEndpoints.dashboard);

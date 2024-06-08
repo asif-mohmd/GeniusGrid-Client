@@ -1,6 +1,6 @@
 import DashboardSidebar from "../../../components/Instructor/layout/DashboardSidebar";
 import DashboardUsers from "../../../components/Instructor/Dashboard/DashboardUsers";
-import DashboardHeader from "../../../components/Admin/Dashboard/DashBoardHeader";
+import DashboardHeader from "../../../components/Instructor/layout/DashBoardHeader";
 
 function InstructorUserPage() {
   return (

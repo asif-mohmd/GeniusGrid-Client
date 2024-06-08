@@ -1,6 +1,7 @@
 import {  defaults } from "chart.js/auto";
 import {  Line } from "react-chartjs-2";
 import revenueData from "../../../utils/revenueData.json";
+import { useEffect } from "react";
 
 defaults.maintainAspectRatio = false;
 defaults.responsive = true;
@@ -9,6 +10,15 @@ defaults.plugins.title.align = "start";
 defaults.plugins.title.color = "black";
 
 export const DashboardGraph = () => {
+
+  useEffect(()=>{
+    const fetchGraphData = () =>{
+
+    }
+
+    fetchGraphData()
+  })
+
   return (
     <>
       <div className="h-screen w-full flex flex-col items-center pt-8 bg-slate-50">

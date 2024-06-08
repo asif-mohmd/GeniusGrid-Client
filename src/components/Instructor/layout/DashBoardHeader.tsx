@@ -18,10 +18,10 @@ const DashboardHeader = () => {
   }
 
   const handleClick=()=>{
-   
+   console.log("ggggggggggggggggggggg")
     dispatch(clearInstructorData())
     dispatch(instructorLogout())
-    navigate(instructorEndpoints.dashboard)
+    navigate(instructorEndpoints.login)
   }
 
   return (
@@ -36,7 +36,7 @@ const DashboardHeader = () => {
         <div className="py-2">
           <Link to={instructorEndpoints.profile}  className='block px-4 py-2 text-gray-800 rounded-md hover:bg-[#00df9a] hover:text-black cursor-pointer'>Profile</Link>
           <Link to={userEndpoints.login}  className='block px-4 py-2 text-gray-800 rounded-md hover:bg-[#00df9a] hover:text-black cursor-pointer'>Settings</Link>
-          <Link to={instructorEndpoints.login}  onClick={handleClick} className='block px-4 py-2 text-gray-800 rounded-md hover:bg-[#00df9a] hover:text-black cursor-pointer'>Signout</Link>
+          <button onClick={handleClick} className='block px-4 py-2 text-gray-800 rounded-md hover:bg-[#00df9a] hover:text-black cursor-pointer'>Signout</button>
         </div>
       </div>
         )}
