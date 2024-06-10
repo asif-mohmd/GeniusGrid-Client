@@ -16,7 +16,6 @@ const UserCourseListPage = () => {
   const [category, setCategory] = useState<string>("All");
   const [categories, setCategories] = useState<string[]>([]);
   
-  console.log(categories, "0000000000000000000000");
 
   useEffect(() => {
     async function fetchAllCourses() {

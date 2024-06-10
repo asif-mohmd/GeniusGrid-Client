@@ -6,7 +6,6 @@ import adminEndpoints from "../../../constraints/endpoints/adminEndpoints";
 import { faChalkboardTeacher } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { BiBookAdd } from "react-icons/bi";
-import { TbCategory } from "react-icons/tb";
 import { AiOutlineDashboard } from "react-icons/ai";
 import { LuUsers } from "react-icons/lu";
 import useWindowResize from "../../../utils/CustomHook/SidebarWindowResize"
@@ -69,15 +68,7 @@ const DashboardSidebar = () => {
             {open && <span className="ml-4">Add Category</span>}
           </Link>
         </li>
-        <li>
-          <Link
-            to={adminEndpoints.viewCategory}
-            className="flex items-center px-4 py-4 text-white rounded-md hover:bg-gray-700 cursor-pointer"
-          >
-            <TbCategory className="text-2xl" />
-            {open && <span className="ml-4">View Category</span>}
-          </Link>
-        </li>
+     
       </ul>
     </div>
   );

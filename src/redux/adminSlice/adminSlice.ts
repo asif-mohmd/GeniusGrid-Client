@@ -14,17 +14,13 @@ const authSlice = createSlice({
     initialState,
     reducers: {
         adminLogin: (state) => {
-            console.log("Login action triggered");
             state.isLogin = true;
         },
         adminLogout: (state) => {
-            console.log("Logout action triggered");
             state.isLogin = false;
         },
         checkAdminAuthentication: (state) => {
-            console.log("Check authentication action triggered");
             const adminData = cookie.get("adminData");
-            console.log("Retrieved instructorData:", adminData);
             
             if (!adminData) {
                 state.isLogin = false;

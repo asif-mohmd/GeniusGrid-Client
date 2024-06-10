@@ -20,24 +20,11 @@ export default {
     instructorBlockUnblock: "/admin/instructor-block-unblock",
     addCategory:  "/admin/add/category",
     viewCategory: "/admin/view/category",
-    getCategories: "/admin/get/categories"
+    getCategories: "/admin/get/categories",
+    totalOrderAnalysis: "/order/total-order-analysis",
+    deleteCategory: '/admin/deleteCategory'
 
 
 
 }
 
-
-
-// <div>
-
-// <div>
-//   <p className="text-sm">asif</p>
-// </div>
-// <button className="text-xs" onClick={() => setToggleReplay(!toggleReplay)} >replay</button>
-// {toggleReplay ? (<div className="text-sm"  >
-//   <p>reply 1</p>
-//   <p>reply 2</p>
-// </div>
-// ) : ("")}
-
-// </div>

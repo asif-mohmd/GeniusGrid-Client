@@ -15,7 +15,6 @@ import PurchaseContents from "../../User/Course/PurchaseContents/PurchaseContent
 import PurchasedCoursePage from "../../User/Course/PurchesedCoursePage";
 
 const DashboardCourseDetails = () => {
-    console.log("llllllllllllllllllllllllllllllllllllllllllllllllllll")
   const { _id } = useParams<{ _id: string }>();
   const isMobile = useMediaQuery({ query: '(max-width: 768px)' });
 
@@ -94,7 +93,6 @@ const DashboardCourseDetails = () => {
   };
 
   useEffect(() => {
-    console.log("kkkkkkkkkkkkkkkkkkkkkkkkkkkk")
     async function fetchCourseData() {
       try {
         const response = await instructoraxios.get(

@@ -15,11 +15,8 @@ function HomeCourse() {
   useEffect(() => {
     async function listCourses() {
       try {
-        console.log("ooooooooHome courseoooooooooo")
         const listCoursesResponse = await userAxios.get(courseEndspoints.allUserCourses);
-        console.log(listCoursesResponse,"0000000999999999999999999999999999999999999999999999999999")
         const coursesData = listCoursesResponse.data.response;
-        console.log(coursesData,"-------=========------------")
         setCourses(coursesData);
       } catch (error) {
         console.error("Error fetching courses:", error);

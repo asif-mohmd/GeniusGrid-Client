@@ -61,7 +61,7 @@ function DashboardTranscodeVideo() {
 
               try {
                 const response = await axios.post(
-                  "http://localhost:8087/transcode",
+                  "https://geniusgrid.online/transcode",
                   formData,
                   {
                     withCredentials: true,

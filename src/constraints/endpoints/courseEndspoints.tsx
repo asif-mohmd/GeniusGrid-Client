@@ -12,7 +12,8 @@ export default {
     editLessonContent : "/course/edit/lesson",
     userPurchasedCourses : "/course/user/purchased/courses",
     addQuestion: "/course/user/add/question",
-    replyQuestionAnswer: "/course/user/add/answer"
+    replyQuestionAnswer: "/course/user/add/answer",
+    
     
    
 }

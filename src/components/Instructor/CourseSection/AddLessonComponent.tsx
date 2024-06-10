@@ -38,7 +38,7 @@ const LessonContentManagement: React.FC = () => {
     async function fetchCourseData() {
       try {
       
-        const response = await instructoraxios.get("http://localhost:8087/transcode/videoURL");
+        const response = await instructoraxios.get("https://geniusgrid.online/transcode/videoURL");
         if (response && response.data) {
           const urls = response.data
           setvideoDetails(urls); 

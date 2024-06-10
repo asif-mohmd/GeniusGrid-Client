@@ -58,7 +58,7 @@ const EditLessonComponent: React.FC = () => {
           }));
         });
 
-        const response = await instructoraxios.get("http://localhost:8087/transcode/videoURL");
+        const response = await instructoraxios.get("https://geniusgrid.online/transcode/videoURL");
         if (response && response.data) {
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           const urls = response.data

@@ -11,10 +11,11 @@ export default {
     addLessonPage: "/instructor/add/lesson/page",
     profile: "/instructor/profile/page",
     userAnalysis: "/instructor/user/analysis",
-    orderAnalysis: "/instructor/order/analysis",
     editLessonPage: "/instructor/edit/lesson/page",
     transcodeVideo : "/instructor/transcode/video",
     getPurchasedUsers : "/order/purchased/users",
+    orderAnalysis: "/order/order-analysis",
+
     InstructorCourseDetails : "/instructor/course/details/:_id",
 
 

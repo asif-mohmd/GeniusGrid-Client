@@ -33,17 +33,28 @@ const Signup: React.FC = () => {
   // Handle form submission
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
+  
+    // Password validation
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    if (!passwordRegex.test(formData.password)) {
+      toast.error(
+        "Password must contain at least 8 characters, one uppercase letter, one lowercase letter, one number, and one special character"
+      );
+      return; // Stop form submission if password is invalid
+    }
+  
     const instructorData = await instructoraxios.post(
       instructorEndpoints.register,
-      { formData }
+      formData
     );
     if (instructorData.data.status) {
       dispatch(setRegisterData(formData));
       navigate(instructorEndpoints.otp);
-     } else {
+    } else {
       toast.error("Email already exists");
     }
   };
+  
 
   return (
     <div className="flex flex-col min-h-screen justify-center items-center bg-gray-100">

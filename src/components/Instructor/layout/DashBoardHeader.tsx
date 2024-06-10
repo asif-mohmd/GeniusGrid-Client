@@ -5,6 +5,7 @@ import instructorEndpoints from '../../../constraints/endpoints/instructorEndpoi
 import { useDispatch } from 'react-redux';
 import { instructorLogout } from '../../../redux/instructorSlices/authSlice';
 import { clearInstructorData } from '../../../redux/instructorSlices/instructorDataSlice';
+import { GiHamburgerMenu } from "react-icons/gi";
 
 const DashboardHeader = () => {
   const [open,setOpen] = useState(false)
@@ -18,7 +19,6 @@ const DashboardHeader = () => {
   }
 
   const handleClick=()=>{
-   console.log("ggggggggggggggggggggg")
     dispatch(clearInstructorData())
     dispatch(instructorLogout())
     navigate(instructorEndpoints.login)
@@ -30,10 +30,13 @@ const DashboardHeader = () => {
 
       <ul className=' md:flex '>
       <div className='flex ' onClick={showDropDown}>
-        <img className="cursor-pointer m-2 h-10 w-10 rounded-full ring-2 ring-white" src="https://images.unsplash.com/photo-1491528323818-fdd1faba62cc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="" />
+      <GiHamburgerMenu className='text-black mr-6'/>
+        {/* <img className="cursor-pointer m-2 h-10 w-10 rounded-full ring-2 ring-white" src="https://images.unsplash.com/photo-1491528323818-fdd1faba62cc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="" /> */}
         {open && (
+          
         <div className='absolute right-4 mt-2 w-44 top-11 bg-white border rounded-lg shadow-lg'>
         <div className="py-2">
+          
           <Link to={instructorEndpoints.profile}  className='block px-4 py-2 text-gray-800 rounded-md hover:bg-[#00df9a] hover:text-black cursor-pointer'>Profile</Link>
           <Link to={userEndpoints.login}  className='block px-4 py-2 text-gray-800 rounded-md hover:bg-[#00df9a] hover:text-black cursor-pointer'>Settings</Link>
           <button onClick={handleClick} className='block px-4 py-2 text-gray-800 rounded-md hover:bg-[#00df9a] hover:text-black cursor-pointer'>Signout</button>

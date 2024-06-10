@@ -29,6 +29,7 @@
     "axios": "^1.6.8",
     "chart.js": "^4.4.2",
     "compressorjs": "^1.2.1",
+    "date-fns": "^3.6.0",
     "formik": "^2.4.5",
     "hls.js": "^1.5.8",
     "image-conversion": "^2.1.1",
