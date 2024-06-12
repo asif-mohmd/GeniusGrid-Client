@@ -26,6 +26,8 @@
     "@types/js-cookie": "^3.0.6",
     "@types/react-redux": "^7.1.33",
     "@types/react-slick": "^0.23.13",
+    "@vime/core": "^5.4.1",
+    "@vime/react": "^5.4.1",
     "axios": "^1.6.8",
     "chart.js": "^4.4.2",
     "compressorjs": "^1.2.1",
