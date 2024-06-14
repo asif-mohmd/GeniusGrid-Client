@@ -1,9 +1,9 @@
 import axios from 'axios'
-import { apiURL } from '../../utils/constants'
+// import { apiURL } from '../../utils/constants'
 
 
 const instance = axios.create({
-    baseURL:apiURL,
+    baseURL:"https://geniusgrid.online/api",
     withCredentials:true
 })
 
