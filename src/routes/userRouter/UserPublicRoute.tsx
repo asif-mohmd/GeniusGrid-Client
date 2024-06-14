@@ -11,6 +11,7 @@ const UserPublicRoute: React.FC<ProtectedRouteProps> = ({ component: Component }
       return <Navigate to="/" />;
     }
   
+    
     return <Component/>;
   };
 
