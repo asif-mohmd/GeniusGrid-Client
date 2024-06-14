@@ -8,11 +8,7 @@ RUN npm install --legacy-peer-deps
 
 COPY . .
 
-ARG VITE_APIURL
-ARG stripeKey
-
-ENV VITE_APIURL=${VITE_APIURL}
-ENV stripeKey=${stripeKey}
+COPY .env .env
 
 RUN npm run build
 

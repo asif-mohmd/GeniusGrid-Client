@@ -12,6 +12,11 @@ jobs:
     steps:
     - uses: actions/checkout@v2
       
+    - name: Create .env file
+      run: |
+        echo "VITE_APIURL=${{ secrets.VITE_APIURL }}" >> .env
+        echo "stripeKey=${{ secrets.STRIPEKEY }}" >> .env
+
     - name: Log in to Docker Hub
       uses: docker/login-action@v1 
       with:
@@ -24,7 +29,3 @@ jobs:
         context: .
         push: true
         tags: asif9222/client:latest
-        build-args: |
-            VITE_APIURL=${{ secrets.VITE_APIURL }}
-            stripeKey=${{ secrets.STRIPEKEY }}
-           
