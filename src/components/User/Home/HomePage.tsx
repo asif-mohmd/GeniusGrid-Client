@@ -15,6 +15,7 @@ const HomePage: React.FC = () => {
           <p className="text-sm md:text-lg lg:text-md font-poppins md:mt-7 ">
           Unlock your potential with knowledge. Start learning today and pave your path to success with us.
           </p>
+          
           {/* <p className="text-sm md:text-lg lg:text-sm font-poppins">Courses as low as $10</p> */}
         </div>
       </div>
