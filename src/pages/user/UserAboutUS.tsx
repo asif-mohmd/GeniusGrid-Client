@@ -1,13 +1,13 @@
-import Header from '../../components/User/Layout/Header'
-import AboutUsPage from '../../components/User/Home/AboutUsPage'
+import Header from "../../components/User/Layout/Header";
+import AboutUsPage from "../../components/User/Home/AboutUsPage";
 
 function UserAboutUS() {
   return (
     <>
-    <Header/>
-    <AboutUsPage/>
+      <Header />
+      <AboutUsPage />
     </>
-  )
+  );
 }
 
-export default UserAboutUS
+export default UserAboutUS;
