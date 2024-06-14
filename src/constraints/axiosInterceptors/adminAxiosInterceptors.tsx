@@ -1,9 +1,9 @@
 import axios from "axios";
 
-// const authURL = import.meta.env.VITE_APIURL;
+const authURL = import.meta.env.VITE_APIURL;
 
 export const adminAxios = axios.create({
-    baseURL: "https://geniusgrid.online/api",
+    baseURL: authURL,
     headers: {
         "Content-Type": "application/json",
         
