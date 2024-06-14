@@ -26,5 +26,5 @@ jobs:
         tags: asif9222/client:latest
         build-args: |
             VITE_APIURL=${{ secrets.VITE_APIURL }}
-            STRIPEKEY=${{ secrets.stripeKey }}
+            stripeKey=${{ secrets.STRIPEKEY }}
            
