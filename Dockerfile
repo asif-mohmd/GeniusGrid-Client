@@ -16,6 +16,9 @@ EXPOSE 5000
 ARG stripeKey
 ARG VITE_APIURL
 
+ENV VITE_APIURL=${VITE_APIURL}
+ENV stripeKey=${stripeKey}
+
 
 
 CMD ["npm", "run", "preview"]
