@@ -14,8 +14,8 @@ jobs:
     - name: pull docker image
       run:  docker pull asif9222/client
     - name: delete old docker image
-      run:  docker rm -f client-service || true
+      run:  docker rm -f client || true
     - name: run docker container
-      run:  docker run -d -p 5000:5000 --name client-service asif9222/client
+      run:  docker run -d -p 5000:5000 --name client asif9222/client
    
    
