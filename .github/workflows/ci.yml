@@ -24,3 +24,4 @@ jobs:
         context: .
         push: true
         tags: asif9222/client:latest
+        
