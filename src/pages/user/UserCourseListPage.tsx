@@ -32,9 +32,6 @@ const UserCourseListPage = () => {
     return <ShimmerCards />;
 }
 
-
-
-
   return (
     <>
       <div>
