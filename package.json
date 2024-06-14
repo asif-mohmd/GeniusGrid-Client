@@ -33,7 +33,7 @@
     "compressorjs": "^1.2.1",
     "date-fns": "^3.6.0",
     "formik": "^2.4.5",
-    "hls.js": "^1.5.8",
+    "hls.js": "^1.5.11",
     "image-conversion": "^2.1.1",
     "js-cookie": "^3.0.5",
     "lucide-react": "^0.376.0",
